@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float walkingSpeed = 2.5f;
     [SerializeField] float movementSpeed = 5f;
     [SerializeField] float sprintSpeed = 7f;
-    [SerializeField] Vector3 moveDirection;
+    Vector3 moveDirection;
+    Vector3 appliedMovement;
     Transform myTransform;
     [SerializeField] float rotationSpeed = 10;
 
@@ -26,8 +27,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float groundCheckSphereRadius = .25f;
     float groundedGravity = -.05f;
     [SerializeField] float initialJumpVelocity;
-    [SerializeField] float maxJumpHeight = 1.0f;
-    [SerializeField] float maxJumpTime = 0.5f;
+    [SerializeField] float maxJumpHeight = 4.0f;
+    [SerializeField] float maxJumpTime = 0.75f;
+
+    public CharacterController CharacterController { get { return characterController; } }
 
     private void Awake()
     {
@@ -44,15 +47,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!playerManager.IsJumping && characterController.isGrounded && InputController.instance.IsJumpPressed)
         {
+            playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash,true);
+            playerAnimator.IsJumpAnimating = true;
             playerManager.IsJumping = true;
-            moveDirection.y = initialJumpVelocity * .5f;
+            moveDirection.y = initialJumpVelocity;
+            appliedMovement.y = initialJumpVelocity;
         }
         else if (InputController.instance.IsJumpPressed && characterController.isGrounded && playerManager.IsJumping) playerManager.IsJumping = false;
     }
 
     public void HandleMovement(float delta)
     {
-        characterController.Move(moveDirection*delta);
+        appliedMovement.x = moveDirection.x;
+        appliedMovement.z = moveDirection.z;
+        characterController.Move(appliedMovement*delta);
     }
 
     public void HandleGroundedMovement()
@@ -73,19 +81,29 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleGravity(float delta)
     {
-        playerManager.IsGrounded = Physics.CheckSphere(transform.position, groundCheckSphereRadius, groundLayer);
-        if (!characterController.isGrounded)
+        bool isFalling = moveDirection.y <= 0.0f || !InputController.instance.IsJumpPressed;
+        float fallMultiplier = 2.0f;
+        if (characterController.isGrounded)
+        {
+            if (playerAnimator.IsJumpAnimating)
+            {
+                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, false);
+                playerAnimator.IsJumpAnimating = false;
+            }
+            moveDirection.y = groundedGravity;
+            appliedMovement.y = groundedGravity;
+        }
+        else if (isFalling)
         {
             float previousYVelocity = moveDirection.y;
-            float newYVelocity = moveDirection.y + (gravity * delta);
-            float nextYVelocity = (previousYVelocity + newYVelocity) * .5f;
-            moveDirection.y = nextYVelocity;
-            print(nextYVelocity);
-            print("NOT Grounded");
+            moveDirection.y = moveDirection.y + (gravity * fallMultiplier*delta);
+            appliedMovement.y = Mathf.Max((previousYVelocity + moveDirection.y) * .5f, -20.0f);
         }
         else
         {
-            moveDirection.y = groundedGravity;
+            float previousYVelocity = moveDirection.y;
+            moveDirection.y = moveDirection.y + (gravity * delta);
+            appliedMovement.y = (previousYVelocity + moveDirection.y) * .5f;
         }
     }
 

@@ -12,7 +12,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] bool isGrounded;
 
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
-    public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
 
     private void Awake()
     {

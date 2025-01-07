@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private LayerMask ignoreLayers;
     Vector3 cameraFollowVelocity = Vector3.zero;
 
+    [SerializeField] PlayerMovement playerMovement;
+
     [SerializeField] float lookSpeed = 200f;
     [SerializeField] float groundedFollowSpeed = 20f;
     [SerializeField] float aerialFollowSpeed = 10f;
@@ -40,9 +42,18 @@ public class CameraController : MonoBehaviour
 
     public void FollowTarget(float delta)
     {
-        Vector3 targetPosition = Vector3.SmoothDamp
-            (myTransform.position, targetTransform.position, ref cameraFollowVelocity, groundedFollowSpeed * delta);
-        myTransform.position = targetPosition;
+        if (playerMovement.CharacterController.isGrounded)
+        {
+            Vector3 targetPosition = Vector3.SmoothDamp
+                (myTransform.position, targetTransform.position, ref cameraFollowVelocity, groundedFollowSpeed * delta);
+            myTransform.position = targetPosition;
+        }
+        else
+        {
+            Vector3 targetPosition = Vector3.SmoothDamp
+               (myTransform.position, targetTransform.position, ref cameraFollowVelocity, aerialFollowSpeed * delta);
+            myTransform.position = targetPosition;
+        }
         HandleCameraCollision(delta);
     }
 
