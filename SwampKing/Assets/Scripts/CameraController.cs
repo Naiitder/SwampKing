@@ -42,18 +42,11 @@ public class CameraController : MonoBehaviour
 
     public void FollowTarget(float delta)
     {
-        if (playerMovement.CharacterController.isGrounded)
-        {
-            Vector3 targetPosition = Vector3.SmoothDamp
-                (myTransform.position, targetTransform.position, ref cameraFollowVelocity, groundedFollowSpeed * delta);
-            myTransform.position = targetPosition;
-        }
-        else
-        {
-            Vector3 targetPosition = Vector3.SmoothDamp
-               (myTransform.position, targetTransform.position, ref cameraFollowVelocity, aerialFollowSpeed * delta);
-            myTransform.position = targetPosition;
-        }
+        float followSpeed = playerMovement.CharacterController.isGrounded ? groundedFollowSpeed : aerialFollowSpeed;
+
+        //Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, followSpeed * delta);
+        Vector3 targetPosition = Vector3.MoveTowards(myTransform.position, targetTransform.position, followSpeed * delta);
+        myTransform.position = targetPosition;
         HandleCameraCollision(delta);
     }
 
@@ -82,15 +75,12 @@ public class CameraController : MonoBehaviour
     {
         targetPosition = defaultPosition;
         RaycastHit hit;
-        Vector3 direction = cameraTransform.position - cameraPivotTransform.position;
-        direction.Normalize();
+        Vector3 direction = (cameraTransform.position - cameraPivotTransform.position).normalized;
 
-        if (Physics.SphereCast
-            (cameraPivotTransform.position, cameraSphereRadius, direction, out hit,
-            Mathf.Abs(targetPosition), ignoreLayers))
+        if (Physics.SphereCast(cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(defaultPosition), ignoreLayers))
         {
-            float dis = Vector3.Distance(cameraPivotTransform.position, hit.point);
-            targetPosition = -(dis - cameraCollisionOffSet);
+            float distanceToHit = Vector3.Distance(cameraPivotTransform.position, hit.point);
+            targetPosition = -(distanceToHit - cameraCollisionOffSet);
         }
 
         if (Mathf.Abs(targetPosition) < minimumCollisionOffset)
@@ -98,13 +88,12 @@ public class CameraController : MonoBehaviour
             targetPosition = -minimumCollisionOffset;
         }
 
-        cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta / 0.05f);
-        //cameraTransformPosition.z = Mathf.SmoothDamp(cameraTransform.localPosition.z,targetPosition,ref followSpeed, delta / 0.05f);
+        cameraTransformPosition.z = Mathf.SmoothDamp(cameraTransform.localPosition.z, targetPosition, ref cameraFollowVelocity.z, 0.1f);
         cameraTransformPosition.x = cameraSideOffset;
+
         cameraTransform.localPosition = cameraTransformPosition;
-
-
     }
+
 
     private void OnDrawGizmos()
     {

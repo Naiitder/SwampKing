@@ -65,15 +65,24 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleGroundedMovement()
     {
-        if (!characterController.isGrounded) return;
 
-        moveDirection = cameraObject.transform.forward * InputController.instance.VerticalInput;
-        moveDirection = moveDirection + cameraObject.transform.right * InputController.instance.HorizontalInput;
-        moveDirection.Normalize();
-        moveDirection.y = groundedGravity;
+        Vector3 moveDirectionAux;
+        moveDirectionAux = cameraObject.transform.forward * InputController.instance.VerticalInput;
+        moveDirectionAux = moveDirectionAux + cameraObject.transform.right * InputController.instance.HorizontalInput;
+        moveDirectionAux.Normalize();
+        moveDirection.x = moveDirectionAux.x;
+        moveDirection.z = moveDirectionAux.z;
 
-       if (InputController.instance.MoveAmount > 0.5f) moveDirection = moveDirection*movementSpeed;
-       else if (InputController.instance.MoveAmount <= 0.5f) moveDirection = moveDirection * walkingSpeed;
+       if (InputController.instance.MoveAmount > 0.5f)
+        {
+            moveDirection.x = moveDirection.x * movementSpeed;
+            moveDirection.z = moveDirection.z * movementSpeed;
+        }
+       else if (InputController.instance.MoveAmount <= 0.5f)
+        {
+            moveDirection.x = moveDirection.x * walkingSpeed;
+            moveDirection.z = moveDirection.z * walkingSpeed;
+        }
 
         playerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount,0);
         
