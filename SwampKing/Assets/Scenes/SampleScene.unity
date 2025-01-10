@@ -355,7 +355,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d554c12d79ddc0143addf8700025c98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraController: {fileID: 519170645}
   isJumping: 0
   isGrounded: 0
 --- !u!114 &275069326
@@ -696,11 +695,11 @@ MonoBehaviour:
     m_Bits: 64
   playerMovement: {fileID: 275069328}
   lookSpeed: 200
-  groundedFollowSpeed: 20
-  aerialFollowSpeed: 40
-  pivotSpeed: 100
+  pivotSpeed: 50
+  groundedFollowSpeed: 0.15
+  aerialFollowSpeed: 0.25
   minimumPivot: -15
-  maximumPivot: 25
+  maximumPivot: 45
   cameraSphereRadius: 0.1
   cameraCollisionOffSet: 0.2
   minimumCollisionOffset: 0.2

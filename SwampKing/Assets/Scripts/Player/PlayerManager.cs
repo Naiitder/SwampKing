@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] CameraController cameraController;
     PlayerMovement playerMovement;
 
     [Header("PlayerFlags")]
@@ -30,15 +29,6 @@ public class PlayerManager : MonoBehaviour
 
 
 
-    }
-
-    private void LateUpdate()
-    {
-        float delta = Time.deltaTime;
-        cameraController.FollowTarget(delta);
-        cameraController.HandleCameraRotation(delta,
-            InputController.instance.CameraHorizontalInput,
-            InputController.instance.CameraVerticalInput);
     }
 
 

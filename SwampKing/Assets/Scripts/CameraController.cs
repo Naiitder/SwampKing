@@ -14,10 +14,11 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] PlayerMovement playerMovement;
 
-    [SerializeField] float lookSpeed = 200f;
-    [SerializeField] float groundedFollowSpeed = 20f;
-    [SerializeField] float aerialFollowSpeed = 10f;
-    [SerializeField] float pivotSpeed = 100;
+    [SerializeField] float lookSpeed = 100f;
+    [SerializeField] float pivotSpeed = 50;
+    [SerializeField] float groundedFollowSpeed = 0.15f;
+    [SerializeField] float aerialFollowSpeed = 0.25f;
+
 
     private float targetPosition;
 
@@ -26,6 +27,9 @@ public class CameraController : MonoBehaviour
     private float pivotAngle;
     public float minimumPivot = -15;
     public float maximumPivot = 25;
+
+    private Vector2 currentMouseDelta;
+    private Vector2 mouseDeltaVelocity;
 
     [SerializeField] float cameraSphereRadius = 0.1f;
     [SerializeField] float cameraCollisionOffSet = 0.2f;
@@ -39,14 +43,30 @@ public class CameraController : MonoBehaviour
         defaultPosition = cameraTransform.localPosition.z;
     }
 
+    private void LateUpdate()
+    {
+        float delta = Time.deltaTime;
+
+        Vector2 mouseInput = new Vector2(InputController.instance.CameraHorizontalInput, InputController.instance.CameraVerticalInput);
+        mouseInput = SmoothMouseInput(mouseInput, 0.05f);
+
+        FollowTarget(delta);
+        HandleCameraRotation(delta, mouseInput.x, mouseInput.y);
+    }
+
+    private Vector2 SmoothMouseInput(Vector2 rawMouseInput, float smoothTime)
+    {
+        currentMouseDelta = Vector2.SmoothDamp(currentMouseDelta, rawMouseInput, ref mouseDeltaVelocity, smoothTime);
+        return currentMouseDelta;
+    }
+
 
     public void FollowTarget(float delta)
     {
         float followSpeed = playerMovement.CharacterController.isGrounded ? groundedFollowSpeed : aerialFollowSpeed;
 
         //Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, followSpeed * delta);
-        Vector3 targetPosition = Vector3.MoveTowards(myTransform.position, targetTransform.position, followSpeed * delta);
-        myTransform.position = targetPosition;
+        myTransform.position = Vector3.SmoothDamp(myTransform.position, targetTransform.position, ref cameraFollowVelocity, followSpeed * delta);
         HandleCameraCollision(delta);
     }
 
@@ -62,13 +82,13 @@ public class CameraController : MonoBehaviour
         Vector3 rotation = Vector3.zero;
         rotation.y = lookAngle;
         Quaternion targetRotation = Quaternion.Euler(rotation);
-        myTransform.rotation = targetRotation;
+        myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, delta * lookSpeed);
 
         rotation = Vector3.zero;
         rotation.x = pivotAngle;
 
         targetRotation = Quaternion.Euler(rotation);
-        cameraPivotTransform.localRotation = targetRotation;
+        cameraPivotTransform.localRotation = Quaternion.Slerp(cameraPivotTransform.localRotation, targetRotation, delta * pivotSpeed);
     }
 
     private void HandleCameraCollision(float delta)
@@ -88,8 +108,8 @@ public class CameraController : MonoBehaviour
             targetPosition = -minimumCollisionOffset;
         }
 
-        cameraTransformPosition.z = Mathf.SmoothDamp(cameraTransform.localPosition.z, targetPosition, ref cameraFollowVelocity.z, 0.1f);
-        cameraTransformPosition.x = cameraSideOffset;
+        cameraTransformPosition.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPosition, delta * 10f);
+        cameraTransformPosition.x = Mathf.Lerp(cameraTransform.localPosition.x, cameraSideOffset, delta * 10f);
 
         cameraTransform.localPosition = cameraTransformPosition;
     }
