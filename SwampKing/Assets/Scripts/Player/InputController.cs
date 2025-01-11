@@ -29,7 +29,7 @@ public class InputController : MonoBehaviour
     public float CameraHorizontalInput { get { return cameraHorizontalInput; } }
     public Vector2 MovementInput { get { return movementInput; } }
     public Vector2 CameraInput { get { return cameraInput; } }
-    public bool IsJumpPressed { get { return isJumpPressed; } }
+    public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
     #endregion
 
     //public delegate void MovementInputEvent(float horizontal, float vertical, float delta);

@@ -403,8 +403,8 @@ MonoBehaviour:
   gravity: -9.8
   groundCheckSphereRadius: 0.25
   initialJumpVelocity: 0
-  maxJumpHeight: 4
-  maxJumpTime: 0.75
+  maxJumpHeight: 6
+  maxJumpTime: 1
 --- !u!143 &275069329
 CharacterController:
   m_ObjectHideFlags: 0

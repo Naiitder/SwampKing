@@ -25,10 +25,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("JumpStats")]
     [SerializeField] float gravity = -9.8f;
     [SerializeField] float groundCheckSphereRadius = .25f;
-    float groundedGravity = -.05f;
     [SerializeField] float initialJumpVelocity;
     [SerializeField] float maxJumpHeight = 4.0f;
     [SerializeField] float maxJumpTime = 0.75f;
+    private bool canDoubleJump;
 
     public CharacterController CharacterController { get { return characterController; } }
 
@@ -42,19 +42,47 @@ public class PlayerMovement : MonoBehaviour
 
         SetupJumpVariables();
     }
+    private void Update()
+    {
+       if(InputController.instance.IsJumpPressed) print(characterController.isGrounded);
+    }
+
 
     public void HandleJump()
     {
-        if (!playerManager.IsJumping && characterController.isGrounded && InputController.instance.IsJumpPressed)
+        if (characterController.isGrounded)
         {
-            playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash,true);
-            playerAnimator.IsJumpAnimating = true;
-            playerManager.IsJumping = true;
-            moveDirection.y = initialJumpVelocity;
-            appliedMovement.y = initialJumpVelocity;
+            canDoubleJump = true;
+            playerManager.IsJumping = false;
         }
-        else if (InputController.instance.IsJumpPressed && characterController.isGrounded && playerManager.IsJumping) playerManager.IsJumping = false;
+
+        if (InputController.instance.IsJumpPressed && !playerManager.IsJumping && characterController.isGrounded)
+        {
+            PerformJump(initialJumpVelocity);
+
+            playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
+        }
+        else if (!characterController.isGrounded && InputController.instance.IsJumpPressed && canDoubleJump)
+        {
+            canDoubleJump = false;
+            PerformJump(initialJumpVelocity * 1.25f);
+
+            playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, true);
+
+
+        }
     }
+
+    private void PerformJump(float jumpVelocity)
+    {
+        moveDirection.y = jumpVelocity;
+        appliedMovement.y = jumpVelocity;
+
+        playerAnimator.IsJumpAnimating = true;
+        playerManager.IsJumping = true;
+        InputController.instance.IsJumpPressed = false;
+    }
+
 
     public void HandleMovement(float delta)
     {
@@ -97,10 +125,11 @@ public class PlayerMovement : MonoBehaviour
             if (playerAnimator.IsJumpAnimating)
             {
                 playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, false);
+                playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, false);
                 playerAnimator.IsJumpAnimating = false;
             }
-            moveDirection.y = groundedGravity;
-            appliedMovement.y = groundedGravity;
+            moveDirection.y = gravity;
+            appliedMovement.y = gravity;
         }
         else if (isFalling)
         {

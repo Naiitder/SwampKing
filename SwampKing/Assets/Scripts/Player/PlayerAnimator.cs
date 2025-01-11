@@ -8,12 +8,14 @@ public class PlayerAnimator : MonoBehaviour
     private int verticalHash;
     private int horizontalHash;
     private int isJumpingHash;
+    private int isDoubleJumpingHash;
     bool isJumpAnimating;
 
     public Animator Animator { get { return animator; } }
 
     public bool IsJumpAnimating { get { return isJumpAnimating; } set { isJumpAnimating = value; } }
     public int IsJumpingHash { get { return isJumpingHash; } }
+    public int IsDoubleJumpingHash { get { return isDoubleJumpingHash; } }
 
     private void Awake()
     {
@@ -21,6 +23,7 @@ public class PlayerAnimator : MonoBehaviour
         verticalHash = Animator.StringToHash("Vertical");
         horizontalHash = Animator.StringToHash("Horizontal");
         isJumpingHash = Animator.StringToHash("isJumping");
+        isDoubleJumpingHash = Animator.StringToHash("isDoubleJumping");
     }
 
     public void UpdateMovementAnimationValues(float verticalMovement, float horizontalMovement)
