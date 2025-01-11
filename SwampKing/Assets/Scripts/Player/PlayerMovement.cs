@@ -30,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxJumpTime = 0.75f;
     private bool canDoubleJump;
 
+    [SerializeField] float maxChargeTime = 1.0f;  
+    [SerializeField] float tapThreshold = 0.2f;
+    [SerializeField] private float jumpChargeTime = 0f;
+
     public CharacterController CharacterController { get { return characterController; } }
 
     private void Awake()
@@ -42,10 +46,6 @@ public class PlayerMovement : MonoBehaviour
 
         SetupJumpVariables();
     }
-    private void Update()
-    {
-       if(InputController.instance.IsJumpPressed) print(characterController.isGrounded);
-    }
 
 
     public void HandleJump()
@@ -55,29 +55,44 @@ public class PlayerMovement : MonoBehaviour
             canDoubleJump = true;
             playerManager.IsJumping = false;
         }
-
-        if (InputController.instance.IsJumpPressed && !playerManager.IsJumping && characterController.isGrounded)
-        {
-            PerformJump(initialJumpVelocity);
-
-            playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
-        }
-        else if (!characterController.isGrounded && InputController.instance.IsJumpPressed && canDoubleJump)
+        if (!characterController.isGrounded && InputController.instance.IsJumpPressed && canDoubleJump)
         {
             canDoubleJump = false;
             PerformJump(initialJumpVelocity * 1.25f);
 
             playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, true);
-
-
         }
+        else if (InputController.instance.IsJumpPressed)
+        {
+            jumpChargeTime += Time.deltaTime;
+            if (jumpChargeTime >= tapThreshold) playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, true);
+        }
+        else
+        {
+            if (jumpChargeTime <= tapThreshold && jumpChargeTime > 0 && !playerManager.IsJumping && characterController.isGrounded)
+            {
+                PerformJump(initialJumpVelocity);
+
+                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
+            }
+            else if (jumpChargeTime >= tapThreshold && !playerManager.IsJumping && characterController.isGrounded)
+            {
+                PerformJump(initialJumpVelocity * 1.5f);
+
+                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
+            }
+        }
+       
+
+
     }
 
     private void PerformJump(float jumpVelocity)
     {
         moveDirection.y = jumpVelocity;
         appliedMovement.y = jumpVelocity;
-
+        jumpChargeTime = 0;
+        playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, false);
         playerAnimator.IsJumpAnimating = true;
         playerManager.IsJumping = true;
         InputController.instance.IsJumpPressed = false;
