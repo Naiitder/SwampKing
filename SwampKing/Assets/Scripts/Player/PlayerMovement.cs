@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float tapThreshold = 0.2f;
     [SerializeField] private float jumpChargeTime = 0f;
 
+    public float JumpChargeTime { get { return jumpChargeTime; } }
+
     public CharacterController CharacterController { get { return characterController; } }
 
     private void Awake()
@@ -62,10 +64,14 @@ public class PlayerMovement : MonoBehaviour
 
             playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, true);
         }
-        else if (InputController.instance.IsJumpPressed)
+        else if (InputController.instance.IsJumpPressed && characterController.isGrounded)
         {
             jumpChargeTime += Time.deltaTime;
-            if (jumpChargeTime >= tapThreshold) playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, true);
+            if (jumpChargeTime >= tapThreshold)
+            {
+                playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, true);
+                playerManager.IsChargingJumping = true;
+            }
         }
         else
         {
@@ -93,22 +99,26 @@ public class PlayerMovement : MonoBehaviour
         appliedMovement.y = jumpVelocity;
         jumpChargeTime = 0;
         playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, false);
-        playerAnimator.IsJumpAnimating = true;
         playerManager.IsJumping = true;
         InputController.instance.IsJumpPressed = false;
+        playerManager.IsChargingJumping = false;
     }
 
 
-    public void HandleMovement(float delta)
+    public void StopMovement()
+    {
+        moveDirection = Vector3.zero;
+    }
+
+    public void HandleMovement()
     {
         appliedMovement.x = moveDirection.x;
         appliedMovement.z = moveDirection.z;
-        characterController.Move(appliedMovement*delta);
+        characterController.Move(appliedMovement*Time.deltaTime);
     }
 
     public void HandleGroundedMovement()
     {
-
         Vector3 moveDirectionAux;
         moveDirectionAux = cameraObject.transform.forward * InputController.instance.VerticalInput;
         moveDirectionAux = moveDirectionAux + cameraObject.transform.right * InputController.instance.HorizontalInput;
@@ -116,51 +126,53 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x = moveDirectionAux.x;
         moveDirection.z = moveDirectionAux.z;
 
-       if (InputController.instance.MoveAmount > 0.5f)
+        if (InputController.instance.MoveAmount > 0.5f)
         {
             moveDirection.x = moveDirection.x * movementSpeed;
             moveDirection.z = moveDirection.z * movementSpeed;
         }
-       else if (InputController.instance.MoveAmount <= 0.5f)
+        else if (InputController.instance.MoveAmount <= 0.5f)
         {
             moveDirection.x = moveDirection.x * walkingSpeed;
             moveDirection.z = moveDirection.z * walkingSpeed;
         }
 
-        playerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount,0);
-        
+        playerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
+
     }
 
-    public void HandleGravity(float delta)
+    public void HandleGravity()
     {
         bool isFalling = moveDirection.y <= 0.0f || !InputController.instance.IsJumpPressed;
         float fallMultiplier = 2.0f;
-        if (characterController.isGrounded)
-        {
-            if (playerAnimator.IsJumpAnimating)
-            {
-                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, false);
-                playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, false);
-                playerAnimator.IsJumpAnimating = false;
-            }
-            moveDirection.y = gravity;
-            appliedMovement.y = gravity;
-        }
-        else if (isFalling)
+        if (isFalling)
         {
             float previousYVelocity = moveDirection.y;
-            moveDirection.y = moveDirection.y + (gravity * fallMultiplier*delta);
+            moveDirection.y = moveDirection.y + (gravity * fallMultiplier*Time.deltaTime);
             appliedMovement.y = Mathf.Max((previousYVelocity + moveDirection.y) * .5f, -20.0f);
         }
         else
         {
             float previousYVelocity = moveDirection.y;
-            moveDirection.y = moveDirection.y + (gravity * delta);
+            moveDirection.y = moveDirection.y + (gravity * Time.deltaTime);
             appliedMovement.y = (previousYVelocity + moveDirection.y) * .5f;
         }
     }
 
-    public void HandleRotation(float delta)
+    public void SetGravity()
+    {
+        moveDirection.y = gravity;
+        appliedMovement.y = gravity;
+    }
+
+    public void CancelJumpAnimation()
+    {
+        playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, false);
+        playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, false);
+        if (InputController.instance.IsJumpPressed) InputController.instance.RequireNewJumpPress = true;
+    }
+
+    public void HandleRotation()
     {
         Vector3 targetDir = Vector3.zero;
         float moveOverride = InputController.instance.MoveAmount;
@@ -176,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
         float rs = rotationSpeed;
 
         Quaternion tr = Quaternion.LookRotation(targetDir);
-        Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+        Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * Time.deltaTime);
 
         myTransform.rotation = targetRotation;
     }

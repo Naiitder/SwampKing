@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 275069327}
   - component: {fileID: 275069326}
   - component: {fileID: 275069325}
+  - component: {fileID: 275069331}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -405,6 +406,9 @@ MonoBehaviour:
   initialJumpVelocity: 0
   maxJumpHeight: 6
   maxJumpTime: 1
+  maxChargeTime: 1
+  tapThreshold: 0.2
+  jumpChargeTime: 0
 --- !u!143 &275069329
 CharacterController:
   m_ObjectHideFlags: 0
@@ -447,6 +451,18 @@ Transform:
   - {fileID: 1361964787580573439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &275069331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275069324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad21f150f99c8e4682ebc514920eb5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &298102059
 GameObject:
   m_ObjectHideFlags: 0

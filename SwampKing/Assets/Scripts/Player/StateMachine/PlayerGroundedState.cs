@@ -4,10 +4,24 @@ using UnityEngine;
 
 public class PlayerGroundedState : PlayerBaseState
 {
-    public override void EnterState(){}
-    public override void UpdateState(){}
+    public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+    : base(currentContext, playerStateFactory) {
+        _isRootState = true;
+        InitializeSubState();
+    }
+
+    public override void EnterState(){
+        _ctx.PlayerMovement.SetGravity();
+    }
+    public override void UpdateState(){
+        CheckSwitchStates();
+    }
     public override void ExitState(){}
-    public override void InitializeSubState(){}
-    public override void CheckSwitchStates(){}
+    public override void InitializeSubState(){
+        SetSubState(_factory.Walk());
+    }
+    public override void CheckSwitchStates(){
+        if (InputController.instance.IsJumpPressed && !InputController.instance.RequireNewJumpPress) SwitchState(_factory.Jump());
+    }
 
 }

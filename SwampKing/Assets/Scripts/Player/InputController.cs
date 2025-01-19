@@ -18,7 +18,7 @@ public class InputController : MonoBehaviour
 
     private Vector2 movementInput;
     private Vector2 cameraInput;
-
+    public bool requireNewJumpPress;
     private bool isJumpPressed;
 
     #region GettersAndSetters
@@ -30,6 +30,7 @@ public class InputController : MonoBehaviour
     public Vector2 MovementInput { get { return movementInput; } }
     public Vector2 CameraInput { get { return cameraInput; } }
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
+    public bool RequireNewJumpPress { get { return requireNewJumpPress; } set { requireNewJumpPress = value; } }
     #endregion
 
     //public delegate void MovementInputEvent(float horizontal, float vertical, float delta);
@@ -74,6 +75,7 @@ public class InputController : MonoBehaviour
     void onJumpInput(InputAction.CallbackContext context)
     {
         isJumpPressed = context.ReadValueAsButton();
+        requireNewJumpPress = false;
     }
 
     void onCameraInput(InputAction.CallbackContext context)
