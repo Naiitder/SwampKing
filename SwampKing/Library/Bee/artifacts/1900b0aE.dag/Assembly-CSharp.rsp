@@ -369,6 +369,13 @@
 "Assets/Scripts/Player/PlayerControlls.cs"
 "Assets/Scripts/Player/PlayerManager.cs"
 "Assets/Scripts/Player/PlayerMovement.cs"
+"Assets/Scripts/Player/StateMachine/PlayerBaseState.cs"
+"Assets/Scripts/Player/StateMachine/PlayerGroundedState.cs"
+"Assets/Scripts/Player/StateMachine/PlayerIdleState.cs"
+"Assets/Scripts/Player/StateMachine/PlayerJumpState.cs"
+"Assets/Scripts/Player/StateMachine/PlayerStateFactory.cs"
+"Assets/Scripts/Player/StateMachine/PlayerStateMachine.cs"
+"Assets/Scripts/Player/StateMachine/PlayerWalkState.cs"
 -langversion:9.0
 
 /deterministic
