@@ -370,6 +370,7 @@
 "Assets/Scripts/Player/PlayerManager.cs"
 "Assets/Scripts/Player/PlayerMovement.cs"
 "Assets/Scripts/Player/StateMachine/PlayerBaseState.cs"
+"Assets/Scripts/Player/StateMachine/PlayerFallingState.cs"
 "Assets/Scripts/Player/StateMachine/PlayerGroundedState.cs"
 "Assets/Scripts/Player/StateMachine/PlayerIdleState.cs"
 "Assets/Scripts/Player/StateMachine/PlayerJumpState.cs"

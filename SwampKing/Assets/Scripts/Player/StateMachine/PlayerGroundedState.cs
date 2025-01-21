@@ -7,10 +7,10 @@ public class PlayerGroundedState : PlayerBaseState
     public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     : base(currentContext, playerStateFactory) {
         _isRootState = true;
-        InitializeSubState();
     }
 
     public override void EnterState(){
+        InitializeSubState();
         _ctx.PlayerMovement.SetGravity();
     }
     public override void UpdateState(){
@@ -22,6 +22,7 @@ public class PlayerGroundedState : PlayerBaseState
     }
     public override void CheckSwitchStates(){
         if (InputController.instance.IsJumpPressed && !InputController.instance.RequireNewJumpPress) SwitchState(_factory.Jump());
+        else if (!_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.Falling());
     }
 
 }

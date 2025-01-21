@@ -9,9 +9,9 @@ public class PlayerJumpState : PlayerBaseState
     public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     : base(currentContext, playerStateFactory) {
         _isRootState = true;
-        InitializeSubState();
     }
     public override void EnterState() {
+        InitializeSubState();
         _ctx.PlayerManager.IsJumping = true;
         _hasLeftGround = false;
     }

@@ -200,6 +200,15 @@ public class PlayerMovement : MonoBehaviour
         initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
     }
 
+    public void FallingAnimationOn()
+    {
+        playerAnimator.Animator.SetBool("isFalling", true);
+    }
+
+    public void FallingAnimationOff()
+    {
+        playerAnimator.Animator.SetBool("isFalling", false);
+    }
 
     private void OnDrawGizmosSelected()
     {
