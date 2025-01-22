@@ -363,7 +363,6 @@
 -analyzer:"D:/UnityED/2022.3.10f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/CameraController.cs"
 "Assets/Scripts/GameController.cs"
-"Assets/Scripts/IState.cs"
 "Assets/Scripts/Player/InputController.cs"
 "Assets/Scripts/Player/PlayerAnimator.cs"
 "Assets/Scripts/Player/PlayerControlls.cs"
