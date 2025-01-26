@@ -12,17 +12,21 @@ public class PlayerGroundedState : PlayerBaseState
     public override void EnterState(){
         InitializeSubState();
         _ctx.PlayerMovement.SetGravity();
-    }
+    } 
     public override void UpdateState(){
         CheckSwitchStates();
     }
     public override void ExitState(){}
     public override void InitializeSubState(){
-        SetSubState(_factory.Walk());
+        if (_ctx.PlayerManager.JumpChargeTime >= _ctx.PlayerManager.TapTreshold && InputController.instance.IsJumpPressed) SetSubState(_factory.ChargeJump());
+        else if (InputController.instance.MoveAmount != 0) SetSubState(_factory.Walk());
+        else SetSubState(_factory.Idle());
     }
     public override void CheckSwitchStates(){
-        if (InputController.instance.IsJumpPressed && !InputController.instance.RequireNewJumpPress) SwitchState(_factory.Jump());
-        else if (!_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.Falling());
+        if (!InputController.instance.IsJumpPressed && !InputController.instance.RequireNewJumpPress 
+            && _ctx.PlayerManager.JumpChargeTime >= 0.05f
+            || !_ctx.PlayerMovement.CharacterController.isGrounded) 
+                SwitchState(_factory.Airbone());
     }
 
 }

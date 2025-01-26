@@ -26,5 +26,11 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _currentState.UpdateStates();
         PlayerMovement.HandleMovement();
+        HandleJumpChargeTime();
+    }
+
+    private void HandleJumpChargeTime()
+    {
+        if (InputController.instance.IsJumpPressed && PlayerMovement.CharacterController.isGrounded) PlayerManager.JumpChargeTime += Time.deltaTime;
     }
 }

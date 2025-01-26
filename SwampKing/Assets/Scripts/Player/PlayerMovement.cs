@@ -28,13 +28,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float initialJumpVelocity;
     [SerializeField] float maxJumpHeight = 4.0f;
     [SerializeField] float maxJumpTime = 0.75f;
-    private bool canDoubleJump;
-
-    [SerializeField] float maxChargeTime = 1.0f;  
-    [SerializeField] float tapThreshold = 0.2f;
-    [SerializeField] private float jumpChargeTime = 0f;
-
-    public float JumpChargeTime { get { return jumpChargeTime; } }
 
     public CharacterController CharacterController { get { return characterController; } }
 
