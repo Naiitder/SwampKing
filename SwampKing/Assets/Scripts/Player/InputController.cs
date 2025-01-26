@@ -18,7 +18,7 @@ public class InputController : MonoBehaviour
 
     private Vector2 movementInput;
     private Vector2 cameraInput;
-    public bool requireNewJumpPress;
+    private bool requireNewJumpPress;
     private bool isJumpPressed;
 
     #region GettersAndSetters

@@ -7,26 +7,35 @@ public class PlayerDoubleJumpState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+        if (_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.Grounded());
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _ctx.PlayerMovement.PerformJump(1.25f);
+        if (InputController.instance.IsJumpPressed) InputController.instance.RequireNewJumpPress = true;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, true);
+        _ctx.PlayerManager.IsJumping = true;
+        _ctx.PlayerManager.CanDoubleJump = false;
+
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, false);
+        _ctx.PlayerManager.JumpChargeTime = 0;
+        _ctx.PlayerManager.IsJumping = false;
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void UpdateState()
     {
-        throw new System.NotImplementedException();
+        _ctx.PlayerMovement.HandleGroundedMovement();
+        _ctx.PlayerMovement.HandleRotation();
+        CheckSwitchStates();
     }
 }

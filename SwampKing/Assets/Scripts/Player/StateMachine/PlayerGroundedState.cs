@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PlayerGroundedState : PlayerBaseState
 {
@@ -12,8 +9,11 @@ public class PlayerGroundedState : PlayerBaseState
     public override void EnterState(){
         InitializeSubState();
         _ctx.PlayerMovement.SetGravity();
+        _ctx.PlayerManager.InAirTimer = 0;
+        _ctx.PlayerManager.CanDoubleJump = true;
     } 
     public override void UpdateState(){
+        _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
         CheckSwitchStates();
     }
     public override void ExitState(){}
@@ -23,7 +23,7 @@ public class PlayerGroundedState : PlayerBaseState
         else SetSubState(_factory.Idle());
     }
     public override void CheckSwitchStates(){
-        if (!InputController.instance.IsJumpPressed && !InputController.instance.RequireNewJumpPress 
+        if (!InputController.instance.IsJumpPressed 
             && _ctx.PlayerManager.JumpChargeTime >= 0.05f
             || !_ctx.PlayerMovement.CharacterController.isGrounded) 
                 SwitchState(_factory.Airbone());

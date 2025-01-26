@@ -25,7 +25,7 @@ public abstract class PlayerBaseState
     protected void SwitchState(PlayerBaseState newState) {
         ExitState();
         newState.EnterState();
-        if (_isRootState) _ctx.CurrentState = newState;
+        if (newState._isRootState) _ctx.CurrentState = newState;
         else if (_currentSuperState != null) _currentSuperState.SetSubState(newState);
     }
     protected void SetSuperState(PlayerBaseState newSuperState) {
@@ -34,5 +34,6 @@ public abstract class PlayerBaseState
     protected void SetSubState(PlayerBaseState newSubState) {
         _currentSubState = newSubState;
         newSubState.SetSuperState(this);
+        _currentSubState.EnterState();
     }
 }

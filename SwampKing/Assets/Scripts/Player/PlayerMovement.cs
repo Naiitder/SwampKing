@@ -43,55 +43,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public void HandleJump()
+    public void PerformJump(float multiplier = 1)
     {
-        if (characterController.isGrounded)
-        {
-            canDoubleJump = true;
-            playerManager.IsJumping = false;
-        }
-        if (!characterController.isGrounded && InputController.instance.IsJumpPressed && canDoubleJump)
-        {
-            canDoubleJump = false;
-            PerformJump(initialJumpVelocity * 1.25f);
-
-            playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, true);
-        }
-        else if (InputController.instance.IsJumpPressed && characterController.isGrounded)
-        {
-            jumpChargeTime += Time.deltaTime;
-            if (jumpChargeTime >= tapThreshold)
-            {
-                playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, true);
-                playerManager.IsChargingJumping = true;
-            }
-        }
-        else
-        {
-            if (jumpChargeTime <= tapThreshold && jumpChargeTime > 0 && !playerManager.IsJumping && characterController.isGrounded)
-            {
-                PerformJump(initialJumpVelocity);
-
-                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
-            }
-            else if (jumpChargeTime >= tapThreshold && !playerManager.IsJumping && characterController.isGrounded)
-            {
-                PerformJump(initialJumpVelocity * 1.5f);
-
-                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
-            }
-        }
-       
-
-
-    }
-
-    private void PerformJump(float jumpVelocity)
-    {
-        moveDirection.y = jumpVelocity;
-        appliedMovement.y = jumpVelocity;
-        jumpChargeTime = 0;
-        playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, false);
+        moveDirection.y = initialJumpVelocity*multiplier;
+        appliedMovement.y = initialJumpVelocity*multiplier;
         playerManager.IsJumping = true;
         InputController.instance.IsJumpPressed = false;
         playerManager.IsChargingJumping = false;
@@ -130,8 +85,6 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.z = moveDirection.z * walkingSpeed;
         }
 
-        playerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
-
     }
 
     public void HandleGravity()
@@ -161,8 +114,6 @@ public class PlayerMovement : MonoBehaviour
     public void CancelJumpAnimation()
     {
         playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, false);
-        playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, false);
-        if (InputController.instance.IsJumpPressed) InputController.instance.RequireNewJumpPress = true;
     }
 
     public void HandleRotation()
@@ -193,15 +144,6 @@ public class PlayerMovement : MonoBehaviour
         initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
     }
 
-    public void FallingAnimationOn()
-    {
-        playerAnimator.Animator.SetBool("isFalling", true);
-    }
-
-    public void FallingAnimationOff()
-    {
-        playerAnimator.Animator.SetBool("isFalling", false);
-    }
 
     private void OnDrawGizmosSelected()
     {
