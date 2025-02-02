@@ -13,7 +13,6 @@ public class PlayerDoubleJumpState : PlayerBaseState
     public override void EnterState()
     {
         _ctx.PlayerMovement.PerformJump(1.25f);
-        if (InputController.instance.IsJumpPressed) InputController.instance.RequireNewJumpPress = true;
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, true);
         _ctx.PlayerManager.IsJumping = true;
         _ctx.PlayerManager.CanDoubleJump = false;

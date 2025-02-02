@@ -15,7 +15,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void ExitState() { }
     public override void InitializeSubState() { }
     public override void CheckSwitchStates() {
-        if (_ctx.PlayerManager.JumpChargeTime >= _ctx.PlayerManager.TapTreshold) SwitchState(_factory.ChargeJump());
+        if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());
         else if (InputController.instance.MoveAmount != 0) SwitchState(_factory.Walk());
     }
 }

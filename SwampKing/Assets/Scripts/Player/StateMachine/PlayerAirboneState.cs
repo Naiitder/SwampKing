@@ -24,9 +24,11 @@ public class PlayerAirboneState : PlayerBaseState
 
     public override void InitializeSubState()
     {
-        if (_ctx.PlayerManager.InAirTimer <= 0.125f && _ctx.PlayerManager.JumpChargeTime >= 0.05f && !InputController.instance.RequireNewJumpPress) SetSubState(_factory.Jump());
-        else if (_ctx.PlayerManager.InAirTimer > 0.125f && InputController.instance.IsJumpPressed
-            && !InputController.instance.RequireNewJumpPress && _ctx.PlayerManager.CanDoubleJump) SetSubState(_factory.DoubleJump());
+        if (_ctx.PlayerManager.InAirTimer <= 0.1f
+            && InputController.instance.CheckActions(InputController.InputActionType.Jump)) SetSubState(_factory.Jump());
+        else if (_ctx.PlayerManager.InAirTimer > 0.1f 
+            && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+            && _ctx.PlayerManager.CanDoubleJump) SetSubState(_factory.DoubleJump());
         else SetSubState(_factory.Falling());
     }
 

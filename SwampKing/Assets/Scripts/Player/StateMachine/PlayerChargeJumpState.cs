@@ -7,7 +7,7 @@ public class PlayerChargeJumpState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        if (!InputController.instance.IsJumpPressed) SwitchState(_factory.Airbone());
+        if (InputController.instance.CheckActions(InputController.InputActionType.Jump)) SwitchState(_factory.Airbone());
     }
 
     public override void EnterState()

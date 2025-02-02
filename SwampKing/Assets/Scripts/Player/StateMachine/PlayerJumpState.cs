@@ -10,7 +10,6 @@ public class PlayerJumpState : PlayerBaseState
         multiplierJumpForce = _ctx.PlayerManager.JumpChargeTime > _ctx.PlayerManager.TapTreshold ? 1.5f : 1f;
         _ctx.PlayerMovement.PerformJump(multiplierJumpForce);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsJumpingHash, true);
-        if (InputController.instance.IsJumpPressed) InputController.instance.RequireNewJumpPress = true;
         _ctx.PlayerManager.IsJumping = true;
         _hasLeftGround = false;
 
@@ -22,7 +21,6 @@ public class PlayerJumpState : PlayerBaseState
         CheckSwitchStates();
     }
     public override void ExitState() {
-        _ctx.PlayerMovement.CancelJumpAnimation();
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsJumpingHash, false);
         _ctx.PlayerManager.JumpChargeTime = 0;
         _ctx.PlayerManager.IsJumping = false;
@@ -31,7 +29,8 @@ public class PlayerJumpState : PlayerBaseState
 
     }
     public override void CheckSwitchStates() {
-        if (_ctx.PlayerManager.CanDoubleJump && InputController.instance.IsJumpPressed && !InputController.instance.RequireNewJumpPress
+        if (_ctx.PlayerManager.CanDoubleJump 
+            && InputController.instance.CheckActions(InputController.InputActionType.Jump)
             && !_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.DoubleJump());
         else if (_ctx.PlayerMovement.CharacterController.isGrounded && _hasLeftGround) SwitchState(_factory.Grounded());
     }

@@ -18,8 +18,10 @@ public class InputController : MonoBehaviour
 
     private Vector2 movementInput;
     private Vector2 cameraInput;
-    private bool requireNewJumpPress;
-    private bool isJumpPressed;
+    [SerializeField] private bool isJumpPressed;
+
+    public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
+    public enum InputActionType { Jump, Attack, Aim}
 
     #region GettersAndSetters
     public float VerticalInput { get { return verticalInput; } }
@@ -30,7 +32,6 @@ public class InputController : MonoBehaviour
     public Vector2 MovementInput { get { return movementInput; } }
     public Vector2 CameraInput { get { return cameraInput; } }
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
-    public bool RequireNewJumpPress { get { return requireNewJumpPress; } set { requireNewJumpPress = value; } }
     #endregion
 
     //public delegate void MovementInputEvent(float horizontal, float vertical, float delta);
@@ -53,8 +54,8 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Movement.canceled += onMovementInput;
             playerControlls.Locomotion.Movement.performed += onMovementInput;
             playerControlls.Locomotion.Camera.performed += onCameraInput;
-            playerControlls.Locomotion.Jump.started += onJumpInput;
-            playerControlls.Locomotion.Jump.canceled += onJumpInput;
+            playerControlls.Locomotion.Jump.started += ctx => onJumpInputStart();
+            playerControlls.Locomotion.Jump.canceled += ctx => onJumpInputExit();
 
         }
         playerControlls.Enable();
@@ -72,10 +73,15 @@ public class InputController : MonoBehaviour
         verticalInput = movementInput.y;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
     }
-    void onJumpInput(InputAction.CallbackContext context)
+    void onJumpInputStart()
     {
-        isJumpPressed = context.ReadValueAsButton();
-        requireNewJumpPress = false;
+        isJumpPressed = true;
+    }
+
+    void onJumpInputExit()
+    {
+        isJumpPressed = false;
+        InputBuffer.Enqueue(InputActionType.Jump);
     }
 
     void onCameraInput(InputAction.CallbackContext context)
@@ -85,5 +91,13 @@ public class InputController : MonoBehaviour
         cameraVerticalInput = cameraInput.y;
     }
 
+    public bool CheckActions(InputActionType action)
+    {
+        if (InputBuffer.Count > 0)
+        {
+            if (InputBuffer.Peek() == action) return true;
+        }
+        return false;
 
+    }
 }

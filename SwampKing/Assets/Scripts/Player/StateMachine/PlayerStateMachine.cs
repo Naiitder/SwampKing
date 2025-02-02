@@ -28,14 +28,21 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _currentState.UpdateStates();
         PlayerMovement.HandleMovement();
-        HandleJumpChargeTime();
+        HandleJumpCharge();
         HandleAirTimer();
 
     }
 
-    private void HandleJumpChargeTime()
+    private void HandleJumpCharge()
     {
-        if (InputController.instance.IsJumpPressed && PlayerMovement.CharacterController.isGrounded) PlayerManager.JumpChargeTime += Time.deltaTime;
+        if (InputController.instance.IsJumpPressed && PlayerMovement.CharacterController.isGrounded)
+        {
+            if (PlayerManager.JumpChargeTime >= PlayerManager.TapTreshold) PlayerManager.IsChargingJumping = true;
+            PlayerManager.JumpChargeTime += Time.deltaTime;
+        }
+        else PlayerManager.IsChargingJumping = false;
+
+
     }
 
     private void HandleAirTimer()

@@ -48,8 +48,8 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.y = initialJumpVelocity*multiplier;
         appliedMovement.y = initialJumpVelocity*multiplier;
         playerManager.IsJumping = true;
-        InputController.instance.IsJumpPressed = false;
         playerManager.IsChargingJumping = false;
+        InputController.instance.InputBuffer.Dequeue();
     }
 
 
@@ -109,11 +109,6 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection.y = gravity;
         appliedMovement.y = gravity;
-    }
-
-    public void CancelJumpAnimation()
-    {
-        playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, false);
     }
 
     public void HandleRotation()

@@ -2,6 +2,8 @@
 public class PlayerFallingState : PlayerBaseState
 {
 
+    private float fallThreshold = 0.1f;
+
     public PlayerFallingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     : base(currentContext, playerStateFactory)
     {
@@ -14,7 +16,7 @@ public class PlayerFallingState : PlayerBaseState
     public override void UpdateState()
     {
         _ctx.PlayerMovement.HandleGravity();
-        if (!_ctx.PlayerAnimator.Animator.GetBool("isFalling") && _ctx.PlayerManager.InAirTimer > 0.125f) _ctx.PlayerAnimator.Animator.SetBool("isFalling", true);
+        if (!_ctx.PlayerAnimator.Animator.GetBool("isFalling") && _ctx.PlayerManager.InAirTimer > fallThreshold) _ctx.PlayerAnimator.Animator.SetBool("isFalling", true);
         CheckSwitchStates();
     }
     public override void ExitState()
@@ -29,9 +31,11 @@ public class PlayerFallingState : PlayerBaseState
     {
         if (_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.Grounded());
 
-        if (_ctx.PlayerManager.InAirTimer <= 0.125f && InputController.instance.IsJumpPressed && !InputController.instance.RequireNewJumpPress) SwitchState(_factory.Jump());
-        else if (_ctx.PlayerManager.InAirTimer > 0.125f && InputController.instance.IsJumpPressed
-            && !InputController.instance.RequireNewJumpPress && _ctx.PlayerManager.CanDoubleJump) SwitchState(_factory.DoubleJump());
+        if (_ctx.PlayerManager.InAirTimer <= fallThreshold
+            && InputController.instance.CheckActions(InputController.InputActionType.Jump)) SwitchState(_factory.Jump());
+        else if (_ctx.PlayerManager.InAirTimer > fallThreshold
+            && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+            && _ctx.PlayerManager.CanDoubleJump) SwitchState(_factory.DoubleJump());
     }
 
 
