@@ -12,7 +12,7 @@ public class PlayerJumpState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsJumpingHash, true);
         _ctx.PlayerManager.IsJumping = true;
         _hasLeftGround = false;
-
+        InputController.instance.InputBuffer.Dequeue();
     }
     public override void UpdateState(){
         if (!_hasLeftGround && !_ctx.PlayerMovement.CharacterController.isGrounded) _hasLeftGround = true;
@@ -31,8 +31,10 @@ public class PlayerJumpState : PlayerBaseState
     public override void CheckSwitchStates() {
         if (_ctx.PlayerManager.CanDoubleJump 
             && InputController.instance.CheckActions(InputController.InputActionType.Jump)
-            && !_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.DoubleJump());
-        else if (_ctx.PlayerMovement.CharacterController.isGrounded && _hasLeftGround) SwitchState(_factory.Grounded());
+            && !_ctx.PlayerMovement.CharacterController.isGrounded) 
+            SwitchState(_factory.DoubleJump());
+        else if (_ctx.PlayerMovement.CharacterController.isGrounded && _hasLeftGround) 
+            SwitchState(_factory.Grounded());
     }
 
 }

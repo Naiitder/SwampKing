@@ -21,7 +21,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private bool isJumpPressed;
 
     public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
-    public enum InputActionType { Jump, Attack, Aim}
+    public enum InputActionType { Jump, Attack, Aim }
 
     #region GettersAndSetters
     public float VerticalInput { get { return verticalInput; } }
@@ -95,7 +95,11 @@ public class InputController : MonoBehaviour
     {
         if (InputBuffer.Count > 0)
         {
-            if (InputBuffer.Peek() == action) return true;
+            if (InputBuffer.Peek() == action)
+            {
+                //InputBuffer.Dequeue(); 
+                return true;
+            }
         }
         return false;
 

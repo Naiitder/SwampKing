@@ -30,7 +30,6 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerMovement.HandleMovement();
         HandleJumpCharge();
         HandleAirTimer();
-
     }
 
     private void HandleJumpCharge()
@@ -45,8 +44,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     }
 
+
     private void HandleAirTimer()
     {
-        if (!PlayerMovement.CharacterController.isGrounded) PlayerManager.InAirTimer += Time.deltaTime;
+        if (!PlayerMovement.CharacterController.isGrounded && !PlayerManager.IsJumping) PlayerManager.InAirTimer += Time.deltaTime;
     }
+
+
+
 }

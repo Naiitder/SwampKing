@@ -1,4 +1,5 @@
 
+
 public class PlayerDoubleJumpState : PlayerBaseState
 {
     public PlayerDoubleJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
@@ -16,7 +17,7 @@ public class PlayerDoubleJumpState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, true);
         _ctx.PlayerManager.IsJumping = true;
         _ctx.PlayerManager.CanDoubleJump = false;
-
+        InputController.instance.InputBuffer.Dequeue();
     }
 
     public override void ExitState()

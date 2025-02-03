@@ -11,6 +11,7 @@ public class PlayerGroundedState : PlayerBaseState
         _ctx.PlayerMovement.SetGravity();
         _ctx.PlayerManager.InAirTimer = 0;
         _ctx.PlayerManager.CanDoubleJump = true;
+        
     } 
     public override void UpdateState(){
         _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);

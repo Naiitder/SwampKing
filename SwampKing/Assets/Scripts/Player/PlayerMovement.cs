@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
 {
     CharacterController characterController;
     PlayerManager playerManager;
-    PlayerAnimator playerAnimator;
 
     [SerializeField] LayerMask groundLayer;
     
@@ -16,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("CharacterMovementStats")]
     [SerializeField] float walkingSpeed = 2.5f;
     [SerializeField] float movementSpeed = 5f;
-    [SerializeField] float sprintSpeed = 7f;
     Vector3 moveDirection;
     Vector3 appliedMovement;
     Transform myTransform;
@@ -34,7 +32,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        playerAnimator = GetComponent<PlayerAnimator>();
         playerManager = GetComponent<PlayerManager>();
         cameraObject = Camera.main.transform;
         myTransform = transform;
@@ -49,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
         appliedMovement.y = initialJumpVelocity*multiplier;
         playerManager.IsJumping = true;
         playerManager.IsChargingJumping = false;
-        InputController.instance.InputBuffer.Dequeue();
     }
 
 
