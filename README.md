@@ -1,3 +1,3 @@
 # SwampKing
 
- 3D RPG platformer videogame made with Unity.
+ 3D RPG platformer videogame made with Unity C#.
