@@ -24,5 +24,7 @@
 
 # Packed Addressables
 /SwampKing/Assets/AddressableAssetsData/*/*.bin*
+/SwampKing/Library
+/SwampKing/Logs
 
 
