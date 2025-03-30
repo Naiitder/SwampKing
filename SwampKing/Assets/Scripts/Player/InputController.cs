@@ -59,6 +59,7 @@ public class InputController : MonoBehaviour
 
         }
         playerControlls.Enable();
+        StartCoroutine(ClearInputBufferRoutine());
     }
 
     private void OnDisable()
@@ -104,4 +105,18 @@ public class InputController : MonoBehaviour
         return false;
 
     }
+
+    private IEnumerator ClearInputBufferRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            if (InputBuffer.Count > 0)
+            {
+                InputBuffer.Dequeue(); 
+            }
+        }
+    }
+
 }
