@@ -31,3 +31,6 @@ SwampKing/UserSettings/
 /SwampKing/Library
 *.log
 /SwampKing/Logs
+/SwampKing/Library
+/SwampKing/Logs
+/SwampKing/UserSettings
