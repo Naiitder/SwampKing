@@ -74,5 +74,5 @@ crashlytics-build.properties
 /SwampKing/Logs
 /SwampKing/UsserSettings
 /SwampKing/Library
-\SwampKing\Library\
-\SwampKing\Logs\
+SwampKing\Library\
+SwampKing\Logs\
