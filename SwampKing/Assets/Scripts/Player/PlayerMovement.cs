@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
 {
     CharacterController characterController;
     PlayerManager playerManager;
-    PlayerAnimator playerAnimator;
 
     [SerializeField] LayerMask groundLayer;
     
@@ -16,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("CharacterMovementStats")]
     [SerializeField] float walkingSpeed = 2.5f;
     [SerializeField] float movementSpeed = 5f;
-    [SerializeField] float sprintSpeed = 7f;
     Vector3 moveDirection;
     Vector3 appliedMovement;
     Transform myTransform;
@@ -28,18 +26,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float initialJumpVelocity;
     [SerializeField] float maxJumpHeight = 4.0f;
     [SerializeField] float maxJumpTime = 0.75f;
-    private bool canDoubleJump;
-
-    [SerializeField] float maxChargeTime = 1.0f;  
-    [SerializeField] float tapThreshold = 0.2f;
-    [SerializeField] private float jumpChargeTime = 0f;
 
     public CharacterController CharacterController { get { return characterController; } }
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        playerAnimator = GetComponent<PlayerAnimator>();
         playerManager = GetComponent<PlayerManager>();
         cameraObject = Camera.main.transform;
         myTransform = transform;
@@ -48,67 +40,29 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public void HandleJump()
+    public void PerformJump(float multiplier = 1)
     {
-        if (characterController.isGrounded)
-        {
-            canDoubleJump = true;
-            playerManager.IsJumping = false;
-        }
-        if (!characterController.isGrounded && InputController.instance.IsJumpPressed && canDoubleJump)
-        {
-            canDoubleJump = false;
-            PerformJump(initialJumpVelocity * 1.25f);
-
-            playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, true);
-        }
-        else if (InputController.instance.IsJumpPressed)
-        {
-            jumpChargeTime += Time.deltaTime;
-            if (jumpChargeTime >= tapThreshold) playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, true);
-        }
-        else
-        {
-            if (jumpChargeTime <= tapThreshold && jumpChargeTime > 0 && !playerManager.IsJumping && characterController.isGrounded)
-            {
-                PerformJump(initialJumpVelocity);
-
-                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
-            }
-            else if (jumpChargeTime >= tapThreshold && !playerManager.IsJumping && characterController.isGrounded)
-            {
-                PerformJump(initialJumpVelocity * 1.5f);
-
-                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, true);
-            }
-        }
-       
-
-
-    }
-
-    private void PerformJump(float jumpVelocity)
-    {
-        moveDirection.y = jumpVelocity;
-        appliedMovement.y = jumpVelocity;
-        jumpChargeTime = 0;
-        playerAnimator.Animator.SetBool(playerAnimator.IsChargingJumpHash, false);
-        playerAnimator.IsJumpAnimating = true;
+        moveDirection.y = initialJumpVelocity*multiplier;
+        appliedMovement.y = initialJumpVelocity*multiplier;
         playerManager.IsJumping = true;
-        InputController.instance.IsJumpPressed = false;
+        playerManager.IsChargingJumping = false;
     }
 
 
-    public void HandleMovement(float delta)
+    public void StopMovement()
+    {
+        moveDirection = Vector3.zero;
+    }
+
+    public void HandleMovement()
     {
         appliedMovement.x = moveDirection.x;
         appliedMovement.z = moveDirection.z;
-        characterController.Move(appliedMovement*delta);
+        characterController.Move(appliedMovement*Time.deltaTime);
     }
 
     public void HandleGroundedMovement()
     {
-
         Vector3 moveDirectionAux;
         moveDirectionAux = cameraObject.transform.forward * InputController.instance.VerticalInput;
         moveDirectionAux = moveDirectionAux + cameraObject.transform.right * InputController.instance.HorizontalInput;
@@ -116,51 +70,44 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x = moveDirectionAux.x;
         moveDirection.z = moveDirectionAux.z;
 
-       if (InputController.instance.MoveAmount > 0.5f)
+        if (InputController.instance.MoveAmount > 0.5f)
         {
             moveDirection.x = moveDirection.x * movementSpeed;
             moveDirection.z = moveDirection.z * movementSpeed;
         }
-       else if (InputController.instance.MoveAmount <= 0.5f)
+        else if (InputController.instance.MoveAmount <= 0.5f)
         {
             moveDirection.x = moveDirection.x * walkingSpeed;
             moveDirection.z = moveDirection.z * walkingSpeed;
         }
 
-        playerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount,0);
-        
     }
 
-    public void HandleGravity(float delta)
+    public void HandleGravity()
     {
         bool isFalling = moveDirection.y <= 0.0f || !InputController.instance.IsJumpPressed;
         float fallMultiplier = 2.0f;
-        if (characterController.isGrounded)
-        {
-            if (playerAnimator.IsJumpAnimating)
-            {
-                playerAnimator.Animator.SetBool(playerAnimator.IsJumpingHash, false);
-                playerAnimator.Animator.SetBool(playerAnimator.IsDoubleJumpingHash, false);
-                playerAnimator.IsJumpAnimating = false;
-            }
-            moveDirection.y = gravity;
-            appliedMovement.y = gravity;
-        }
-        else if (isFalling)
+        if (isFalling)
         {
             float previousYVelocity = moveDirection.y;
-            moveDirection.y = moveDirection.y + (gravity * fallMultiplier*delta);
+            moveDirection.y = moveDirection.y + (gravity * fallMultiplier*Time.deltaTime);
             appliedMovement.y = Mathf.Max((previousYVelocity + moveDirection.y) * .5f, -20.0f);
         }
         else
         {
             float previousYVelocity = moveDirection.y;
-            moveDirection.y = moveDirection.y + (gravity * delta);
+            moveDirection.y = moveDirection.y + (gravity * Time.deltaTime);
             appliedMovement.y = (previousYVelocity + moveDirection.y) * .5f;
         }
     }
 
-    public void HandleRotation(float delta)
+    public void SetGravity()
+    {
+        moveDirection.y = gravity;
+        appliedMovement.y = gravity;
+    }
+
+    public void HandleRotation()
     {
         Vector3 targetDir = Vector3.zero;
         float moveOverride = InputController.instance.MoveAmount;
@@ -176,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         float rs = rotationSpeed;
 
         Quaternion tr = Quaternion.LookRotation(targetDir);
-        Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+        Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * Time.deltaTime);
 
         myTransform.rotation = targetRotation;
     }

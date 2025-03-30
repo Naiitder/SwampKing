@@ -18,8 +18,10 @@ public class InputController : MonoBehaviour
 
     private Vector2 movementInput;
     private Vector2 cameraInput;
+    [SerializeField] private bool isJumpPressed;
 
-    private bool isJumpPressed;
+    public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
+    public enum InputActionType { Jump, Attack, Aim }
 
     #region GettersAndSetters
     public float VerticalInput { get { return verticalInput; } }
@@ -52,11 +54,12 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Movement.canceled += onMovementInput;
             playerControlls.Locomotion.Movement.performed += onMovementInput;
             playerControlls.Locomotion.Camera.performed += onCameraInput;
-            playerControlls.Locomotion.Jump.started += onJumpInput;
-            playerControlls.Locomotion.Jump.canceled += onJumpInput;
+            playerControlls.Locomotion.Jump.started += ctx => onJumpInputStart();
+            playerControlls.Locomotion.Jump.canceled += ctx => onJumpInputExit();
 
         }
         playerControlls.Enable();
+        StartCoroutine(ClearInputBufferRoutine());
     }
 
     private void OnDisable()
@@ -71,9 +74,15 @@ public class InputController : MonoBehaviour
         verticalInput = movementInput.y;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
     }
-    void onJumpInput(InputAction.CallbackContext context)
+    void onJumpInputStart()
     {
-        isJumpPressed = context.ReadValueAsButton();
+        isJumpPressed = true;
+    }
+
+    void onJumpInputExit()
+    {
+        isJumpPressed = false;
+        InputBuffer.Enqueue(InputActionType.Jump);
     }
 
     void onCameraInput(InputAction.CallbackContext context)
@@ -83,5 +92,31 @@ public class InputController : MonoBehaviour
         cameraVerticalInput = cameraInput.y;
     }
 
+    public bool CheckActions(InputActionType action)
+    {
+        if (InputBuffer.Count > 0)
+        {
+            if (InputBuffer.Peek() == action)
+            {
+                //InputBuffer.Dequeue(); 
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    private IEnumerator ClearInputBufferRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            if (InputBuffer.Count > 0)
+            {
+                InputBuffer.Dequeue(); 
+            }
+        }
+    }
 
 }

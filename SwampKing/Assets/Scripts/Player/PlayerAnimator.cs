@@ -10,11 +10,9 @@ public class PlayerAnimator : MonoBehaviour
     private int isJumpingHash;
     private int isDoubleJumpingHash;
     private int isChargingJumpHash;
-    bool isJumpAnimating;
 
     public Animator Animator { get { return animator; } }
 
-    public bool IsJumpAnimating { get { return isJumpAnimating; } set { isJumpAnimating = value; } }
     public int IsJumpingHash { get { return isJumpingHash; } }
     public int IsDoubleJumpingHash { get { return isDoubleJumpingHash; } }
     public int IsChargingJumpHash { get { return isChargingJumpHash; } }
