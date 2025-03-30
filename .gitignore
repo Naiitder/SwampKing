@@ -24,13 +24,9 @@ SwampKing/UserSettings/
 
 # Packed Addressables
 /SwampKing/Assets/AddressableAssetsData/*/*.bin*
-/SwampKing/Library
-/SwampKing/Logs
-
 
 /SwampKing/Library
 *.log
 /SwampKing/Logs
-/SwampKing/Library
-/SwampKing/Logs
+
 /SwampKing/UserSettings
