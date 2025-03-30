@@ -1,11 +1,11 @@
 # Unity folders
-/SwampKing/Library/
-/SwampKing/Logs/
-/SwampKing/Temp/
-/SwampKing/Obj/
-/SwampKing/Build/
-/SwampKing/Builds/
-/SwampKing/UserSettings/
+SwampKing/Library/
+SwampKing/Logs/
+SwampKing/Temp/
+SwampKing/Obj/
+SwampKing/Build/
+SwampKing/Builds/
+SwampKing/UserSettings/
 
 # Unity auto-generated files
 *.csproj
