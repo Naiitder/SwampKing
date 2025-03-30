@@ -71,6 +71,6 @@ crashlytics-build.properties
 /SwampKing/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /SwampKing/[Aa]ssets/[Ss]treamingAssets/aa/*
 
-SwampKing\Logs\
-SwampKing\UsserSettings\
-SwampKing\Library\
+/SwampKing/Logs
+/SwampKing/UsserSettings
+/SwampKing/Library
