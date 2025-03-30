@@ -70,3 +70,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /SwampKing/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /SwampKing/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+/SwampKing/Logs/
+/SwampKing/UsserSettings/
+/SwampKing/Library/
