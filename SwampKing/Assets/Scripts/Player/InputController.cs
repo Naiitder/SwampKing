@@ -19,6 +19,7 @@ public class InputController : MonoBehaviour
     private Vector2 movementInput;
     private Vector2 cameraInput;
     [SerializeField] private bool isJumpPressed;
+    [SerializeField] private bool isPausePressed;
 
     public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
     public enum InputActionType { Jump, Attack, Aim }
@@ -32,6 +33,7 @@ public class InputController : MonoBehaviour
     public Vector2 MovementInput { get { return movementInput; } }
     public Vector2 CameraInput { get { return cameraInput; } }
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
+    public bool IsPausePressed { get { return isPausePressed; } set { isPausePressed = value; } }
     #endregion
 
     //public delegate void MovementInputEvent(float horizontal, float vertical, float delta);
@@ -56,6 +58,8 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Camera.performed += onCameraInput;
             playerControlls.Locomotion.Jump.started += ctx => onJumpInputStart();
             playerControlls.Locomotion.Jump.canceled += ctx => onJumpInputExit();
+            playerControlls.UserActions.Pause.started += ctx => onPauseInputStart();
+            playerControlls.UserActions.Pause.canceled += ctx => onPauseInputExit();
 
         }
         playerControlls.Enable();
@@ -83,6 +87,16 @@ public class InputController : MonoBehaviour
     {
         isJumpPressed = false;
         InputBuffer.Enqueue(InputActionType.Jump);
+    }
+
+    void onPauseInputStart()
+    {
+        isPausePressed = true; 
+    }
+
+    void onPauseInputExit()
+    {
+        isPausePressed = false;
     }
 
     void onCameraInput(InputAction.CallbackContext context)

@@ -48,5 +48,16 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
         _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, targetProgress, 3*Time.deltaTime);
+
+
+        PauseGame();
+    }
+
+    void PauseGame()
+    {
+        if (InputController.instance.IsPausePressed)
+        {
+            print("aua");
+        }
     }
 }

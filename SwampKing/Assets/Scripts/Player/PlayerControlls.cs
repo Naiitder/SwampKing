@@ -167,6 +167,45 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UserActions"",
+            ""id"": ""51ca2ff2-9b77-4d15-b0f3-0cb83017ecc4"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4083162-f47c-413f-a03d-9160b5736638"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""8bcf735b-7ca8-4947-a15a-ec7629b7d771"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7185ea3c-3ee5-4f32-9c2f-1e6015fcac3b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -176,6 +215,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Locomotion_Movement = m_Locomotion.FindAction("Movement", throwIfNotFound: true);
         m_Locomotion_Camera = m_Locomotion.FindAction("Camera", throwIfNotFound: true);
         m_Locomotion_Jump = m_Locomotion.FindAction("Jump", throwIfNotFound: true);
+        // UserActions
+        m_UserActions = asset.FindActionMap("UserActions", throwIfNotFound: true);
+        m_UserActions_Pause = m_UserActions.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,10 +337,60 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         }
     }
     public LocomotionActions @Locomotion => new LocomotionActions(this);
+
+    // UserActions
+    private readonly InputActionMap m_UserActions;
+    private List<IUserActionsActions> m_UserActionsActionsCallbackInterfaces = new List<IUserActionsActions>();
+    private readonly InputAction m_UserActions_Pause;
+    public struct UserActionsActions
+    {
+        private @PlayerControlls m_Wrapper;
+        public UserActionsActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_UserActions_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_UserActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UserActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IUserActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UserActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UserActionsActionsCallbackInterfaces.Add(instance);
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+        }
+
+        private void UnregisterCallbacks(IUserActionsActions instance)
+        {
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+        }
+
+        public void RemoveCallbacks(IUserActionsActions instance)
+        {
+            if (m_Wrapper.m_UserActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUserActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UserActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UserActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UserActionsActions @UserActions => new UserActionsActions(this);
     public interface ILocomotionActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+    }
+    public interface IUserActionsActions
+    {
+        void OnPause(InputAction.CallbackContext context);
     }
 }
