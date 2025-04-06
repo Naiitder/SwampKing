@@ -59,7 +59,6 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Jump.started += ctx => onJumpInputStart();
             playerControlls.Locomotion.Jump.canceled += ctx => onJumpInputExit();
             playerControlls.UserActions.Pause.started += ctx => onPauseInputStart();
-            playerControlls.UserActions.Pause.canceled += ctx => onPauseInputExit();
 
         }
         playerControlls.Enable();
@@ -91,12 +90,7 @@ public class InputController : MonoBehaviour
 
     void onPauseInputStart()
     {
-        isPausePressed = true; 
-    }
-
-    void onPauseInputExit()
-    {
-        isPausePressed = false;
+        isPausePressed = !isPausePressed; 
     }
 
     void onCameraInput(InputAction.CallbackContext context)

@@ -45,19 +45,11 @@ public class LevelManager : MonoBehaviour
         scene.allowSceneActivation = true;
     }
 
-    private void Update()
+    public void UpdateProgressBar()
     {
         _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, targetProgress, 3*Time.deltaTime);
 
-
-        PauseGame();
     }
 
-    void PauseGame()
-    {
-        if (InputController.instance.IsPausePressed)
-        {
-            print("aua");
-        }
-    }
+
 }
