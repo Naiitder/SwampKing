@@ -8,10 +8,12 @@ public class PlayerStateFactory
         idle,
         walk,
         chargeJump,
+        attack,
         airbone,
         doubleJump,
         jump,
-        fall
+        fall,
+        jumpAttack
     }
 
     private PlayerStateMachine _context;
@@ -24,10 +26,12 @@ public class PlayerStateFactory
         _states[PlayerStates.idle] = new PlayerIdleState(_context,this);
         _states[PlayerStates.walk] = new PlayerWalkState(_context,this);
         _states[PlayerStates.chargeJump] = new PlayerChargeJumpState(_context,this);
+        _states[PlayerStates.attack] = new PlayerAttackState(_context,this);
         _states[PlayerStates.airbone] = new PlayerAirboneState(_context,this);
         _states[PlayerStates.jump] = new PlayerJumpState(_context,this);
         _states[PlayerStates.doubleJump] = new PlayerDoubleJumpState(_context,this);
         _states[PlayerStates.fall] = new PlayerFallingState(_context,this);
+        _states[PlayerStates.jumpAttack] = new PlayerJumpAttackState(_context, this);
     }
 
     public PlayerBaseState Idle() {
@@ -59,5 +63,14 @@ public class PlayerStateFactory
     public PlayerBaseState Falling()
     {
         return _states[PlayerStates.fall];
+    }
+    public PlayerBaseState Attack()
+    {
+        return _states[PlayerStates.attack];
+    }
+
+    public PlayerBaseState JumpAttack()
+    {
+        return _states[PlayerStates.jumpAttack];
     }
 }
