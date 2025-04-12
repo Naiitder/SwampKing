@@ -8,26 +8,27 @@ public class PlayerJumpAttackState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        _ctx.PlayerManager.IsAttacking = true;
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        _ctx.PlayerManager.IsAttacking = false;
     }
 
     public override void InitializeSubState()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void UpdateState()
     {
-        throw new System.NotImplementedException();
+
+        CheckSwitchStates();
     }
 }
