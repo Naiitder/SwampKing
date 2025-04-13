@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerBaseState
 {
-    private int attackCount = 0;
+
     private int currentAttackHash;
 
     private bool attackFinished = false;
@@ -30,20 +30,20 @@ public class PlayerAttackState : PlayerBaseState
 
         _ctx.PlayerMovement.StopMovement();
 
-        if (attackCount == 0)
+        if (_ctx.PlayerManager.AttackCount == 0)
         {
             currentAttackHash = _ctx.PlayerAnimator.SimpleAttackHash1;
-            attackCount++;
+            _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(currentAttackHash, true);
         }
-        else if (attackCount == 1)
+        else if (_ctx.PlayerManager.AttackCount == 1)
         {
-            attackCount++;
+            _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash2, true);
         }
-        else if (attackCount == 2)
+        else if (_ctx.PlayerManager.AttackCount == 2)
         {
-            attackCount = 0;
+            _ctx.PlayerManager.AttackCount = 0;
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash3, true);
         }
 
@@ -76,4 +76,5 @@ public class PlayerAttackState : PlayerBaseState
 
         CheckSwitchStates();
     }
+
 }

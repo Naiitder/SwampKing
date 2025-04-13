@@ -12,6 +12,11 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private bool canDoubleJump;
 
+    [SerializeField] private int attackCount = 0;
+
+    public float TimeSinceLastAttack { get; set; }
+    public bool PreviousIsAttacking { get; set; }
+
     [SerializeField] float maxChargeTime = 1.0f;
     [SerializeField] float tapThreshold = 0.2f;
     [SerializeField] private float jumpChargeTime = 0f;
@@ -26,5 +31,6 @@ public class PlayerManager : MonoBehaviour
     public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
     public bool CanDoubleJump { get { return canDoubleJump; } set { canDoubleJump = value; } }
     public bool IsChargingJumping { get { return isChargingJumping; } set { isChargingJumping = value; } }
+    public int AttackCount { get { return attackCount; } set { attackCount = value; } }
 
 }

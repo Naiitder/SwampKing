@@ -66,4 +66,6 @@ public class PlayerAnimator : MonoBehaviour
     {
         Animator.SetBool(attackFinishedHash, true);
     }
+
+
 }
