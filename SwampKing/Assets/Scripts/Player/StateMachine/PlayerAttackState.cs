@@ -26,7 +26,7 @@ public class PlayerAttackState : PlayerBaseState
         attackFinished = false;
         _ctx.PlayerManager.IsAttacking = true;
         _ctx.PlayerAnimator.Animator.applyRootMotion = true;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AttackFinishedHash, false);
+                _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AttackFinishedHash, false);
 
         _ctx.PlayerMovement.StopMovement();
 
