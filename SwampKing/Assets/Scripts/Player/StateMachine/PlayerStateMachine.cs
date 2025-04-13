@@ -18,7 +18,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         PlayerMovement = GetComponent<PlayerMovement>();
         PlayerManager = GetComponent<PlayerManager>();
-        PlayerAnimator = GetComponent<PlayerAnimator>();
+        PlayerAnimator = GetComponentInChildren<PlayerAnimator>();
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();

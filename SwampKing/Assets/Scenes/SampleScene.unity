@@ -827,7 +827,6 @@ GameObject:
   - component: {fileID: 275069330}
   - component: {fileID: 275069329}
   - component: {fileID: 275069328}
-  - component: {fileID: 275069327}
   - component: {fileID: 275069326}
   - component: {fileID: 275069325}
   - component: {fileID: 275069331}
@@ -853,6 +852,7 @@ MonoBehaviour:
   isJumping: 0
   isChargingJumping: 0
   isGrounded: 0
+  isAttacking: 0
   canDoubleJump: 0
   maxChargeTime: 1
   tapThreshold: 0.2
@@ -871,19 +871,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isJumpPressed: 0
+  isAttackPressed: 0
   isPausePressed: 0
---- !u!114 &275069327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 275069324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22a6c14fe0bc42c48b55935ad304b724, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &275069328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7344,6 +7333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1361964787580573439}
   - component: {fileID: 8965725691412757381}
+  - component: {fileID: 8965725691412757382}
   m_Layer: 0
   m_Name: Jammo_LowPoly
   m_TagString: Untagged
@@ -11066,6 +11056,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8965725691412757382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2647538352932414700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a6c14fe0bc42c48b55935ad304b724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8999362688959717646
 GameObject:
   m_ObjectHideFlags: 0
