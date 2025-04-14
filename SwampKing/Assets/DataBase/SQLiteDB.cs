@@ -19,8 +19,8 @@ public class SQLiteDB : MonoBehaviour
     {
         CreateDatabase();
         // Ejemplo de inserción y consulta para la tabla statistics
-        Query("INSERT INTO estadisticas (vida, ataque, resistencia, defensa, velocidad) VALUES (200, 25, 15, 15, 6);");
-        Query("SELECT * FROM estadisticas;");
+        Query("INSERT INTO statistics (health, damage, endurance, armor, speed) VALUES (200, 25, 15, 15, 6);");
+        Query("SELECT * FROM statistics;");
     }
 
     private void CreateDatabase()
@@ -151,7 +151,7 @@ public class SQLiteDB : MonoBehaviour
                     {
                         if(reader.FieldCount > 0)
                         {
-                            Debug.Log("ID: " + reader["id"] + " Vida: " + reader["vida"] + " Ataque: " + reader["ataque"]);
+                            Debug.Log("ID: " + reader["id"] + " Vida: " + reader["health"] + " Ataque: " + reader["damage"]);
                         }
                     }
                 }

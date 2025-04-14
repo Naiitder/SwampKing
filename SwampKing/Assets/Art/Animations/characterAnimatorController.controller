@@ -249,7 +249,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Standing Melee Run Jump Attack
+  m_Name: JumpAttack
   m_Speed: 1.25
   m_CycleOffset: 0
   m_Transitions:
@@ -866,7 +866,7 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6520698761932492575}
-    m_Position: {x: 150, y: -50, z: 0}
+    m_Position: {x: 120, y: -110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8976592443664924736}
     m_Position: {x: 210, y: 220, z: 0}
