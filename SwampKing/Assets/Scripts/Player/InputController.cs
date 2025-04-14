@@ -137,7 +137,7 @@ public class InputController : MonoBehaviour
 
             if (InputBuffer.Count > 0)
             {
-                InputBuffer.Dequeue(); 
+                InputBuffer.Clear();
             }
         }
     }

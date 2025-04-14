@@ -14,11 +14,11 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public PlayerStateFactory States { get { return _states; } set { _states = value; } }
 
-    private void Awake()
+    private void Start()
     {
         PlayerMovement = GetComponent<PlayerMovement>();
         PlayerManager = GetComponent<PlayerManager>();
-        PlayerAnimator = GetComponentInChildren<PlayerAnimator>();
+        PlayerAnimator = GetComponent<PlayerAnimator>();
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
@@ -85,7 +85,7 @@ public class PlayerStateMachine : MonoBehaviour
             Vector3 rootPosition = PlayerAnimator.Animator.rootPosition;
             transform.position = rootPosition;
 
-            // Opcional: mantener rotación estable
+            // Opcional: mantener rotaciï¿½n estable
             Quaternion currentRotation = transform.rotation;
             transform.rotation = Quaternion.Euler(0, currentRotation.eulerAngles.y, 0);
         }

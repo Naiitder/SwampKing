@@ -73,6 +73,11 @@ public class PlayerAttackState : PlayerBaseState
         {
             attackFinished = true;
         }
+        
+        if (InputController.instance.CheckActions(InputController.InputActionType.Attack))
+            _ctx.PlayerAnimator.Animator.SetBool("isPreparingAttack",true);
+        else _ctx.PlayerAnimator.Animator.SetBool("isPreparingAttack",false);
+
 
         CheckSwitchStates();
     }
