@@ -14,7 +14,7 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public PlayerStateFactory States { get { return _states; } set { _states = value; } }
 
-    private void Awake()
+    private void Start()
     {
         PlayerMovement = GetComponent<PlayerMovement>();
         PlayerManager = GetComponent<PlayerManager>();
@@ -30,6 +30,8 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerMovement.HandleMovement();
         HandleJumpCharge();
         HandleAirTimer();
+
+        HandleAttackCounter();
     }
 
     private void HandleJumpCharge()
@@ -50,6 +52,42 @@ public class PlayerStateMachine : MonoBehaviour
         if (!PlayerMovement.CharacterController.isGrounded && !PlayerManager.IsJumping) PlayerManager.InAirTimer += Time.deltaTime;
     }
 
+    private void HandleAttackCounter()
+    {
+        if (!PlayerManager.IsAttacking)
+        {
+            if (PlayerManager.PreviousIsAttacking)
+            {
+                // Acaba de dejar de atacar
+                PlayerManager.TimeSinceLastAttack = 0f;
+                PlayerManager.PreviousIsAttacking = false;
+            }
+            else
+            {
+                PlayerManager.TimeSinceLastAttack += Time.deltaTime;
+                if (PlayerManager.TimeSinceLastAttack > 1f)
+                {
+                    PlayerManager.AttackCount = 0;
+                }
+            }
+        }
+        else
+        {
+            PlayerManager.PreviousIsAttacking = true;
+        }
+    }
 
 
+    private void OnAnimatorMove()
+    {
+        if (PlayerManager.IsAttacking)
+        {
+            Vector3 rootPosition = PlayerAnimator.Animator.rootPosition;
+            transform.position = rootPosition;
+
+            // Opcional: mantener rotaci�n estable
+            Quaternion currentRotation = transform.rotation;
+            transform.rotation = Quaternion.Euler(0, currentRotation.eulerAngles.y, 0);
+        }
+    }
 }

@@ -19,6 +19,7 @@ public class InputController : MonoBehaviour
     private Vector2 movementInput;
     private Vector2 cameraInput;
     [SerializeField] private bool isJumpPressed;
+    [SerializeField] private bool isAttackPressed;
     [SerializeField] private bool isPausePressed;
 
     public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
@@ -33,6 +34,7 @@ public class InputController : MonoBehaviour
     public Vector2 MovementInput { get { return movementInput; } }
     public Vector2 CameraInput { get { return cameraInput; } }
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
+    public bool IsAttackPressed { get { return isAttackPressed; } set { isAttackPressed = value; } }
     public bool IsPausePressed { get { return isPausePressed; } set { isPausePressed = value; } }
     #endregion
 
@@ -58,6 +60,8 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Camera.performed += onCameraInput;
             playerControlls.Locomotion.Jump.started += ctx => onJumpInputStart();
             playerControlls.Locomotion.Jump.canceled += ctx => onJumpInputExit();
+            playerControlls.Actions.Attack.started += ctx => onAttackInputStart();
+            playerControlls.Actions.Attack.canceled += ctx => onAttackInputExit();
             playerControlls.UserActions.Pause.started += ctx => onPauseInputStart();
 
         }
@@ -86,6 +90,17 @@ public class InputController : MonoBehaviour
     {
         isJumpPressed = false;
         InputBuffer.Enqueue(InputActionType.Jump);
+    }
+
+    void onAttackInputStart()
+    {
+        isAttackPressed = true;
+    }
+
+    void onAttackInputExit()
+    {
+        isAttackPressed = false;
+        InputBuffer.Enqueue(InputActionType.Attack);
     }
 
     void onPauseInputStart()
@@ -122,7 +137,7 @@ public class InputController : MonoBehaviour
 
             if (InputBuffer.Count > 0)
             {
-                InputBuffer.Dequeue(); 
+                InputBuffer.Clear();
             }
         }
     }

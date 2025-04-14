@@ -169,6 +169,45 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Actions"",
+            ""id"": ""5b25f4da-87c1-4eed-a569-01c9b0def06c"",
+            ""actions"": [
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca1231ca-a0ce-497d-b5cb-f619b0ce5cfc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""efecaf0c-9f3a-4dba-90f1-ec024bc8aa3c"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39381804-a320-4a91-aa1c-1d2b7433f959"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""UserActions"",
             ""id"": ""51ca2ff2-9b77-4d15-b0f3-0cb83017ecc4"",
             ""actions"": [
@@ -215,6 +254,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Locomotion_Movement = m_Locomotion.FindAction("Movement", throwIfNotFound: true);
         m_Locomotion_Camera = m_Locomotion.FindAction("Camera", throwIfNotFound: true);
         m_Locomotion_Jump = m_Locomotion.FindAction("Jump", throwIfNotFound: true);
+        // Actions
+        m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
+        m_Actions_Attack = m_Actions.FindAction("Attack", throwIfNotFound: true);
         // UserActions
         m_UserActions = asset.FindActionMap("UserActions", throwIfNotFound: true);
         m_UserActions_Pause = m_UserActions.FindAction("Pause", throwIfNotFound: true);
@@ -338,6 +380,52 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     }
     public LocomotionActions @Locomotion => new LocomotionActions(this);
 
+    // Actions
+    private readonly InputActionMap m_Actions;
+    private List<IActionsActions> m_ActionsActionsCallbackInterfaces = new List<IActionsActions>();
+    private readonly InputAction m_Actions_Attack;
+    public struct ActionsActions
+    {
+        private @PlayerControlls m_Wrapper;
+        public ActionsActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Attack => m_Wrapper.m_Actions_Attack;
+        public InputActionMap Get() { return m_Wrapper.m_Actions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ActionsActionsCallbackInterfaces.Add(instance);
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+        }
+
+        private void UnregisterCallbacks(IActionsActions instance)
+        {
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+        }
+
+        public void RemoveCallbacks(IActionsActions instance)
+        {
+            if (m_Wrapper.m_ActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ActionsActions @Actions => new ActionsActions(this);
+
     // UserActions
     private readonly InputActionMap m_UserActions;
     private List<IUserActionsActions> m_UserActionsActionsCallbackInterfaces = new List<IUserActionsActions>();
@@ -388,6 +476,10 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+    }
+    public interface IActionsActions
+    {
+        void OnAttack(InputAction.CallbackContext context);
     }
     public interface IUserActionsActions
     {

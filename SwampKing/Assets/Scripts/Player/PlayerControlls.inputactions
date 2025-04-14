@@ -147,6 +147,45 @@
             ]
         },
         {
+            "name": "Actions",
+            "id": "5b25f4da-87c1-4eed-a569-01c9b0def06c",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "ca1231ca-a0ce-497d-b5cb-f619b0ce5cfc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "efecaf0c-9f3a-4dba-90f1-ec024bc8aa3c",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39381804-a320-4a91-aa1c-1d2b7433f959",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "UserActions",
             "id": "51ca2ff2-9b77-4d15-b0f3-0cb83017ecc4",
             "actions": [

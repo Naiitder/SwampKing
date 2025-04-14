@@ -3,9 +3,11 @@ public class PlayerJumpState : PlayerBaseState
 {
     float multiplierJumpForce;
     bool _hasLeftGround;
+
     public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     : base(currentContext, playerStateFactory) {
     }
+
     public override void EnterState() {
         multiplierJumpForce = _ctx.PlayerManager.JumpChargeTime > _ctx.PlayerManager.TapTreshold ? 1.5f : 1f;
         _ctx.PlayerMovement.PerformJump(multiplierJumpForce);
@@ -14,6 +16,7 @@ public class PlayerJumpState : PlayerBaseState
         _hasLeftGround = false;
         InputController.instance.InputBuffer.Dequeue();
     }
+
     public override void UpdateState(){
         if (!_hasLeftGround && !_ctx.PlayerMovement.CharacterController.isGrounded) _hasLeftGround = true;
         _ctx.PlayerMovement.HandleGroundedMovement();
@@ -33,6 +36,7 @@ public class PlayerJumpState : PlayerBaseState
             && InputController.instance.CheckActions(InputController.InputActionType.Jump)
             && !_ctx.PlayerMovement.CharacterController.isGrounded) 
             SwitchState(_factory.DoubleJump());
+        else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
         else if (_ctx.PlayerMovement.CharacterController.isGrounded && _hasLeftGround) 
             SwitchState(_factory.Grounded());
     }
