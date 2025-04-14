@@ -75,8 +75,8 @@ public class PlayerAttackState : PlayerBaseState
         }
         
         if (InputController.instance.CheckActions(InputController.InputActionType.Attack))
-            _ctx.PlayerAnimator.Animator.SetBool("isPreparingAttack",true);
-        else _ctx.PlayerAnimator.Animator.SetBool("isPreparingAttack",false);
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsPreparingAttackHash,true);
+        else _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsPreparingAttackHash,false);
 
 
         CheckSwitchStates();

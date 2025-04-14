@@ -8,7 +8,8 @@ public class PlayerDoubleJumpState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        if (_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.Grounded());
+        if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
+        else if (_ctx.PlayerMovement.CharacterController.isGrounded) SwitchState(_factory.Grounded());
     }
 
     public override void EnterState()

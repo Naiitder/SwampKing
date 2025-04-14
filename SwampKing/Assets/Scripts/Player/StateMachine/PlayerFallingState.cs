@@ -26,6 +26,9 @@ public class PlayerFallingState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
+
+        if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
+
         if (_ctx.PlayerMovement.CharacterController.isGrounded) 
             SwitchState(_factory.Grounded());
 

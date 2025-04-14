@@ -36,9 +36,9 @@ public class PlayerJumpState : PlayerBaseState
             && InputController.instance.CheckActions(InputController.InputActionType.Jump)
             && !_ctx.PlayerMovement.CharacterController.isGrounded) 
             SwitchState(_factory.DoubleJump());
+        else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
         else if (_ctx.PlayerMovement.CharacterController.isGrounded && _hasLeftGround) 
             SwitchState(_factory.Grounded());
-        else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
     }
 
 }
