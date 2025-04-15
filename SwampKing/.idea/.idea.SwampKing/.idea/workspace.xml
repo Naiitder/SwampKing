@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e02f01ee-81a2-447c-bf56-e71c74bb8892" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SwampKing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SwampKing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack 1.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack 1.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +14,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyAnimatorController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -94,7 +92,7 @@
       <option name="presentableId" value="Default" />
       <updated>1744619666042</updated>
       <workItem from="1744619667441" duration="13048000" />
-      <workItem from="1744701909372" duration="6712000" />
+      <workItem from="1744701909372" duration="9283000" />
     </task>
     <servers />
   </component>
