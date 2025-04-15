@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateFactory : MonoBehaviour
+public class EnemyStateFactory 
 {
     enum EnemyStates
     {

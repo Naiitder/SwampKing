@@ -18,6 +18,7 @@ public class EnemyGroundedState : EnemyBaseState
     }
     public override void ExitState(){}
     public override void InitializeSubState(){
+        SetSubState(_factory.Idle());
         
     }
     public override void CheckSwitchStates(){

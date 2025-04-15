@@ -11,6 +11,6 @@ public class EnemyAnimatorController : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
     }
 }

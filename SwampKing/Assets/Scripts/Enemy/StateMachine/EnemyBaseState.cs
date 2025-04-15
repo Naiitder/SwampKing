@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyBaseState : MonoBehaviour
+public abstract class EnemyBaseState
 {
     protected bool _isRootState = false;
     protected EnemyStateMachine _ctx;

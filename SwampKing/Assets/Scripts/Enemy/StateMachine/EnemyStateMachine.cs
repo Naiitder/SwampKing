@@ -6,6 +6,8 @@ public class EnemyStateMachine : MonoBehaviour
 {
     private EnemyBaseState _currentState;
     private EnemyStateFactory _states;
+
+    public EnemyAnimatorController EnemyAnimatorController {get; private set;}
     
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public EnemyStateFactory States { get { return _states; } set { _states = value; } }

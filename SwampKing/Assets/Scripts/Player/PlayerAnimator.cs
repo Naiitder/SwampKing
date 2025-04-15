@@ -39,7 +39,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
         verticalHash = Animator.StringToHash("Vertical");
         horizontalHash = Animator.StringToHash("Horizontal");
         isJumpingHash = Animator.StringToHash("isJumping");
