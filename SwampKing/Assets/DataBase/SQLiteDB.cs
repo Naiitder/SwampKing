@@ -51,6 +51,7 @@ public class SQLiteDB : MonoBehaviour
                               "name TEXT NOT NULL, " +
                               "statistics INTEGER, " +
                               "position TEXT NOT NULL, " +
+                              "coins INTEGER NOT NULL, " +
                               "FOREIGN KEY(statistics) REFERENCES statistics(id)" +
                               ");";
                 command.CommandText = sqlcreation;
@@ -200,7 +201,7 @@ public class SQLiteDB : MonoBehaviour
         Query("SELECT * FROM statistics;");
         
         // Inserciones player 
-        Query("INSERT OR IGNORE INTO player (name, statistics, position) VALUES ('Gusta', 1, '0-0-0');");
+        Query("INSERT OR IGNORE INTO player (name, statistics, position, coins) VALUES ('Gusta', 1, '0-0-0',0);");
         
         // Inserciones personajes
         Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, state, coins) VALUES (1,'Rata-Topo', 2, 1, 'alive', 10);");
