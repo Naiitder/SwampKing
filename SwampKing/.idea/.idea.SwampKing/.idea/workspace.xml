@@ -6,89 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="e02f01ee-81a2-447c-bf56-e71c74bb8892" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SwampKing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SwampKing/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/SimpleAttack1.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/SimpleAttack1.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/SimpleAttack2.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/SimpleAttack2.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/SimpleAttack3.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/SimpleAttack3.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack 1.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack 1.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Standing Melee Run Jump Attack.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Combo Attack Ver. 2.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Combo Attack Ver. 2.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Combo Attack Ver. 3.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Combo Attack Ver. 3.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Combo Attack Ver. 4.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Combo Attack Ver. 4.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Run Jump Attack.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Combo/Vampire A Lusth@Standing Melee Run Jump Attack.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/SimpleAttack_1.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/SimpleAttack_1.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/SimpleAttack_2.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/SimpleAttack_2.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/SimpleAttack_3.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/SimpleAttack_3.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Vampire A Lusth@Standing Melee Attack Horizontal.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/Vampire A Lusth@Standing Melee Attack Horizontal.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/simpleAttack1.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/simpleAttack1.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/simpleAttack2.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/simpleAttack2.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/simpleAttack3.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Attacks/simpleAttack3.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Damage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Damage/Vampire A Lusth@Falling Back Death.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Damage/Vampire A Lusth@Falling Back Death.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Damage/Vampire A Lusth@Standing React Large From Right.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Damage/Vampire A Lusth@Standing React Large From Right.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Breathing Idle.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Breathing Idle.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Crouching Idle.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Crouching Idle.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Falling Idle.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Falling Idle.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Female Dynamic Pose.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Female Dynamic Pose.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Male Dynamic Pose.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Male Dynamic Pose.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Standard Run.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Standard Run.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Standard Walk.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Standard Walk.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Stylish Flip.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/Y Bot@Stylish Flip.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/characterAnimatorController.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Art/Animations/characterAnimatorController.controller.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyAnimatorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyAnimatorController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyBaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyBaseState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyStateFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyStateFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyStateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyGroundedState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyGroundedState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerAnimator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerAnimator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerAirboneState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerAirboneState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerAttackState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerAttackState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerChargeJumpState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerChargeJumpState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerDoubleJumpState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerDoubleJumpState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerFallingState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerFallingState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerGroundedState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerGroundedState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerIdleState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerIdleState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerJumpAttackState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerJumpAttackState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerJumpState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerJumpState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerWalkState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/StateMachine/PlayerWalkState.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyChaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyChaseState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyIdleState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyIdleState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,19 +32,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "EnemyIA",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;EnemyIA&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Standalone Player.Start Unity">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="/Applications/Unity/Hub/Editor/2022.3.10f1/Unity.app/Contents/MacOS/Unity" />
@@ -176,6 +99,7 @@
       <updated>1744619666042</updated>
       <workItem from="1744619667441" duration="13048000" />
       <workItem from="1744701909372" duration="10999000" />
+      <workItem from="1744729464222" duration="1722000" />
     </task>
     <servers />
   </component>

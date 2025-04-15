@@ -9,12 +9,23 @@ public class EnemyIdleState : EnemyBaseState
     }
 
     public override void EnterState(){
+        
+        _ctx.EnemyAnimatorController.Animator.SetBool(
+            _ctx.EnemyAnimatorController.IsIdleHash,true);
+        //Trigger Idle Flag EnemyManager
+        //Disable Movement
     } 
     public override void UpdateState(){
         
         CheckSwitchStates();
     }
-    public override void ExitState(){}
+
+    public override void ExitState()
+    {
+        _ctx.EnemyAnimatorController.Animator.SetBool(
+            _ctx.EnemyAnimatorController.IsIdleHash,false);
+        //Diable Idle Flag EnemyManager
+    }
     
     public override void InitializeSubState(){
         
