@@ -21,7 +21,7 @@ public class EnemyStateMachine : MonoBehaviour
     
     //Obtain via Database
     [Header("Movement Stats")]
-    public float movementSpeed = 3.5f;
+    public float movementSpeed = 2f;
     public float runningSpeed = 6f;
     public float rotationSpeed = 15f;
     
