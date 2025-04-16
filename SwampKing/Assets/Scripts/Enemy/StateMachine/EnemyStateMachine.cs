@@ -28,6 +28,7 @@ public class EnemyStateMachine : MonoBehaviour
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public EnemyStateFactory States { get { return _states; } set { _states = value; } }
     public float AttackRange { get { return attackRange; } set { attackRange = value; } }
+    public float StrafeRange { get { return strafeRange; } set { strafeRange = value; } }
     
     private void Start()
     {

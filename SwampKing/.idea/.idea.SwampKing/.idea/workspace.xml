@@ -7,9 +7,7 @@
     <list default="true" id="e02f01ee-81a2-447c-bf56-e71c74bb8892" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SwampKing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SwampKing/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/EnemyStateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyChaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyChaseState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyStrafeState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/StateMachine/States/EnemyStrafeState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +96,7 @@
       <workItem from="1744619667441" duration="13048000" />
       <workItem from="1744701909372" duration="10999000" />
       <workItem from="1744729464222" duration="1722000" />
-      <workItem from="1744788367147" duration="10000000" />
+      <workItem from="1744788367147" duration="11972000" />
     </task>
     <servers />
   </component>
