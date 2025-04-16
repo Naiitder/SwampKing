@@ -21,7 +21,8 @@ public class EnemyStateMachine : MonoBehaviour
     
     //Obtain via Database
     [Header("Movement Stats")]
-    public float movementSpeed = 4f;
+    public float movementSpeed = 3.5f;
+    public float runningSpeed = 6f;
     public float rotationSpeed = 15f;
     
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
@@ -30,14 +31,15 @@ public class EnemyStateMachine : MonoBehaviour
     
     private void Start()
     {
-        _states = new EnemyStateFactory(this);
-        _currentState = _states.Grounded();
-        _currentState.EnterState();
-
         PlayerTarget = InputController.instance.GetComponent<Transform>();
         Agent = GetComponent<NavMeshAgent>();
         EnemyManager = GetComponent<EnemyManager>();
         EnemyAnimatorController = GetComponent<EnemyAnimatorController>();
+        
+        _states = new EnemyStateFactory(this);
+        _currentState = _states.Grounded();
+        _currentState.EnterState();
+        
     }
     
     private void Update()

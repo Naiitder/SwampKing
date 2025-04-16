@@ -10,6 +10,7 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void EnterState(){
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsChasingHash,true);
+        _ctx.Agent.speed = _ctx.runningSpeed;
     } 
     public override void UpdateState(){
 
