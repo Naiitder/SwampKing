@@ -12,8 +12,9 @@ public class EnemyIdleState : EnemyBaseState
         
         _ctx.EnemyAnimatorController.Animator.SetBool(
             _ctx.EnemyAnimatorController.IsIdleHash,true);
-        //Trigger Idle Flag EnemyManager
-        //Disable Movement
+        //Enable Idle Flag
+        _ctx.Agent.stoppingDistance = 0f;
+        _ctx.Agent.SetDestination(_ctx.transform.position);
     } 
     public override void UpdateState(){
         
@@ -31,6 +32,10 @@ public class EnemyIdleState : EnemyBaseState
         
     }
     public override void CheckSwitchStates(){
-        
+        if (_ctx.PlayerTarget != null)
+        {
+            if (_ctx.IsInStrafeRange()) SwitchState(_factory.Strafe());
+            else if (_ctx.IsInChaseRange()) SwitchState(_factory.Chase());
+        }
     }
 }

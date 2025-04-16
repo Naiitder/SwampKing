@@ -10,6 +10,7 @@ public class EnemyStateFactory
         idle,
         patrol,
         chase,
+        strafe,
         attack,
         reaction, 
         die,
@@ -26,6 +27,7 @@ public class EnemyStateFactory
         _states[EnemyStates.grounded] = new EnemyGroundedState(_context, this);
         _states[EnemyStates.idle] = new EnemyIdleState(_context, this);
         _states[EnemyStates.chase] = new EnemyChaseState(_context, this);
+        _states[EnemyStates.strafe] = new EnemyStrafeState(_context, this);
     }
 
     public EnemyBaseState Grounded() {
@@ -42,6 +44,10 @@ public class EnemyStateFactory
     
     public EnemyBaseState Chase() {
         return _states[EnemyStates.chase];
+    }    
+    
+    public EnemyBaseState Strafe() {
+        return _states[EnemyStates.strafe];
     }
     
     public EnemyBaseState Attack() {

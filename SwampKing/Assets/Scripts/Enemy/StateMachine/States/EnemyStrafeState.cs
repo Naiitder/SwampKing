@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyChaseState : EnemyBaseState
+public class EnemyStrafeState : EnemyBaseState
 {
-    public EnemyChaseState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory)
+    public EnemyStrafeState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory) {
     }
 
     public override void EnterState(){
-        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsChasingHash,true);
+        
+        //Enable Strafe Anim
     } 
     public override void UpdateState(){
 
@@ -24,9 +25,7 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void ExitState()
     {
-        
-        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsChasingHash,false);
-
+        //Disable Enemy Strafe Anim
     }
     
     public override void InitializeSubState(){
@@ -34,7 +33,7 @@ public class EnemyChaseState : EnemyBaseState
     }
     public override void CheckSwitchStates(){
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange()) SwitchState(_factory.Idle());
-        else if (_ctx.IsInStrafeRange()) SwitchState(_factory.Strafe());
+        else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange()) SwitchState(_factory.Chase());
         
     }
 }
