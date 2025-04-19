@@ -28,6 +28,7 @@ public class EnemyStateFactory
         _states[EnemyStates.idle] = new EnemyIdleState(_context, this);
         _states[EnemyStates.chase] = new EnemyChaseState(_context, this);
         _states[EnemyStates.strafe] = new EnemyStrafeState(_context, this);
+        _states[EnemyStates.attack] = new EnemyAttackState(_context, this);
     }
 
     public EnemyBaseState Grounded() {

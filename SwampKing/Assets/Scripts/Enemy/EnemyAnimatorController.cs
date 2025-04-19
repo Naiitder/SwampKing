@@ -6,18 +6,25 @@ public class EnemyAnimatorController : MonoBehaviour
 {
     Animator animator;
 
-    private int isIdleHash; 
-    private int isChasingHash; 
+    private int horizontalHash; 
+    private int verticalHash; 
+    
+    private int simpleAttack1Hash; 
+    private int attackFinishedHash; 
     
     public Animator Animator { get { return animator; } }
-    public int IsIdleHash {get { return isIdleHash; }}
-    public int IsChasingHash {get { return isChasingHash; }}
+    public int HorizontalHash {get { return horizontalHash; }}
+    public int VerticalHash {get { return verticalHash; }}
+    public int SimpleAttack1Hash {get { return simpleAttack1Hash; }}
+    public int AttackFinishedHash {get { return attackFinishedHash; }}
 
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        isIdleHash = Animator.StringToHash("isIdle");
-        isChasingHash = Animator.StringToHash("isChasing");
+        horizontalHash = Animator.StringToHash("Horizontal");
+        verticalHash = Animator.StringToHash("Vertical");
+        simpleAttack1Hash = Animator.StringToHash("simpleAttack1");
+        attackFinishedHash = Animator.StringToHash("attackFinished");
     }
 }

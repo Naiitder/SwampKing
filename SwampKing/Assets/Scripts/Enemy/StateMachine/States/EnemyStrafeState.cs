@@ -22,6 +22,7 @@ public class EnemyStrafeState : EnemyBaseState
     public override void EnterState()
     {
         _ctx.Agent.speed = _ctx.movementSpeed;
+
     } 
 
     public override void UpdateState()
@@ -37,7 +38,7 @@ public class EnemyStrafeState : EnemyBaseState
 
     public override void ExitState()
     {
-        // Acciones al salir del estado (por ejemplo, detener animación o reiniciar variables)
+        
     }
     
     public override void InitializeSubState() {}

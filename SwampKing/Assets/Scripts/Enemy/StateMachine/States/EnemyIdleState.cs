@@ -10,11 +10,9 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void EnterState(){
         
-        _ctx.EnemyAnimatorController.Animator.SetBool(
-            _ctx.EnemyAnimatorController.IsIdleHash,true);
-        //Enable Idle Flag
         _ctx.Agent.stoppingDistance = 0f;
         _ctx.Agent.SetDestination(_ctx.transform.position);
+        _ctx.EnemyManager.IsIdle = true;
     } 
     public override void UpdateState(){
         
@@ -23,9 +21,8 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void ExitState()
     {
-        _ctx.EnemyAnimatorController.Animator.SetBool(
-            _ctx.EnemyAnimatorController.IsIdleHash,false);
-        //Diable Idle Flag EnemyManager
+        _ctx.EnemyManager.IsIdle = false;
+
     }
     
     public override void InitializeSubState(){
