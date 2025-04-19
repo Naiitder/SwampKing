@@ -10513,7 +10513,7 @@ MonoBehaviour:
   strafeRange: 6
   attackRange: 3
   movementSpeed: 1.5
-  runningSpeed: 4
+  runningSpeed: 5
   rotationSpeed: 15
 --- !u!114 &5398747911541070442
 MonoBehaviour:
@@ -10562,6 +10562,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 0
+  isIdle: 0
+  isChasing: 0
   isAttacking: 0
   isDead: 0
 --- !u!4 &5465973357850424513

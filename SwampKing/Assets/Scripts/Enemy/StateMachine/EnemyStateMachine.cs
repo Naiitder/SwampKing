@@ -11,8 +11,10 @@ public class EnemyStateMachine : MonoBehaviour
     public EnemyAnimatorController EnemyAnimatorController {get; private set;}
     public EnemyManager EnemyManager {get; private set;}
 
+    public PlayerManager PlayerManager {get; private set;}
     public Transform PlayerTarget {get; private set;}
     public NavMeshAgent Agent {get; private set;}
+    
     
     [Header("Dettection/Chase Stats")]
     [SerializeField] private float chaseRange = 10f;
@@ -21,8 +23,8 @@ public class EnemyStateMachine : MonoBehaviour
     
     //Obtain via Database
     [Header("Movement Stats")]
-    public float movementSpeed = 2f;
-    public float runningSpeed = 6f;
+    public float movementSpeed = 1.5f;
+    public float runningSpeed = 5f;
     public float rotationSpeed = 15f;
     
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
@@ -32,7 +34,8 @@ public class EnemyStateMachine : MonoBehaviour
     
     private void Start()
     {
-        PlayerTarget = InputController.instance.GetComponent<Transform>();
+        PlayerManager = InputController.instance.GetComponent<PlayerManager>();
+        PlayerTarget = PlayerManager.GetComponent<Transform>();
         Agent = GetComponent<NavMeshAgent>();
         EnemyManager = GetComponent<EnemyManager>();
         EnemyAnimatorController = GetComponent<EnemyAnimatorController>();

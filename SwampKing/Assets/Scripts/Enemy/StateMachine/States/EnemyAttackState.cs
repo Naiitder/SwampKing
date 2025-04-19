@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyAttackState : EnemyBaseState
 {
     private bool attackFinished;
+    private int currentAttackHash;
     
     public EnemyAttackState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory)
@@ -10,9 +11,28 @@ public class EnemyAttackState : EnemyBaseState
     
     public override void EnterState()
     {
-        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack1Hash,true);
         _ctx.EnemyManager.IsAttacking = true;
         _ctx.Agent.SetDestination(_ctx.transform.position);
+        attackFinished = false;
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.AttackFinishedHash, false);
+        
+        if (_ctx.EnemyManager.AttackCount == 0)
+        {
+            currentAttackHash = _ctx.EnemyAnimatorController.SimpleAttack1Hash;
+            _ctx.EnemyManager.AttackCount++;
+            _ctx.EnemyAnimatorController.Animator.SetBool(currentAttackHash, true);
+        }
+        else if (_ctx.EnemyManager.AttackCount == 1)
+        {
+            _ctx.EnemyManager.AttackCount++;
+            _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack2Hash, true);
+        }
+        else if (_ctx.EnemyManager.AttackCount == 2)
+        {
+            _ctx.EnemyManager.AttackCount = 0;
+            _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack3Hash, true);
+        }
+
     } 
 
     public override void UpdateState()
@@ -22,19 +42,16 @@ public class EnemyAttackState : EnemyBaseState
             attackFinished = true;
         }
         
-        /* Todo hacer una manera de que el enemigo pueda hacer una cadena de ataques
-         if ()
-            _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,true);
-        else _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,false);
-        */
-        
+
         
         CheckSwitchStates();
     }
 
     public override void ExitState()
     {
-        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack1Hash,true);
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack1Hash,false);
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack2Hash,false);
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack3Hash,false);
         _ctx.EnemyManager.IsAttacking = false;
     }
     
@@ -42,19 +59,28 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void CheckSwitchStates()
     {
-        if (attackFinished)
+        if (!attackFinished) return;
+        
+        bool canChainAttack = _ctx.IsInAttackRange() || (_ctx.PlayerManager != null 
+                                                         && !_ctx.PlayerManager.IsAttacking);
+        
+        if (canChainAttack)
         {
-            if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
-                SwitchState(_factory.Idle());
-            else if(_ctx.IsInStrafeRange())
-                SwitchState(_factory.Strafe());
-            else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
-                SwitchState(_factory.Chase());
-            /* Seguir el ataque 
-            else if ()
-                SwitchState(_factory.Attack());
-             */
+            if (Random.value >= 0.4f)
+            {
+                _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,true);
+                SwitchState(_factory.Attack()); 
+                return;
+            }
         }
+        
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,false);
+        if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
+            SwitchState(_factory.Idle());
+        else if(_ctx.IsInStrafeRange())
+            SwitchState(_factory.Strafe());
+        else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
+            SwitchState(_factory.Chase());
     }
     
 }

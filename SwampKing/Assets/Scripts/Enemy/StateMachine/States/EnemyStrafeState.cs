@@ -47,6 +47,8 @@ public class EnemyStrafeState : EnemyBaseState
     {
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
             SwitchState(_factory.Idle());
+        else if (_ctx.IsInAttackRange())
+            SwitchState(_factory.Attack());
         else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
             SwitchState(_factory.Chase());
     }

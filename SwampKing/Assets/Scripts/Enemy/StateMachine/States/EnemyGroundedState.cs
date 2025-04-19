@@ -38,28 +38,31 @@ public class EnemyGroundedState : EnemyBaseState
 
     public void UpdateAnimatorValues()
     {
+        Animator animator = _ctx.EnemyAnimatorController.Animator;
+        float dampTime = 0.1f; 
+
         if (!_ctx.EnemyManager.IsChasing && !_ctx.EnemyManager.IsIdle)
         {
             Vector3 velocity = _ctx.Agent.velocity;
             Vector3 localVelocity = _ctx.transform.InverseTransformDirection(velocity);
-    
+
             float vertical = Mathf.Clamp(localVelocity.z / _ctx.Agent.speed, -1f, 1f);
             float horizontal = Mathf.Clamp(localVelocity.x / _ctx.Agent.speed, -1f, 1f);
 
-            _ctx.EnemyAnimatorController.Animator.SetFloat("Vertical", vertical);
-            _ctx.EnemyAnimatorController.Animator.SetFloat("Horizontal", horizontal);
+            animator.SetFloat("Vertical", vertical, dampTime, Time.deltaTime);
+            animator.SetFloat("Horizontal", horizontal, dampTime, Time.deltaTime);
         }
         else if (_ctx.EnemyManager.IsIdle)
         {
-            _ctx.EnemyAnimatorController.Animator.SetFloat("Vertical", 0);
-            _ctx.EnemyAnimatorController.Animator.SetFloat("Horizontal", 0);
+            animator.SetFloat("Vertical", 0f, dampTime, Time.deltaTime);
+            animator.SetFloat("Horizontal", 0f, dampTime, Time.deltaTime);
         }
         else if (_ctx.EnemyManager.IsChasing)
         {
-            _ctx.EnemyAnimatorController.Animator.SetFloat("Vertical", 2);
-            _ctx.EnemyAnimatorController.Animator.SetFloat("Horizontal", 0);
+            animator.SetFloat("Vertical", 2f, dampTime, Time.deltaTime);
+            animator.SetFloat("Horizontal", 0f, dampTime, Time.deltaTime);
         }
-        
     }
+
 
 }

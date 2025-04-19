@@ -10,13 +10,19 @@ public class EnemyAnimatorController : MonoBehaviour
     private int verticalHash; 
     
     private int simpleAttack1Hash; 
+    private int simpleAttack2Hash; 
+    private int simpleAttack3Hash; 
     private int attackFinishedHash; 
+    private int isPreparingAttackHash; 
     
     public Animator Animator { get { return animator; } }
     public int HorizontalHash {get { return horizontalHash; }}
     public int VerticalHash {get { return verticalHash; }}
     public int SimpleAttack1Hash {get { return simpleAttack1Hash; }}
+    public int SimpleAttack2Hash {get { return simpleAttack2Hash; }}
+    public int SimpleAttack3Hash {get { return simpleAttack3Hash; }}
     public int AttackFinishedHash {get { return attackFinishedHash; }}
+    public int IsPreparingAttackHash {get { return isPreparingAttackHash; }}
 
 
     private void Awake()
@@ -25,6 +31,14 @@ public class EnemyAnimatorController : MonoBehaviour
         horizontalHash = Animator.StringToHash("Horizontal");
         verticalHash = Animator.StringToHash("Vertical");
         simpleAttack1Hash = Animator.StringToHash("simpleAttack1");
+        simpleAttack2Hash = Animator.StringToHash("simpleAttack2");
+        simpleAttack3Hash = Animator.StringToHash("simpleAttack3");
         attackFinishedHash = Animator.StringToHash("attackFinished");
+        isPreparingAttackHash = Animator.StringToHash("isPreparingAttack");
+    }
+    
+    public void OnAttackAnimationFinished()
+    {
+        Animator.SetBool(attackFinishedHash, true);
     }
 }
