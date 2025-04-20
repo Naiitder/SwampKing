@@ -49,6 +49,7 @@ public class EnemyStateMachine : MonoBehaviour
     private void Update()
     {
         _currentState.UpdateStates();
+        HandleAttackCounter();
     }
 
     public bool IsInChaseRange()
@@ -64,5 +65,29 @@ public class EnemyStateMachine : MonoBehaviour
     public bool IsInAttackRange()
     {
         return Vector3.Distance(transform.position, PlayerTarget.position) <= attackRange;
+    }
+    
+    private void HandleAttackCounter()
+    {
+        if (!EnemyManager.IsAttacking)
+        {
+            if (EnemyManager.PreviousIsAttacking)
+            {
+                EnemyManager.TimeSinceLastAttack = 0f;
+                EnemyManager.PreviousIsAttacking = false;
+            }
+            else
+            {
+                EnemyManager.TimeSinceLastAttack += Time.deltaTime;
+                if (EnemyManager.TimeSinceLastAttack > 1f)
+                {
+                    EnemyManager.AttackCount = 0;
+                }
+            }
+        }
+        else
+        {
+            EnemyManager.PreviousIsAttacking = true;
+        }
     }
 }

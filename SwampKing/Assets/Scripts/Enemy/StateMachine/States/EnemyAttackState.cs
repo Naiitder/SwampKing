@@ -4,6 +4,8 @@ public class EnemyAttackState : EnemyBaseState
 {
     private bool attackFinished;
     private int currentAttackHash;
+
+    private float chanceOfAttack = 0.4f;
     
     public EnemyAttackState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory)
@@ -66,7 +68,7 @@ public class EnemyAttackState : EnemyBaseState
         
         if (canChainAttack)
         {
-            if (Random.value >= 0.4f)
+            if (Random.value >= chanceOfAttack)
             {
                 _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,true);
                 SwitchState(_factory.Attack()); 
@@ -75,10 +77,13 @@ public class EnemyAttackState : EnemyBaseState
         }
         
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,false);
+        
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
             SwitchState(_factory.Idle());
-        else if(_ctx.IsInStrafeRange())
-            SwitchState(_factory.Strafe());
+        
+        else if (_ctx.IsInAttackRange() || _ctx.IsInStrafeRange())
+            SwitchState(_factory.Backing());
+        
         else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
             SwitchState(_factory.Chase());
     }

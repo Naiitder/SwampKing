@@ -58,7 +58,6 @@ public class PlayerStateMachine : MonoBehaviour
         {
             if (PlayerManager.PreviousIsAttacking)
             {
-                // Acaba de dejar de atacar
                 PlayerManager.TimeSinceLastAttack = 0f;
                 PlayerManager.PreviousIsAttacking = false;
             }

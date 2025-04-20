@@ -12,6 +12,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private bool isDead;
     
     public int AttackCount {get; set;}
+    public float TimeSinceLastAttack { get; set; }
+    public bool PreviousIsAttacking { get; set; }
     
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
     public bool IsIdle { get => isIdle; set => isIdle = value; }
