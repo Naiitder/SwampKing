@@ -35,11 +35,13 @@ public class PlayerAttackState : PlayerBaseState
             currentAttackHash = _ctx.PlayerAnimator.SimpleAttackHash1;
             _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(currentAttackHash, true);
+
         }
         else if (_ctx.PlayerManager.AttackCount == 1)
         {
             _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash2, true);
+
         }
         else if (_ctx.PlayerManager.AttackCount == 2)
         {
@@ -81,5 +83,7 @@ public class PlayerAttackState : PlayerBaseState
 
         CheckSwitchStates();
     }
+
+
 
 }

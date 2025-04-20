@@ -14,7 +14,9 @@ public class EnemyAttackState : EnemyBaseState
     public override void EnterState()
     {
         _ctx.EnemyManager.IsAttacking = true;
+        _ctx.EnemyAnimatorController.Animator.applyRootMotion = true;
         _ctx.Agent.SetDestination(_ctx.transform.position);
+        _ctx.transform.LookAt(_ctx.PlayerTarget);
         attackFinished = false;
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.AttackFinishedHash, false);
         
@@ -55,6 +57,8 @@ public class EnemyAttackState : EnemyBaseState
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack2Hash,false);
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack3Hash,false);
         _ctx.EnemyManager.IsAttacking = false;
+        _ctx.EnemyAnimatorController.Animator.applyRootMotion = false;
+
     }
     
     public override void InitializeSubState() {}
@@ -63,7 +67,7 @@ public class EnemyAttackState : EnemyBaseState
     {
         if (!attackFinished) return;
         
-        bool canChainAttack = _ctx.IsInAttackRange() || (_ctx.PlayerManager != null 
+        bool canChainAttack = (_ctx.IsInAttackRange() && _ctx.EnemyManager.AttackCount != 2) || (_ctx.PlayerManager != null 
                                                          && !_ctx.PlayerManager.IsAttacking);
         
         if (canChainAttack)

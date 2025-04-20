@@ -10,7 +10,8 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
     public PlayerAnimator PlayerAnimator {get; private set;}
-
+    public CharacterStats CharacterStats { get; private set; }
+    
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public PlayerStateFactory States { get { return _states; } set { _states = value; } }
 
@@ -19,6 +20,7 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerMovement = GetComponent<PlayerMovement>();
         PlayerManager = GetComponent<PlayerManager>();
         PlayerAnimator = GetComponent<PlayerAnimator>();
+        CharacterStats = GetComponent<CharacterStats>();
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
@@ -64,7 +66,7 @@ public class PlayerStateMachine : MonoBehaviour
             else
             {
                 PlayerManager.TimeSinceLastAttack += Time.deltaTime;
-                if (PlayerManager.TimeSinceLastAttack > 1f)
+                if (PlayerManager.TimeSinceLastAttack > .5f)
                 {
                     PlayerManager.AttackCount = 0;
                 }
@@ -76,6 +78,20 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int amount)
+    {
+        CharacterStats.CurrentHealth -= amount;
+        if (CharacterStats.CurrentHealth <= 0)
+        {
+            CharacterStats.CurrentHealth = 0;
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        
+    }
 
     private void OnAnimatorMove()
     {
@@ -83,10 +99,9 @@ public class PlayerStateMachine : MonoBehaviour
         {
             Vector3 rootPosition = PlayerAnimator.Animator.rootPosition;
             transform.position = rootPosition;
-
-            // Opcional: mantener rotaci�n estable
-            Quaternion currentRotation = transform.rotation;
-            transform.rotation = Quaternion.Euler(0, currentRotation.eulerAngles.y, 0);
+            
+            Quaternion rootRotation = PlayerAnimator.Animator.rootRotation;
+            transform.rotation = rootRotation;
         }
     }
 }

@@ -79,7 +79,7 @@ public class EnemyStateMachine : MonoBehaviour
             else
             {
                 EnemyManager.TimeSinceLastAttack += Time.deltaTime;
-                if (EnemyManager.TimeSinceLastAttack > 1f)
+                if (EnemyManager.TimeSinceLastAttack > .5f)
                 {
                     EnemyManager.AttackCount = 0;
                 }
@@ -88,6 +88,16 @@ public class EnemyStateMachine : MonoBehaviour
         else
         {
             EnemyManager.PreviousIsAttacking = true;
+        }
+    }
+    
+    private void OnAnimatorMove()
+    {
+        if (EnemyManager.IsAttacking)
+        {
+            Vector3 rootPosition = EnemyAnimatorController.Animator.rootPosition;
+            transform.position = rootPosition;
+            
         }
     }
 }

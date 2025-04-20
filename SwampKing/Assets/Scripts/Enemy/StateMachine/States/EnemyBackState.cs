@@ -22,7 +22,6 @@ public class EnemyBackState : EnemyBaseState
     public override void EnterState()
     {
         _ctx.Agent.speed = _ctx.movementSpeed;
-        _ctx.Agent.stoppingDistance = 0;
         backTimer = backDuration;
     }
 
