@@ -191,6 +191,31 @@ public class SQLiteDB : MonoBehaviour
             connection.Close();
         }
     }
+    
+    public (string title, string description) GetRandomTip()
+    {
+        using (var connection = new SqliteConnection(dbName))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT title, description FROM tips ORDER BY RANDOM() LIMIT 1;";
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string title = reader["title"].ToString();
+                        string description = reader["description"].ToString();
+                        return (title, description);
+                    }
+                }
+            }
+        }
+
+        return ("", "");
+    }
+
 
     public void InsertInitialData()
     {
@@ -228,7 +253,13 @@ public class SQLiteDB : MonoBehaviour
         Query("INSERT OR IGNORE INTO inventary(id_item, quantity) VALUES (3, 1);");
         
         //Inserciones Tips
-        Query("INSERT OR IGNORE INTO tips(title, description) VALUES ('Licor de nenufar', 'Si estas a poca vida tomate un licor de nenufar para recuperar un poco de vida.');");
+        Query("INSERT OR IGNORE INTO tips(title, description) VALUES ('Licor de nenufar'," +
+              " 'Si estas a poca vida tomate un licor de nenufar para recuperar un poco de vida.');");
+        Query("INSERT OR IGNORE INTO tips(title, description) VALUES ('Elegido del rey del pantano'," +
+              " 'Utiliza tus luciernagas para desbloquear o mejorar tus habilidades.');");
+        Query("INSERT OR IGNORE INTO tips(title, description) VALUES ('Luciernagas'," +
+              " 'Algunos enemigos sueltan luciernagas al ser derrotados, esta moneda sirve para muchas cosas," +
+              " por ejemplo subir de nivel o comprar objetos.');");
 
 
     }

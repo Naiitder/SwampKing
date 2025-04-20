@@ -35,18 +35,24 @@ public class PlayerAttackState : PlayerBaseState
             currentAttackHash = _ctx.PlayerAnimator.SimpleAttackHash1;
             _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(currentAttackHash, true);
+            _ctx.AudioSource.pitch = 1;
+            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttack);
 
         }
         else if (_ctx.PlayerManager.AttackCount == 1)
         {
             _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash2, true);
+            _ctx.AudioSource.pitch = .9f;
+            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttack);
 
         }
         else if (_ctx.PlayerManager.AttackCount == 2)
         {
             _ctx.PlayerManager.AttackCount = 0;
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash3, true);
+            _ctx.AudioSource.pitch = .8f;
+            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttack);
         }
 
         InputController.instance.InputBuffer.Dequeue();

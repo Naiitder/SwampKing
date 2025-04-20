@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
-    private PlayerBaseState _currentState;
-    private PlayerStateFactory _states;
-
+    private PlayerBaseState currentState;
+    private PlayerStateFactory states;
+    
+    public AudioSource AudioSource;
+    public AudioClip SimpleAttack;
+    
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
     public PlayerAnimator PlayerAnimator {get; private set;}
     public CharacterStats CharacterStats { get; private set; }
     
-    public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
-    public PlayerStateFactory States { get { return _states; } set { _states = value; } }
+    public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
+    public PlayerStateFactory States { get { return states; } set { states = value; } }
 
     private void Start()
     {
@@ -21,14 +24,15 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerManager = GetComponent<PlayerManager>();
         PlayerAnimator = GetComponent<PlayerAnimator>();
         CharacterStats = GetComponent<CharacterStats>();
-        _states = new PlayerStateFactory(this);
-        _currentState = _states.Grounded();
-        _currentState.EnterState();
+        AudioSource = GetComponent<AudioSource>();
+        states = new PlayerStateFactory(this);
+        currentState = states.Grounded();
+        currentState.EnterState();
     }
 
     private void Update()
     {
-        _currentState.UpdateStates();
+        currentState.UpdateStates();
         PlayerMovement.HandleMovement();
         HandleJumpCharge();
         HandleAirTimer();

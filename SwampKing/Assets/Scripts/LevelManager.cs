@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
-    [SerializeField] private GameObject _loaderCanvas;
-    [SerializeField] private Image _progressBar;
+    [SerializeField] private GameObject loaderCanvas;
+    [SerializeField] private Image progressBar;
+    [SerializeField] private TextMeshProUGUI title;
+    [SerializeField] private TextMeshProUGUI description;
     private float targetProgress;
 
     private void Awake()
@@ -23,16 +26,22 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _loaderCanvas.SetActive(false);
+        loaderCanvas.SetActive(false);
     }
 
 
     public async void LoadScene(string sceneName)
     {
+        var tipData = SQLiteDB.instance.GetRandomTip();
+        title.text = tipData.title;
+        description.text = tipData.description;
+        
+        if(GameController.instance.isGamePaused) GameController.instance.ResumeGame();
+        
         AsyncOperation scene = SceneManager.LoadSceneAsync(sceneName);
         scene.allowSceneActivation = false;
 
-        _loaderCanvas.SetActive(true);
+        loaderCanvas.SetActive(true);
 
         do
         {
@@ -47,9 +56,12 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateProgressBar()
     {
-        _progressBar.fillAmount = Mathf.MoveTowards(_progressBar.fillAmount, targetProgress, 3*Time.deltaTime);
-
+        progressBar.fillAmount = Mathf.MoveTowards(progressBar.fillAmount, targetProgress, 3*Time.deltaTime);
     }
-
+    
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 
 }
