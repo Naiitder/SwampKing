@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
@@ -146,9 +147,22 @@ public class SQLiteDB : MonoBehaviour
                               ");";
                 command.CommandText = sqlcreation;
                 command.ExecuteNonQuery();
+                
+                sqlcreation = "CREATE TABLE IF NOT EXISTS dialogue ("+
+                              "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                              "character_id INTEGER NOT NULL,"+
+                              "line TEXT NOT NULL,"+
+                              "line_order INTEGER NOT NULL,"+
+                              "FOREIGN KEY(character_id) REFERENCES character(id)"+
+                              ");";
+                command.CommandText = sqlcreation;
+                command.ExecuteNonQuery();
+
             }
 
             connection.Close();
+            
+            
         }
     }
     
@@ -215,6 +229,33 @@ public class SQLiteDB : MonoBehaviour
 
         return ("", "");
     }
+    
+    public List<string> GetDialogueLines(int characterID)
+    {
+        List<string> dialogueLines = new List<string>();
+
+        using (var connection = new SqliteConnection(dbName))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT line FROM dialogue WHERE character_id = @id ORDER BY line_order ASC;";
+                command.Parameters.AddWithValue("@id", characterID);
+
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        dialogueLines.Add(reader["line"].ToString());
+                    }
+                }
+            }
+        }
+
+        return dialogueLines;
+    }
+
 
 
     public void InsertInitialData()
@@ -231,6 +272,7 @@ public class SQLiteDB : MonoBehaviour
         // Inserciones personajes
         Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, state, coins) VALUES (1,'Rata-Topo', 2, 1, 'alive', 10);");
         Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, state) VALUES (2,'Rana', 3, 0, 'alive');");
+        Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, state) VALUES (3,'Sapo', 3, 0, 'alive');");
         
         //Inserciones Misiones
         Query("INSERT OR IGNORE INTO quests (id_quest, name, description, state) VALUES (1,'Asesino de Rata-Topos', 'Asesina 10 Rata-Topos.', 'not accepted');");
@@ -260,6 +302,12 @@ public class SQLiteDB : MonoBehaviour
         Query("INSERT OR IGNORE INTO tips(title, description) VALUES ('Luciernagas'," +
               " 'Algunos enemigos sueltan luciernagas al ser derrotados, esta moneda sirve para muchas cosas," +
               " por ejemplo subir de nivel o comprar objetos.');");
+        
+        //Inserciones Dialogos
+        Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (2, 'Hola viajero.', 0);");
+        Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (2, '¿Has visto alguna luciérnaga últimamente?', 1);");
+        Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (3, '¡Fuera de mi charca!', 0);");
+
 
 
     }

@@ -34,8 +34,8 @@ public class PlayerStateFactory
         _states[PlayerStates.doubleJump] = new PlayerDoubleJumpState(_context,this);
         _states[PlayerStates.fall] = new PlayerFallingState(_context,this);
         _states[PlayerStates.jumpAttack] = new PlayerJumpAttackState(_context, this);
-        _states[PlayerStates.interact] = new PlayerJumpAttackState(_context, this);
-        _states[PlayerStates.usingItem] = new PlayerJumpAttackState(_context, this);
+        _states[PlayerStates.interact] = new PlayerInteractState(_context, this);
+        _states[PlayerStates.usingItem] = new PlayerUseItemState(_context, this);
     }
 
     public PlayerBaseState Idle() {

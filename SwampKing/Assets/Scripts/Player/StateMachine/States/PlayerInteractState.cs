@@ -17,7 +17,11 @@ public class PlayerInteractState : PlayerBaseState
     public override void CheckSwitchStates() {
         
         var npc = FindNPC(); 
-        if (npc != null) npc.TriggerDialogue();
+        if (npc != null)
+        {
+            if (DialogueManager.instance.dialogueBox.activeSelf) DialogueManager.instance.SkipOrNext();
+            else npc.TriggerDialogue();
+        }
         else SwitchState(_factory.UsingItem());
         
         if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());

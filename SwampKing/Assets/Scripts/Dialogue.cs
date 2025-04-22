@@ -1,17 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Dialogue : MonoBehaviour
-{
-    public List<string> lines;
-}
-
 public class NPCDialogueTrigger : MonoBehaviour
 {
-    public Dialogue dialogueData;
+    public int characterID;
 
     public void TriggerDialogue()
     {
-        DialogueManager.Instance.StartDialogue(dialogueData);
+        var lines = SQLiteDB.instance.GetDialogueLines(characterID);
+        DialogueManager.instance.StartDialogue(new DialogueData(lines));
+    }
+}
+
+public class DialogueData
+{
+    public List<string> lines;
+
+    public DialogueData(List<string> _lines)
+    {
+        lines = _lines;
     }
 }
