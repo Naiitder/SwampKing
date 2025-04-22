@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
     public static GameController instance;
     [SerializeField] private GameObject _pauseCanvas;
 
+    [SerializeField] public int Coins;
+
     public bool isGamePaused;
 
     void Awake()

@@ -15,8 +15,8 @@ public class DialogueData
 {
     public List<string> lines;
 
-    public DialogueData(List<string> _lines)
+    public DialogueData(List<string> lines)
     {
-        lines = _lines;
+        this.lines = lines;
     }
 }

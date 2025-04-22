@@ -306,7 +306,8 @@ public class SQLiteDB : MonoBehaviour
         //Inserciones Dialogos
         Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (2, 'Hola viajero.', 0);");
         Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (2, '¿Has visto alguna luciérnaga últimamente?', 1);");
-        Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (3, '¡Fuera de mi charca!', 0);");
+        Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (3, '¡Ya va siendo hora de que te mates!', 0);");
+        Query("INSERT OR IGNORE INTO dialogue (character_id, line, line_order) VALUES (3, '¡Fuera de mi charca!', 1);");
 
 
 

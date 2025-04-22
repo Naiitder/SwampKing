@@ -15,7 +15,8 @@ public class PlayerWalkState : PlayerBaseState
     public override void InitializeSubState() { }
     public override void CheckSwitchStates() {
         if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());
-        else if (InputController.instance.MoveAmount == 0) SwitchState(_factory.Idle()) ;
         else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());
+        else if (InputController.instance.CheckActions(InputController.InputActionType.Interact)) SwitchState(_factory.Interact());
+        else if (InputController.instance.MoveAmount == 0) SwitchState(_factory.Idle()) ;
     }
 }

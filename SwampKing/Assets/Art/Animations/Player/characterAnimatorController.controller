@@ -802,7 +802,7 @@ AnimatorStateTransition:
     m_ConditionEvent: simpleAttack2
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: isPreparingAttack
+    m_ConditionEvent: attackFinished
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 9091528704534577759}
@@ -830,7 +830,7 @@ AnimatorStateTransition:
     m_ConditionEvent: simpleAttack3
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: isPreparingAttack
+    m_ConditionEvent: attackFinished
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6814476134481511007}
