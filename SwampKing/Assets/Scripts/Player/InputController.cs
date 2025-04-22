@@ -21,9 +21,10 @@ public class InputController : MonoBehaviour
     [SerializeField] private bool isJumpPressed;
     [SerializeField] private bool isAttackPressed;
     [SerializeField] private bool isPausePressed;
+    [SerializeField] private bool isInteractPressed;
 
     public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
-    public enum InputActionType { Jump, Attack, Aim }
+    public enum InputActionType { Jump, Attack, Aim, Interact }
 
     #region GettersAndSetters
     public float VerticalInput { get { return verticalInput; } }
@@ -36,6 +37,7 @@ public class InputController : MonoBehaviour
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
     public bool IsAttackPressed { get { return isAttackPressed; } set { isAttackPressed = value; } }
     public bool IsPausePressed { get { return isPausePressed; } set { isPausePressed = value; } }
+    public bool IsInteractPressed { get { return isInteractPressed; } set { isInteractPressed = value; } }
     #endregion
 
     //public delegate void MovementInputEvent(float horizontal, float vertical, float delta);
@@ -63,6 +65,8 @@ public class InputController : MonoBehaviour
             playerControlls.Actions.Attack.started += ctx => onAttackInputStart();
             playerControlls.Actions.Attack.canceled += ctx => onAttackInputExit();
             playerControlls.UserActions.Pause.started += ctx => onPauseInputStart();
+            playerControlls.Actions.Interact.started += ctx => onInteractStart();
+            playerControlls.Actions.Interact.canceled += ctx => onInteractExit();
 
         }
         playerControlls.Enable();
@@ -106,6 +110,17 @@ public class InputController : MonoBehaviour
     void onPauseInputStart()
     {
         isPausePressed = !isPausePressed; 
+    }
+    
+    void onInteractExit()
+    {
+        isInteractPressed = true;
+        InputBuffer.Enqueue(InputActionType.Interact);
+    }
+
+    void onInteractStart()
+    {
+        isInteractPressed = false; 
     }
 
     void onCameraInput(InputAction.CallbackContext context)

@@ -13,7 +13,9 @@ public class PlayerStateFactory
         doubleJump,
         jump,
         fall,
-        jumpAttack
+        jumpAttack, 
+        interact, 
+        usingItem
     }
 
     private PlayerStateMachine _context;
@@ -32,6 +34,8 @@ public class PlayerStateFactory
         _states[PlayerStates.doubleJump] = new PlayerDoubleJumpState(_context,this);
         _states[PlayerStates.fall] = new PlayerFallingState(_context,this);
         _states[PlayerStates.jumpAttack] = new PlayerJumpAttackState(_context, this);
+        _states[PlayerStates.interact] = new PlayerJumpAttackState(_context, this);
+        _states[PlayerStates.usingItem] = new PlayerJumpAttackState(_context, this);
     }
 
     public PlayerBaseState Idle() {
@@ -72,5 +76,15 @@ public class PlayerStateFactory
     public PlayerBaseState JumpAttack()
     {
         return _states[PlayerStates.jumpAttack];
+    }
+    
+    public PlayerBaseState Interact()
+    {
+        return _states[PlayerStates.interact];
+    }
+    
+    public PlayerBaseState UsingItem()
+    {
+        return _states[PlayerStates.usingItem];
     }
 }
