@@ -13,7 +13,6 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
     public PlayerAnimator PlayerAnimator {get; private set;}
-    public CharacterStats CharacterStats { get; private set; }
     
     public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
     public PlayerStateFactory States { get { return states; } set { states = value; } }
@@ -23,7 +22,6 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerMovement = GetComponent<PlayerMovement>();
         PlayerManager = GetComponent<PlayerManager>();
         PlayerAnimator = GetComponent<PlayerAnimator>();
-        CharacterStats = GetComponent<CharacterStats>();
         AudioSource = GetComponent<AudioSource>();
         states = new PlayerStateFactory(this);
         currentState = states.Grounded();
@@ -81,22 +79,7 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerManager.PreviousIsAttacking = true;
         }
     }
-
-    public void TakeDamage(int amount)
-    {
-        CharacterStats.CurrentHealth -= amount;
-        if (CharacterStats.CurrentHealth <= 0)
-        {
-            CharacterStats.CurrentHealth = 0;
-            Die();
-        }
-    }
-
-    public void Die()
-    {
-        
-    }
-
+    
     private void OnAnimatorMove()
     {
         if (PlayerManager.IsAttacking)

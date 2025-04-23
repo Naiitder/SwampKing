@@ -7,6 +7,8 @@ public class PlayerChargeJumpState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
+        if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
+        else if(_ctx.PlayerManager.IsReacting) SwitchState(_factory.Reaction());
         if (InputController.instance.CheckActions(InputController.InputActionType.Jump)) SwitchState(_factory.Airbone());
     }
 

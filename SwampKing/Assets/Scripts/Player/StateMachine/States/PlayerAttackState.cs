@@ -12,13 +12,16 @@ public class PlayerAttackState : PlayerBaseState
     public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) { }
     public override void CheckSwitchStates()
     {
-            if (attackFinished)
-            {
-                if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());
-                else if (InputController.instance.MoveAmount == 0) SwitchState(_factory.Idle());
-                else if (InputController.instance.MoveAmount > 0) SwitchState(_factory.Walk());
-                else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());
-            }
+        if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
+        else if(_ctx.PlayerManager.IsReacting) SwitchState(_factory.Reaction());
+        
+        if (attackFinished) 
+        {
+            if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());
+            else if (InputController.instance.MoveAmount == 0) SwitchState(_factory.Idle());
+            else if (InputController.instance.MoveAmount > 0) SwitchState(_factory.Walk());
+            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());
+        }
     }
 
     public override void EnterState()

@@ -6,7 +6,7 @@ public class NPCDialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        var lines = SQLiteDB.instance.GetDialogueLines(characterID);
+        var lines = SQLiteDB.instance.GetRandomDialogue(characterID);
         DialogueManager.instance.StartDialogue(new DialogueData(lines));
     }
 }

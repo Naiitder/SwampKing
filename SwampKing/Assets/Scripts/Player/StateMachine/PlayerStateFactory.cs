@@ -15,7 +15,9 @@ public class PlayerStateFactory
         fall,
         jumpAttack, 
         interact, 
-        usingItem
+        usingItem,
+        dead, 
+        reaction
     }
 
     private PlayerStateMachine _context;
@@ -36,6 +38,8 @@ public class PlayerStateFactory
         _states[PlayerStates.jumpAttack] = new PlayerJumpAttackState(_context, this);
         _states[PlayerStates.interact] = new PlayerInteractState(_context, this);
         _states[PlayerStates.usingItem] = new PlayerUseItemState(_context, this);
+        _states[PlayerStates.dead] = new PlayerAttackState(_context,this);
+        _states[PlayerStates.reaction] = new PlayerAttackState(_context,this);
     }
 
     public PlayerBaseState Idle() {
@@ -87,4 +91,13 @@ public class PlayerStateFactory
     {
         return _states[PlayerStates.usingItem];
     }
+    public PlayerBaseState Dead()
+    {
+        return _states[PlayerStates.dead];
+    }
+    public PlayerBaseState Reaction()
+    {
+        return _states[PlayerStates.reaction];
+    }
+    
 }

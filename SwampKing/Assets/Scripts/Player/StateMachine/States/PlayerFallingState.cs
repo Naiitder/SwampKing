@@ -13,13 +13,13 @@ public class PlayerFallingState : PlayerBaseState
     }
     public override void UpdateState()
     {
-        if (!_ctx.PlayerAnimator.Animator.GetBool("isFalling") && _ctx.PlayerManager.InAirTimer > fallThreshold) 
-            _ctx.PlayerAnimator.Animator.SetBool("isFalling", true);
+        if (!_ctx.PlayerAnimator.Animator.GetBool(_ctx.PlayerAnimator.IsFallingHash) && _ctx.PlayerManager.InAirTimer > fallThreshold) 
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, true);
         CheckSwitchStates();
     }
     public override void ExitState()
     {
-        _ctx.PlayerAnimator.Animator.SetBool("isFalling", false);
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, false);
     }
     public override void InitializeSubState()
     {

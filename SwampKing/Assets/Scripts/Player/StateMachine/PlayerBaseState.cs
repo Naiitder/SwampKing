@@ -36,6 +36,7 @@ public abstract class PlayerBaseState
         _currentSuperState = newSuperState;
     }
     protected void SetSubState(PlayerBaseState newSubState) {
+        if(_currentSubState != null) _currentSubState.ExitState();
         _currentSubState = newSubState;
         newSubState.SetSuperState(this);
         _currentSubState.EnterState();
