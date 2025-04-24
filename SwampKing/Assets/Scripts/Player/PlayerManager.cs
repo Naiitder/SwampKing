@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -12,9 +13,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] bool isGrounded;
     [SerializeField] bool isAttacking; 
     [SerializeField] bool isDead;
-    
     [SerializeField] bool isReacting; 
-
     [SerializeField] private bool canDoubleJump;
 
     [SerializeField] private int attackCount = 0;
@@ -28,8 +27,10 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private float inAirTimer = 0f;
     
+    [Header("CharacterStats")]
     public CharacterStats CharacterStats { get; private set; }
-
+    [SerializeField] private Slider slider;
+    
     public float JumpChargeTime { get { return jumpChargeTime; } set { jumpChargeTime = value; } }
     public float TapTreshold { get { return tapThreshold; } set { tapThreshold = value; } }
     public float MaxChargeTime { get { return maxChargeTime; } set { maxChargeTime = value; } }
@@ -53,6 +54,11 @@ public class PlayerManager : MonoBehaviour
         bool canReact = !isDead && !isJumping && isGrounded;
         
         CharacterStats.CurrentHealth -= amount;
+        if (slider != null)
+        {
+            slider.maxValue = CharacterStats.MaximumHealth;
+            slider.value = CharacterStats.CurrentHealth;
+        }
         if (CharacterStats.CurrentHealth <= 0)
         {
             CharacterStats.CurrentHealth = 0;
