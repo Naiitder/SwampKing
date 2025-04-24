@@ -2,7 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class DamageCollider : MonoBehaviour
+public class EnemyDamageCollider : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {

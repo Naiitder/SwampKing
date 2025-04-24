@@ -27,6 +27,8 @@ public class PlayerAnimator : MonoBehaviour
     
     private int reactionFinishedHash;
 
+    [SerializeField] private Collider weaponCollider;
+
     public Animator Animator { get { return animator; } }
 
     public int IsJumpingHash { get { return isJumpingHash; } }
@@ -89,12 +91,25 @@ public class PlayerAnimator : MonoBehaviour
     public void OnAttackAnimationFinished()
     {
         Animator.SetBool(attackFinishedHash, true);
+        CloseWeaponCollider();
     }
     
     public void OnReactingAnimationFinished()
     {
         Animator.SetBool(reactionFinishedHash, true);
     }
+
+    public void CloseWeaponCollider()
+    {
+        weaponCollider.enabled = false;
+    }
+
+    public void OpenWeaponCollider()
+    {
+        weaponCollider.enabled = true;
+    }
+    
+    
 
 
 

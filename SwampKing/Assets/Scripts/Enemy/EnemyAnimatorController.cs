@@ -13,7 +13,9 @@ public class EnemyAnimatorController : MonoBehaviour
     private int simpleAttack2Hash; 
     private int simpleAttack3Hash; 
     private int attackFinishedHash; 
-    private int isPreparingAttackHash; 
+    private int isPreparingAttackHash;
+
+    [SerializeField] private Collider weaponCollider;
     
     public Animator Animator { get { return animator; } }
     public int HorizontalHash {get { return horizontalHash; }}
@@ -40,5 +42,17 @@ public class EnemyAnimatorController : MonoBehaviour
     public void OnAttackAnimationFinished()
     {
         Animator.SetBool(attackFinishedHash, true);
+        CloseWeaponCollider();
     }
+    
+    public void CloseWeaponCollider()
+    {
+        if(weaponCollider != null) weaponCollider.enabled = false;
+    }
+
+    public void OpenWeaponCollider()
+    {
+        if(weaponCollider != null) weaponCollider.enabled = true;
+    }
+
 }
