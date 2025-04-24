@@ -16,6 +16,7 @@ public class PlayerDoubleJumpState : PlayerBaseState
     {
         _ctx.PlayerMovement.PerformJump(1.25f);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, true);
+        _ctx.PlayerManager.JumpChargeTime = 0;
         _ctx.PlayerManager.IsJumping = true;
         _ctx.PlayerManager.CanDoubleJump = false;
         InputController.instance.InputBuffer.Dequeue();
@@ -24,7 +25,6 @@ public class PlayerDoubleJumpState : PlayerBaseState
     public override void ExitState()
     {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, false);
-        _ctx.PlayerManager.JumpChargeTime = 0;
         _ctx.PlayerManager.IsJumping = false;
     }
 
