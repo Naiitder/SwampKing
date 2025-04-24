@@ -28,6 +28,7 @@ public class EnemyManager : MonoBehaviour
     public bool IsChasing { get => isChasing; set => isChasing = value; }
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
     public bool IsDead { get => isDead; set => isDead = value; }
+    public bool IsReacting { get => isReacting; set => isReacting = value; }
     
     private void Awake()
     {

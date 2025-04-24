@@ -14,6 +14,10 @@ public class EnemyAnimatorController : MonoBehaviour
     private int simpleAttack3Hash; 
     private int attackFinishedHash; 
     private int isPreparingAttackHash;
+    
+    private int isReactingHash;
+    private int isDeadHash;
+    private int reactionFinishedHash;
 
     [SerializeField] private Collider weaponCollider;
     
@@ -25,6 +29,9 @@ public class EnemyAnimatorController : MonoBehaviour
     public int SimpleAttack3Hash {get { return simpleAttack3Hash; }}
     public int AttackFinishedHash {get { return attackFinishedHash; }}
     public int IsPreparingAttackHash {get { return isPreparingAttackHash; }}
+    public int IsReactingHash {get { return isReactingHash; }}
+    public int IsDeadHash {get { return isDeadHash; }}
+    public int ReactionFinishedHash {get { return reactionFinishedHash; }}
 
 
     private void Awake()
@@ -37,6 +44,9 @@ public class EnemyAnimatorController : MonoBehaviour
         simpleAttack3Hash = Animator.StringToHash("simpleAttack3");
         attackFinishedHash = Animator.StringToHash("attackFinished");
         isPreparingAttackHash = Animator.StringToHash("isPreparingAttack");
+        isReactingHash = Animator.StringToHash("isReacting");
+        isDeadHash = Animator.StringToHash("isDead");
+        reactionFinishedHash = Animator.StringToHash("reactionFinished");
     }
     
     public void OnAttackAnimationFinished()
@@ -44,6 +54,12 @@ public class EnemyAnimatorController : MonoBehaviour
         Animator.SetBool(attackFinishedHash, true);
         CloseWeaponCollider();
     }
+    
+    public void OnReactingAnimationFinished()
+    {
+        Animator.SetBool(reactionFinishedHash, true);
+    }
+
     
     public void CloseWeaponCollider()
     {

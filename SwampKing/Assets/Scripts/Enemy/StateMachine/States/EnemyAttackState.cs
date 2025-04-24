@@ -65,6 +65,9 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void CheckSwitchStates()
     {
+        if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
+        else if (_ctx.EnemyManager.IsReacting) SwitchState(_factory.Reaction());
+        
         if (!attackFinished) return;
         
         bool canChainAttack = (_ctx.IsInAttackRange() && _ctx.EnemyManager.AttackCount != 2) || (_ctx.PlayerManager != null 

@@ -33,7 +33,6 @@ public class PlayerReactionState : PlayerBaseState
     {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsReactingHash,false);
         _ctx.PlayerManager.IsReacting = false;
-        Debug.Log("PlayerReactionState Exit");
     }
 
     public override void InitializeSubState()

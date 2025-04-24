@@ -44,7 +44,10 @@ public class EnemyStrafeState : EnemyBaseState
     public override void InitializeSubState() {}
 
     public override void CheckSwitchStates()
-    {
+    {       
+        if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
+        else if (_ctx.EnemyManager.IsReacting) SwitchState(_factory.Reaction());
+        
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
             SwitchState(_factory.Idle());
         else if (_ctx.IsInAttackRange())
