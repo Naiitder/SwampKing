@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public class PlayerJumpState : PlayerBaseState
 {
     float multiplierJumpForce;
@@ -11,6 +13,7 @@ public class PlayerJumpState : PlayerBaseState
     public override void EnterState() {
         multiplierJumpForce = _ctx.PlayerManager.JumpChargeTime > _ctx.PlayerManager.TapTreshold ? 1.5f : 1f;
         _ctx.PlayerMovement.PerformJump(multiplierJumpForce);
+        _ctx.PlayerManager.JumpChargeTime = 0;
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsJumpingHash, true);
         _ctx.PlayerManager.IsJumping = true;
         _hasLeftGround = false;
@@ -25,7 +28,6 @@ public class PlayerJumpState : PlayerBaseState
     }
     public override void ExitState() {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsJumpingHash, false);
-        _ctx.PlayerManager.JumpChargeTime = 0;
         _ctx.PlayerManager.IsJumping = false;
     }
     public override void InitializeSubState() {

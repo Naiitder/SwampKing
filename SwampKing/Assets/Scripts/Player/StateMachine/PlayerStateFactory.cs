@@ -38,8 +38,8 @@ public class PlayerStateFactory
         _states[PlayerStates.jumpAttack] = new PlayerJumpAttackState(_context, this);
         _states[PlayerStates.interact] = new PlayerInteractState(_context, this);
         _states[PlayerStates.usingItem] = new PlayerUseItemState(_context, this);
-        _states[PlayerStates.dead] = new PlayerAttackState(_context,this);
-        _states[PlayerStates.reaction] = new PlayerAttackState(_context,this);
+        _states[PlayerStates.dead] = new PlayerDeadState(_context,this);
+        _states[PlayerStates.reaction] = new PlayerReactionState(_context,this);
     }
 
     public PlayerBaseState Idle() {

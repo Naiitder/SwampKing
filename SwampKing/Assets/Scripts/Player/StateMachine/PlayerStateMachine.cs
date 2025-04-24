@@ -46,11 +46,8 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerManager.JumpChargeTime += Time.deltaTime;
         }
         else PlayerManager.IsChargingJumping = false;
-
-
     }
-
-
+    
     private void HandleAirTimer()
     {
         if (!PlayerMovement.CharacterController.isGrounded && !PlayerManager.IsJumping) PlayerManager.InAirTimer += Time.deltaTime;

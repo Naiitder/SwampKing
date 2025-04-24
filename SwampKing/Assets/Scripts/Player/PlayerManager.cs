@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] bool isChargingJumping;
     [SerializeField] bool isGrounded;
     [SerializeField] bool isAttacking; 
-    [SerializeField] bool isDead; 
+    [SerializeField] bool isDead;
+    
     [SerializeField] bool isReacting; 
 
     [SerializeField] private bool canDoubleJump;
@@ -35,6 +37,7 @@ public class PlayerManager : MonoBehaviour
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
     public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
     public bool IsDead { get { return isDead; } set { isDead = value; } }
+    public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
     public bool IsReacting { get { return isReacting; } set { isReacting = value; } }
     public bool CanDoubleJump { get { return canDoubleJump; } set { canDoubleJump = value; } }
     public bool IsChargingJumping { get { return isChargingJumping; } set { isChargingJumping = value; } }
@@ -47,13 +50,15 @@ public class PlayerManager : MonoBehaviour
     
     public void TakeDamage(int amount, bool reacting = false)
     {
+        bool canReact = !isDead && !isJumping && isGrounded;
+        
         CharacterStats.CurrentHealth -= amount;
         if (CharacterStats.CurrentHealth <= 0)
         {
             CharacterStats.CurrentHealth = 0;
             Die();
         }
-        else if (reacting) isReacting = true;
+        else if (reacting && canReact) isReacting = true;
     }
 
     public void Die()

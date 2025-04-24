@@ -24,6 +24,8 @@ public class PlayerAnimator : MonoBehaviour
     
     private int isDeadHash;
     private int isReactingHash;
+    
+    private int reactionFinishedHash;
 
     public Animator Animator { get { return animator; } }
 
@@ -39,6 +41,7 @@ public class PlayerAnimator : MonoBehaviour
     public int JumpAttackHash { get { return jumpAttackHash; } }
     public int IsDeadHash { get { return isDeadHash; } }
     public int IsReactingHash { get { return isReactingHash; } }
+    public int ReactionFinishedHash { get { return reactionFinishedHash; } }
     public int IsFallingHash { get { return isFallingHash; } }
 
     private void Awake()
@@ -57,6 +60,7 @@ public class PlayerAnimator : MonoBehaviour
         jumpAttackHash = Animator.StringToHash("jumpAttack");
         isDeadHash = Animator.StringToHash("isDead");
         isReactingHash = Animator.StringToHash("isReacting");
+        reactionFinishedHash = Animator.StringToHash("reactionFinished");
         isFallingHash = Animator.StringToHash("isFalling");
     }
 
@@ -86,6 +90,12 @@ public class PlayerAnimator : MonoBehaviour
     {
         Animator.SetBool(attackFinishedHash, true);
     }
+    
+    public void OnReactingAnimationFinished()
+    {
+        Animator.SetBool(reactionFinishedHash, true);
+    }
+
 
 
 }

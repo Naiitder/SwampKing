@@ -11,7 +11,8 @@ public class PlayerGroundedState : PlayerBaseState
         _ctx.PlayerMovement.SetGravity();
         _ctx.PlayerManager.InAirTimer = 0;
         _ctx.PlayerManager.CanDoubleJump = true;
-        
+        _ctx.PlayerManager.IsGrounded = true;
+
     } 
     public override void UpdateState(){
         _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
@@ -19,15 +20,17 @@ public class PlayerGroundedState : PlayerBaseState
 
         CheckSwitchStates();
     }
-    public override void ExitState(){}
+
+    public override void ExitState()
+    { }
     public override void InitializeSubState(){
         if (_ctx.PlayerManager.IsChargingJumping) SetSubState(_factory.ChargeJump());
         else if (InputController.instance.MoveAmount != 0) SetSubState(_factory.Walk());
         else SetSubState(_factory.Idle());
     }
     public override void CheckSwitchStates(){
-        if (InputController.instance.CheckActions(InputController.InputActionType.Jump)
-            || !_ctx.PlayerMovement.CharacterController.isGrounded && !_ctx.PlayerManager.IsAttacking) 
+        if ((InputController.instance.CheckActions(InputController.InputActionType.Jump) && !_ctx.PlayerManager.IsDead)
+            || !_ctx.PlayerMovement.CharacterController.isGrounded) 
                 SwitchState(_factory.Airbone());
     }
 
