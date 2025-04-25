@@ -475,4 +475,153 @@
             Query($"INSERT INTO quest_state (quest_id, save_id, state, progress) VALUES (2, {saveId}, 'not accepted', 0);");
         }
         
+        public List<SaveSlotInfo> GetAllSaveSlots()
+        {
+            List<SaveSlotInfo> saves = new List<SaveSlotInfo>();
+
+            using (var connection = new SqliteConnection(dbName))
+            {
+                connection.Open();
+
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = @"
+                SELECT id, play_time, location, created_at
+                FROM save_slot
+                ORDER BY created_at DESC;"; 
+
+                    using (IDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            SaveSlotInfo info = new SaveSlotInfo
+                            {
+                                id = reader.GetInt32(0),
+                                playTime = reader.GetString(1),
+                                location = reader.GetString(2),
+                                createdAt = reader.GetString(3)
+                            };
+
+                            saves.Add(info);
+                        }
+                    }
+                }
+            }
+
+            return saves;
+        }
+        
+        public void LoadDataFromSave(int saveId)
+{
+    using (var connection = new SqliteConnection(dbName))
+    {
+        connection.Open();
+
+        // --- PLAYER ---
+        using (var cmd = connection.CreateCommand())
+        {
+            cmd.CommandText = "SELECT name, position, coins, statistics FROM player WHERE save_id = @saveId LIMIT 1;";
+            cmd.Parameters.AddWithValue("@saveId", saveId);
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    string name = reader["name"].ToString();
+                    string position = reader["position"].ToString();
+                    int coins = Convert.ToInt32(reader["coins"]);
+                    int statsId = Convert.ToInt32(reader["statistics"]);
+                    
+                    string[] parts = position.Split('-');
+                    Vector3 pos = new Vector3(
+                        float.Parse(parts[0]),
+                        float.Parse(parts[1]),
+                        float.Parse(parts[2])
+                    );
+                    
+                    GameController.instance.Coins = coins;
+                    InputController.instance.transform.position = pos;
+                    // TODO Establecer stats... etc.
+                    Debug.Log($"Loaded player {name} at {position} with {coins} coins.");
+                }
+            }
+        }
+
+        /*// --- INVENTORY ---
+        using (var cmd = connection.CreateCommand())
+        {
+            cmd.CommandText = "SELECT id_item, quantity FROM inventory WHERE save_id = @saveId;";
+            cmd.Parameters.AddWithValue("@saveId", saveId);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    int itemId = Convert.ToInt32(reader["id_item"]);
+                    int quantity = Convert.ToInt32(reader["quantity"]);
+
+                    // Añadir item al inventario del jugador, ejemplo:
+                    InventoryManager.instance.AddItem(itemId, quantity);
+
+                    Debug.Log($"Item {itemId} x{quantity}");
+                }
+            }
+        }
+
+        // --- QUESTS ---
+        using (var cmd = connection.CreateCommand())
+        {
+            cmd.CommandText = "SELECT quest_id, state, progress FROM quest_state WHERE save_id = @saveId;";
+            cmd.Parameters.AddWithValue("@saveId", saveId);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    int questId = Convert.ToInt32(reader["quest_id"]);
+                    string state = reader["state"].ToString();
+                    int progress = Convert.ToInt32(reader["progress"]);
+
+                    QuestManager.instance.SetQuestState(questId, state, progress);
+                    Debug.Log($"Quest {questId} - {state} ({progress}%)");
+                }
+            }
+        }*/
+
+        /*// --- CHARACTERS (is_alive) ---
+        using (var cmd = connection.CreateCommand())
+        {
+            cmd.CommandText = "SELECT character_id, is_alive FROM character_state WHERE save_id = @saveId;";
+            cmd.Parameters.AddWithValue("@saveId", saveId);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    int charId = Convert.ToInt32(reader["character_id"]);
+                    bool isAlive = Convert.ToInt32(reader["is_alive"]) == 1;
+
+                    CharacterManager.instance.SetCharacterAlive(charId, isAlive);
+                }
+            }
+        }
+
+        // --- EVENTS (opcional) ---
+        using (var cmd = connection.CreateCommand())
+        {
+            cmd.CommandText = "SELECT id, triggered FROM event_state WHERE save_id = @saveId;";
+            cmd.Parameters.AddWithValue("@saveId", saveId);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    string eventId = reader["id"].ToString();
+                    bool triggered = Convert.ToInt32(reader["triggered"]) == 1;
+
+                    EventManager.instance.SetEventTriggered(eventId, triggered);
+                }
+            }
+        }*/
+
+        connection.Close();
+    }
+}
+
+        
     }

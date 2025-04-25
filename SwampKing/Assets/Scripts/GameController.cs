@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _pauseCanvas;
 
     [SerializeField] public int Coins;
+    [SerializeField] public int SaveID = -1;
 
     public bool isGamePaused;
 
@@ -16,6 +18,7 @@ public class GameController : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -25,6 +28,8 @@ public class GameController : MonoBehaviour
         Application.targetFrameRate = 60; 
         QualitySettings.vSyncCount = 0;
         if(_pauseCanvas) _pauseCanvas.SetActive(false);
+        
+        if(SaveID > 0) SQLiteDB.instance.LoadDataFromSave(SaveID);
     }
 
     private void Update()
