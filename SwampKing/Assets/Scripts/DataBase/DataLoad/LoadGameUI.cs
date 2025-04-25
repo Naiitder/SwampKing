@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class LoadGameUI : MonoBehaviour
         foreach (var slot in SQLiteDB.instance.GetAllSaveSlots())
         {
             GameObject newButton = Instantiate(slotButtonPrefab, containerTransform);
-            newButton.GetComponentInChildren<Text>().text =
+            newButton.GetComponentInChildren<TextMeshProUGUI>().text =
                 $"Partida {slot.id} - {slot.location} - Tiempo: {slot.playTime} - {slot.createdAt}";
 
             newButton.GetComponent<Button>().onClick.AddListener(() => {
