@@ -65,7 +65,25 @@ public class GameController : MonoBehaviour
         isGamePaused = false;
         Time.timeScale = 1;
     }
-    
+
+
+    public void NewGame()
+    {
+        int newSaveId = SQLiteDB.instance.CreateNewSaveSlot();
+
+        if (newSaveId != -1)
+        {
+            SQLiteDB.instance.InsertInitialGameData(newSaveId);
+            Debug.Log($"Nueva partida creada con ID: {newSaveId}");
+            LevelManager.instance.LoadScene("SampleScene");
+        }
+        else
+        {
+            //TODO mostrar en UI que no se puede
+            Debug.Log("No puedes crear más partidas guardadas.");
+        }
+
+    }
     
     
 }

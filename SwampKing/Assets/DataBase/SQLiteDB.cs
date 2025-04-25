@@ -35,8 +35,17 @@
 
                 using (var command = connection.CreateCommand())
                 {
+                    string sqlcreation = "CREATE TABLE IF NOT EXISTS save_slot ("+
+                                        "id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                                        "play_time TEXT NOT NULL DEFAULT '00:00:00',"+
+                                        "location TEXT NOT NULL DEFAULT 'Ciudad Charca',"+
+                                        "created_at TEXT NOT NULL DEFAULT (datetime('now'))"+
+                                        ");";
+                    command.CommandText = sqlcreation;
+                    command.ExecuteNonQuery();
+                    
                     // Tabla Estadísticas
-                    string sqlcreation = "CREATE TABLE IF NOT EXISTS statistics (" +
+                    sqlcreation = "CREATE TABLE IF NOT EXISTS statistics (" +
                                          "id INTEGER PRIMARY KEY, " +
                                          "health INTEGER NOT NULL, " +
                                          "damage INTEGER NOT NULL, " +
@@ -50,10 +59,12 @@
                     // Tabla Personaje
                     sqlcreation = "CREATE TABLE IF NOT EXISTS player (" +
                                   "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                  "save_id INTEGER NOT NULL,"+
                                   "name TEXT NOT NULL, " +
                                   "statistics INTEGER, " +
                                   "position TEXT NOT NULL, " +
                                   "coins INTEGER NOT NULL, " +
+                                  "FOREIGN KEY(save_id) REFERENCES save_slot(id),"+
                                   "FOREIGN KEY(statistics) REFERENCES statistics(id)" +
                                   ");";
                     command.CommandText = sqlcreation;
@@ -65,8 +76,18 @@
                                   "statistics INTEGER NOT NULL, " +
                                   "friendly INTEGER NOT NULL, " +
                                   "type TEXT NOT NULL, " +
-                                  "coins INTEGER NULL, " +   
+                                  "coins INTEGER NULL, " + 
                                   "FOREIGN KEY(statistics) REFERENCES statistics(id)" +
+                                  ");";
+                    command.CommandText = sqlcreation;
+                    command.ExecuteNonQuery();
+                    
+                    sqlcreation = "CREATE TABLE IF NOT EXISTS character_state ("+
+                                  "character_id INTEGER,"+
+                                  "save_id INTEGER,"+
+                                  "is_alive INTEGER DEFAULT 1,"+
+                                  "FOREIGN KEY(character_id) REFERENCES character(id),"+
+                                  "FOREIGN KEY(save_id) REFERENCES save_slot(id)"+
                                   ");";
                     command.CommandText = sqlcreation;
                     command.ExecuteNonQuery();
@@ -75,8 +96,19 @@
                     sqlcreation = "CREATE TABLE IF NOT EXISTS quests (" +
                                   "id_quest INTEGER PRIMARY KEY, " +
                                   "name TEXT NOT NULL, " +
-                                  "description TEXT NOT NULL,"+
-                                  "state TEXT NOT NULL" +
+                                  "description TEXT NOT NULL"+
+                                  ");";
+                    command.CommandText = sqlcreation;
+                    command.ExecuteNonQuery();
+                    
+                    sqlcreation = "CREATE TABLE IF NOT EXISTS quest_state ("+
+                                  "quest_id INTEGER NOT NULL,"+
+                                  "save_id INTEGER NOT NULL,"+
+                                  "state TEXT NOT NULL DEFAULT 'not accepted',"+
+                                  "progress INTEGER DEFAULT 0,"+
+                                  "PRIMARY KEY (quest_id, save_id),"+
+                                  "FOREIGN KEY (quest_id) REFERENCES quests(id_quest),"+
+                                  "FOREIGN KEY (save_id) REFERENCES save_slot(id)"+
                                   ");";
                     command.CommandText = sqlcreation;
                     command.ExecuteNonQuery();
@@ -134,8 +166,10 @@
 
                     // Tabla Inventario
                     sqlcreation = "CREATE TABLE IF NOT EXISTS inventory (" +
+                                  "save_id INTEGER NOT NULL, " +
                                   "id_item INTEGER NOT NULL, " +
                                   "quantity INTEGER NOT NULL, " +
+                                  "FOREIGN KEY(save_id) REFERENCES save_slot(id),"+
                                   "FOREIGN KEY(id_item) REFERENCES item(id)" +
                                   ");";
                     command.CommandText = sqlcreation;
@@ -169,7 +203,15 @@
                     command.CommandText = sqlcreation;
                     command.ExecuteNonQuery();
                     
-                    
+                    sqlcreation = "CREATE TABLE IF NOT EXISTS event_state ("+
+                                  "id TEXT NOT NULL,"+
+                                  "save_id INTEGER NOT NULL,"+
+                                  "triggered INTEGER DEFAULT 0,"+
+                                  "PRIMARY KEY(id, save_id),"+
+                                  "FOREIGN KEY(save_id) REFERENCES save_slot(id)"+
+                                  ");";
+                    command.CommandText = sqlcreation;
+                    command.ExecuteNonQuery();
                 }
 
                 connection.Close();
@@ -321,10 +363,7 @@
 
             return lines;
         }
-
-
-
-
+        
         public void InsertInitialData()
         {
              // Inserciones estadisticas
@@ -334,9 +373,6 @@
             Query("INSERT OR IGNORE INTO statistics (id, health, damage, endurance, armor, speed) VALUES (4, 450, 50, 15, 15, 6);");
             Query("SELECT * FROM statistics;");
             
-            // Inserciones player 
-            Query("INSERT OR IGNORE INTO player (name, statistics, position, coins) VALUES ('Gusta', 1, '0-0-0',0);");
-            
             // Inserciones personajes
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (1,'Rata-Topo', 2, 1, 'enemy', 10);");
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (2,'Rana', 3, 0, 'npc');");
@@ -344,8 +380,8 @@
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (4,'Asesino Rana', 4, 1, 'boss', 100);");
 
             //Inserciones Misiones
-            Query("INSERT OR IGNORE INTO quests (id_quest, name, description, state) VALUES (1,'Asesino de Rata-Topos', 'Asesina 10 Rata-Topos.', 'not accepted');");
-            Query("INSERT OR IGNORE INTO quests (id_quest, name, description, state) VALUES (2,'Llega a Ciudad Charca', 'Llega a Ciudad Charca y habla con los habitantes.', 'accepted');");
+            Query("INSERT OR IGNORE INTO quests (id_quest, name, description) VALUES (1,'Asesino de Rata-Topos', 'Asesina 10 Rata-Topos.');");
+            Query("INSERT OR IGNORE INTO quests (id_quest, name, description) VALUES (2,'Llega a Ciudad Charca', 'Llega a Ciudad Charca y habla con los habitantes.');");
             
             //Inserciones Objetos
             Query("INSERT OR IGNORE INTO item (id, name, description, price) VALUES (1,'Licor de nenufar', 'Restaura 100 puntos de vida.', 50);");
@@ -357,11 +393,6 @@
             //Inserciones Drops
             Query("INSERT OR IGNORE INTO drop_enemy(drop_id, id_dropper, id_item, chance) VALUES (1,1,1, 10 );");
             Query("INSERT OR IGNORE INTO drop_quest(drop_id, id_dropper, id_item, coins) VALUES (2,1,1, 100 );");
-            
-            //Inserciones inventory
-            Query("INSERT OR IGNORE INTO inventory(id_item, quantity) VALUES (1, 5);");
-            Query("INSERT OR IGNORE INTO inventory(id_item, quantity) VALUES (2, 1);");
-            Query("INSERT OR IGNORE INTO inventory(id_item, quantity) VALUES (3, 1);");
             
             //Inserciones Tips
             Query("INSERT OR IGNORE INTO tips(title, description) VALUES ('Licor de nenufar'," +
@@ -386,4 +417,62 @@
 
 
         }
+        
+        public int CreateNewSaveSlot(string location = "Ciudad Charca")
+        {
+            using (var connection = new SqliteConnection(dbName))
+            {
+                connection.Open();
+
+                // Primero comprobamos cuántos saves hay
+                using (var checkCmd = connection.CreateCommand())
+                {
+                    checkCmd.CommandText = "SELECT COUNT(*) FROM save_slot;";
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (count >= 20)
+                    {
+                        Debug.LogWarning("Límite de partidas alcanzado (20). No se puede crear una nueva.");
+                        return -1; 
+                    }
+                }
+
+                // Insertar nuevo save
+                using (var insertCmd = connection.CreateCommand())
+                {
+                    insertCmd.CommandText = @"
+                INSERT INTO save_slot (location) 
+                VALUES (@location);";
+                    insertCmd.Parameters.AddWithValue("@location", location);
+                    insertCmd.ExecuteNonQuery();
+                }
+
+                // Obtener el ID recién insertado
+                using (var getIdCmd = connection.CreateCommand())
+                {
+                    getIdCmd.CommandText = "SELECT last_insert_rowid();";
+                    return Convert.ToInt32(getIdCmd.ExecuteScalar());
+                }
+            }
+        }
+        public void InsertInitialGameData(int saveId)
+        {
+            // Player inicial
+            Query($"INSERT INTO player (save_id, name, statistics, position, coins) VALUES ({saveId}, 'Gusta', 1, '0-0-0', 0);");
+
+            // Inventario inicial
+            Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 1, 5);");
+            Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 2, 1);");
+            Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 3, 1);");
+
+            // Estado de personajes (todos vivos al empezar)
+            for (int characterId = 1; characterId <= 4; characterId++)
+            {
+                Query($"INSERT INTO character_state (character_id, save_id, is_alive) VALUES ({characterId}, {saveId}, 1);");
+            }
+            
+            Query($"INSERT INTO quest_state (quest_id, save_id, state, progress) VALUES (1, {saveId}, 'not accepted', 0);");
+            Query($"INSERT INTO quest_state (quest_id, save_id, state, progress) VALUES (2, {saveId}, 'not accepted', 0);");
+        }
+        
     }
