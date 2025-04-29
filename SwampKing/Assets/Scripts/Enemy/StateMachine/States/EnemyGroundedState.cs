@@ -24,7 +24,7 @@ public class EnemyGroundedState : EnemyBaseState
     public override void InitializeSubState(){
         if (_ctx.PlayerTarget != null)
         {
-            if (_ctx.IsInStrafeRange()) SetSubState(_factory.Strafe());
+            if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SetSubState(_factory.Strafe());
             else if(_ctx.IsInChaseRange()) SetSubState(_factory.Chase());
             else SetSubState(_factory.Idle());
         }

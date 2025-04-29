@@ -10,6 +10,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     public EnemyAnimatorController EnemyAnimatorController {get; private set;}
     public EnemyManager EnemyManager {get; private set;}
+    public EnemyProfile profile;
 
     public PlayerManager PlayerManager {get; private set;}
     public Transform PlayerTarget {get; private set;}
@@ -40,6 +41,8 @@ public class EnemyStateMachine : MonoBehaviour
         EnemyManager = GetComponent<EnemyManager>();
         EnemyAnimatorController = GetComponent<EnemyAnimatorController>();
         
+        ApplyProfile();
+        
         _states = new EnemyStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
@@ -50,6 +53,19 @@ public class EnemyStateMachine : MonoBehaviour
     {
         _currentState.UpdateStates();
         HandleAttackCounter();
+    }
+    
+    private void ApplyProfile()
+    {
+        if (profile != null)
+        {
+            chaseRange = profile.chaseRange;
+            strafeRange = profile.strafeRange;
+            attackRange = profile.attackRange;
+            movementSpeed = profile.movementSpeed;
+            runningSpeed = profile.runningSpeed;
+            rotationSpeed = profile.rotationSpeed;
+        }
     }
 
     public bool IsInChaseRange()

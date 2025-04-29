@@ -50,13 +50,13 @@ public class EnemyBackState : EnemyBaseState
     public override void CheckSwitchStates()
     {
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
-        else if (_ctx.EnemyManager.IsReacting) SwitchState(_factory.Reaction());
+        else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
             SwitchState(_factory.Idle());
         else if (_ctx.IsInAttackRange())
             SwitchState(_factory.Attack());
-        else if (_ctx.IsInStrafeRange())
+        else if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe)
             SwitchState(_factory.Strafe());
         else if (_ctx.IsInChaseRange())
             SwitchState(_factory.Chase());

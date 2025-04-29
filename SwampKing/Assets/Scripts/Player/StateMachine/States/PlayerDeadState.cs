@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerDeadState : PlayerBaseState
 {
 
+    private float timeOfDeath;
     public PlayerDeadState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) { }
     
     public override void CheckSwitchStates()
@@ -13,6 +15,7 @@ public class PlayerDeadState : PlayerBaseState
     {
         _ctx.PlayerMovement.StopMovement();
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDeadHash,true);
+        timeOfDeath = Time.time;
             
     }
 
@@ -28,6 +31,10 @@ public class PlayerDeadState : PlayerBaseState
 
     public override void UpdateState()
     {
+        if (Time.time - timeOfDeath >= 3f)
+        {
+            LevelManager.instance.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
 

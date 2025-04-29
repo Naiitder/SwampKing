@@ -6022,7 +6022,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.017673146, y: 0.06, z: 0.0074991058}
   m_Center: {x: -0.0016627748, y: 0.01, z: 0.0000000042825894}
@@ -15891,6 +15891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06a84cc6098d48f6825dbea948679f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 07bf5554cc5a04be39b101cfe4b094e1, type: 2}
   chaseRange: 15
   strafeRange: 6
   attackRange: 3

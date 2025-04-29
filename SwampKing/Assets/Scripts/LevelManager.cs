@@ -16,6 +16,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI description;
     private float targetProgress;
+    
+    private bool isLoading = false;
 
     private void Awake()
     {
@@ -33,6 +35,9 @@ public class LevelManager : MonoBehaviour
 
     public async void LoadScene(string sceneName)
     {
+        if (isLoading) return; 
+        isLoading = true;
+        
         var tipData = SQLiteDB.instance.GetRandomTip();
         title.text = tipData.title;
         description.text = tipData.description;

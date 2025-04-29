@@ -44,8 +44,8 @@ public class EnemyReactionState : EnemyBaseState
         if (_ctx.PlayerTarget != null)
         {
             if(_ctx.IsInAttackRange()) SwitchState(_factory.Attack());
-            else if (_ctx.IsInStrafeRange() && _ctx.PlayerManager.IsAttacking) SwitchState(_factory.Backing());
-            else if (_ctx.IsInStrafeRange()) SwitchState(_factory.Strafe());
+            else if (_ctx.profile.canRetreat && (_ctx.IsInStrafeRange() && _ctx.PlayerManager.IsAttacking)) SwitchState(_factory.Backing());
+            else if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SwitchState(_factory.Strafe());
             else if (_ctx.IsInChaseRange()) SwitchState(_factory.Chase());
             else SwitchState(_factory.Idle());
         }

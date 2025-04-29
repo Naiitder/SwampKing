@@ -4,8 +4,6 @@ public class EnemyAttackState : EnemyBaseState
 {
     private bool attackFinished;
     private int currentAttackHash;
-
-    private float chanceOfAttack = 0.4f;
     
     public EnemyAttackState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory)
@@ -66,30 +64,37 @@ public class EnemyAttackState : EnemyBaseState
     public override void CheckSwitchStates()
     {
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
-        else if (_ctx.EnemyManager.IsReacting) SwitchState(_factory.Reaction());
+        else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
         if (!attackFinished) return;
         
-        bool canChainAttack = (_ctx.IsInAttackRange() && _ctx.EnemyManager.AttackCount != 2) || (_ctx.PlayerManager != null 
-                                                         && !_ctx.PlayerManager.IsAttacking);
+        bool canChainAttack = _ctx.profile.canChainAttacks && 
+                              (
+                                  (_ctx.IsInAttackRange() && _ctx.EnemyManager.AttackCount != 2) 
+                                  || 
+                                  (_ctx.PlayerManager != null && !_ctx.PlayerManager.IsAttacking)
+                              );
         
         if (canChainAttack)
         {
-            if (Random.value >= chanceOfAttack)
+            if (Random.value >= _ctx.profile.chanceToChainAttack)
             {
                 _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,true);
                 SwitchState(_factory.Attack()); 
+                Debug.Log(_ctx.profile.canChainAttacks);
                 return;
             }
         }
         
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,false);
+        _ctx.EnemyManager.AttackCount = 0;
         
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
             SwitchState(_factory.Idle());
         
-        else if (_ctx.IsInAttackRange() || _ctx.IsInStrafeRange())
+        else if (_ctx.profile.canRetreat && (_ctx.IsInAttackRange() || _ctx.IsInStrafeRange()))
             SwitchState(_factory.Backing());
+        else if (_ctx.profile.canStrafe && (_ctx.IsInStrafeRange())) SwitchState(_factory.Strafe());
         
         else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
             SwitchState(_factory.Chase());

@@ -19,6 +19,7 @@ public class EnemyChaseState : EnemyBaseState
         {
             _ctx.Agent.stoppingDistance = _ctx.AttackRange;
             _ctx.Agent.SetDestination(_ctx.PlayerTarget.position);
+            Debug.Log("a");
         }
         
         CheckSwitchStates();
@@ -35,10 +36,11 @@ public class EnemyChaseState : EnemyBaseState
     }
     public override void CheckSwitchStates(){
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
-        else if (_ctx.EnemyManager.IsReacting) SwitchState(_factory.Reaction());
+        else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange()) SwitchState(_factory.Idle());
-        else if (_ctx.IsInStrafeRange()) SwitchState(_factory.Strafe());
+        else if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SwitchState(_factory.Strafe());
+        else if (_ctx.IsInAttackRange()) SwitchState(_factory.Attack());
         
     }
 }
