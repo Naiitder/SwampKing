@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<string> sentences = new Queue<string>();
     private Coroutine typingCoroutine;
+    private Coroutine autoAdvanceCoroutine;
     private bool isTyping = false;
     private bool skipToNext = false;
 
@@ -64,7 +65,6 @@ IEnumerator TypeSentence(string sentence)
 
     TMP_TextInfo textInfo = dialogueText.textInfo;
 
-    // Inicializa todo invisible
     for (int i = 0; i < textInfo.characterCount; i++)
     {
         if (!textInfo.characterInfo[i].isVisible) continue;
@@ -85,8 +85,8 @@ IEnumerator TypeSentence(string sentence)
     {
         if (skipToNext)
         {
-            SetAllAlphaTo(255);
-            break;
+            SetAllAlphaTo(255); // Mostrar todo
+            break; // SOLO salir del while, no avanzar la frase
         }
         
         do
@@ -112,16 +112,12 @@ IEnumerator TypeSentence(string sentence)
                 if (skipToNext)
                 {
                     SetAllAlphaTo(255);
-                    isTyping = false;
-                    typingCoroutine = null;
-                    DisplayNextSentence();
-                    yield break;
+                    break; // salir del for de interpolación
                 }
 
                 yield return null;
             }
 
-            // Asegura visibilidad
             for (int j = 0; j < 4; j++)
                 textInfo.meshInfo[meshIndex].colors32[vertexIndex + j].a = 255;
 
@@ -131,15 +127,21 @@ IEnumerator TypeSentence(string sentence)
                  !char.IsWhiteSpace(textInfo.characterInfo[currentChar].character));
 
         dialogueText.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-        yield return new WaitForSeconds(delayBetweenWords);
+
+        if (!skipToNext)
+            yield return new WaitForSeconds(delayBetweenWords);
     }
+
+    SetAllAlphaTo(255);
+
+    SetAllAlphaTo(255);
 
     isTyping = false;
     typingCoroutine = null;
-
-    yield return new WaitForSeconds(0.5f); 
-    if (!skipToNext)
-        DisplayNextSentence();
+    
+    if (autoAdvanceCoroutine != null)
+        StopCoroutine(autoAdvanceCoroutine);
+    autoAdvanceCoroutine = StartCoroutine(AutoAdvance());
 }
 
 void SetAllAlphaTo(byte alpha)
@@ -184,6 +186,13 @@ void SetAllAlphaTo(byte alpha)
         {
             DisplayNextSentence();
         }
+    }
+    
+    private IEnumerator AutoAdvance()
+    {
+        yield return new WaitForSeconds(1f);
+
+        DisplayNextSentence();
     }
 
 }

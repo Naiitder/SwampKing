@@ -19,11 +19,10 @@ public class PlayerInteractState : PlayerBaseState
         if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
         else if(_ctx.PlayerManager.IsReacting) SwitchState(_factory.Reaction());
         
-        var npc = FindNPC(); 
-        if (npc != null)
+        if (_ctx.npc != null)
         {
             if (DialogueManager.instance.dialogueBox.activeSelf) DialogueManager.instance.SkipOrNext();
-            else npc.TriggerDialogue();
+            else _ctx.npc.TriggerDialogue();
         }
         else SwitchState(_factory.UsingItem());
         
@@ -31,23 +30,5 @@ public class PlayerInteractState : PlayerBaseState
         else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());
         else if (InputController.instance.MoveAmount != 0) SwitchState(_factory.Walk());
         else if (InputController.instance.MoveAmount == 0) SwitchState(_factory.Idle());
-    }
-
-    private NPCDialogueTrigger FindNPC()
-    {
-        float interactionRadius = 2f;
-        Vector3 center = _ctx.transform.position + Vector3.up;
-
-        Collider[] colliders = Physics.OverlapSphere(center, interactionRadius);
-        foreach (Collider collider in colliders)
-        {
-            NPCDialogueTrigger npc = collider.GetComponent<NPCDialogueTrigger>();
-            if (npc != null)
-            {
-                return npc;
-            }
-        }
-
-        return null;
     }
 }

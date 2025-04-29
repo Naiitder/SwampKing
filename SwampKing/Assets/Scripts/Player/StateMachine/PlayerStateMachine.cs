@@ -9,6 +9,9 @@ public class PlayerStateMachine : MonoBehaviour
     
     public AudioSource AudioSource;
     public AudioClip SimpleAttack;
+
+    public NPCDialogueTrigger npc;
+    public GameObject InteractionPrompt; 
     
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
@@ -34,6 +37,12 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerMovement.HandleMovement();
         HandleJumpCharge();
         HandleAirTimer();
+
+        npc = FindNPC();
+        
+        if (InteractionPrompt != null)
+            InteractionPrompt.SetActive(npc != null && !DialogueManager.instance.dialogueBox.activeSelf);
+        
 
         HandleAttackCounter();
     }
@@ -75,6 +84,24 @@ public class PlayerStateMachine : MonoBehaviour
         {
             PlayerManager.PreviousIsAttacking = true;
         }
+    }
+    
+    private NPCDialogueTrigger FindNPC()
+    {
+        float interactionRadius = 2f;
+        Vector3 center = transform.position + Vector3.up;
+
+        Collider[] colliders = Physics.OverlapSphere(center, interactionRadius);
+        foreach (Collider collider in colliders)
+        {
+            NPCDialogueTrigger npc = collider.GetComponent<NPCDialogueTrigger>();
+            if (npc != null)
+            {
+                return npc;
+            }
+        }
+
+        return null;
     }
     
     private void OnAnimatorMove()
