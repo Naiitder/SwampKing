@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     private float targetPosition;
 
     private float defaultPosition;
-    private float lookAngle;
+    public float lookAngle;
     private float pivotAngle;
     public float minimumPivot = -15;
     public float maximumPivot = 25;

@@ -2311,6 +2311,7 @@ MonoBehaviour:
   pivotSpeed: 50
   groundedFollowSpeed: 0.15
   aerialFollowSpeed: 0.25
+  lookAngle: 0
   minimumPivot: -15
   maximumPivot: 45
   cameraSphereRadius: 0.1
@@ -5027,9 +5028,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554945457}
-        m_TargetAssemblyTypeName: CanvasReferences, Assembly-CSharp
-        m_MethodName: ActiveSaveOptions
+      - m_Target: {fileID: 2133342598}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ActiveSaveGameCanvas
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5882,53 +5883,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1554945454
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1554945456}
-  - component: {fileID: 1554945457}
-  m_Layer: 0
-  m_Name: UIController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1554945456
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554945454}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1554945457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554945454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60e3e8ecf17774273997c3c0c3d4b475, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseCanvas: {fileID: 351577750}
-  gameOverCanvas: {fileID: 943104796}
-  saveGameCanvas: {fileID: 4876129069425974027}
 --- !u!1 &1557147623 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 24ec8ae43c9829847b0c0b3b872c9266, type: 3}
@@ -7716,10 +7670,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad3e2e300b7ea84da066fcb3d658dda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseCanvas: {fileID: 0}
-  gameOverCanvas: {fileID: 0}
-  saveGameCanvas: {fileID: 0}
-  cameraObject: {fileID: 519170646}
+  pauseCanvas: {fileID: 351577750}
+  gameOverCanvas: {fileID: 943104796}
+  saveGameCanvas: {fileID: 4876129069425974027}
+  CameraController: {fileID: 519170645}
   Coins: 0
   SaveID: -1
   isGamePaused: 0
@@ -21915,7 +21869,6 @@ SceneRoots:
   - {fileID: 103322650}
   - {fileID: 896310804}
   - {fileID: 2133342599}
-  - {fileID: 1554945456}
   - {fileID: 519170646}
   - {fileID: 828460271}
   - {fileID: 285173663}

@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject pauseCanvas;
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject saveGameCanvas;
-    [SerializeField] private Transform cameraObject;
+    [SerializeField] private CameraController CameraController;
 
     [SerializeField] public int Coins;
     [SerializeField] public int SaveID = -1;
@@ -32,6 +32,10 @@ public class GameController : MonoBehaviour
         
         Application.targetFrameRate = 60; 
         QualitySettings.vSyncCount = 0;
+        
+        if(pauseCanvas) pauseCanvas.SetActive(false);
+        if(gameOverCanvas) gameOverCanvas.SetActive(false);
+        if(saveGameCanvas) saveGameCanvas.SetActive(false);
 
     }
 
@@ -69,11 +73,10 @@ public class GameController : MonoBehaviour
             Vector3 currentPos = InputController.instance.transform.position;
             Quaternion currentRot = InputController.instance.transform.rotation;
             
-            Vector3 currentCameraPos = cameraObject.position;
-            Quaternion currentCameraRot = cameraObject.rotation;
+
+            float currentCameraRot = CameraController.transform.rotation.eulerAngles.y;
             
-            SQLiteDB.instance.SaveGame(saveId, currentPos, currentRot,
-                currentCameraPos, currentCameraRot , Coins);
+            SQLiteDB.instance.SaveGame(saveId, currentPos, currentRot, currentCameraRot , Coins);
     }
     
 
@@ -131,7 +134,7 @@ public class GameController : MonoBehaviour
         // --- PLAYER ---
         using (var cmd = connection.CreateCommand())
         {
-            cmd.CommandText = "SELECT name, position, rotation, camera_position, camera_rotation, coins, statistics FROM player WHERE save_id = @saveId LIMIT 1;";
+            cmd.CommandText = "SELECT name, position, rotation, camera_rotation, coins, statistics FROM player WHERE save_id = @saveId LIMIT 1;";
             cmd.Parameters.AddWithValue("@saveId", saveId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -140,10 +143,9 @@ public class GameController : MonoBehaviour
                     string name = reader["name"].ToString();
                     string position = reader["position"].ToString();
                     string rotation = reader["rotation"].ToString();
-                    string cameraPosition = reader["camera_position"].ToString();
-                    string cameraRotation = reader["camera_rotation"].ToString();
                     int coins = Convert.ToInt32(reader["coins"]);
                     int statsId = Convert.ToInt32(reader["statistics"]);
+                    float cameraRot = Convert.ToSingle(reader["camera_rotation"]);
                     
                     string[] parts = position.Split(',');
                     Vector3 pos = new Vector3(
@@ -160,28 +162,9 @@ public class GameController : MonoBehaviour
                         float.Parse(parts[3])
                     );
                     
-                    parts = cameraPosition.Split(',');
-                    Vector3 cameraPos = new Vector3(
-                        float.Parse(parts[0]),
-                        float.Parse(parts[1]),
-                        float.Parse(parts[2])
-                    );
-                    
-                    parts = cameraRotation.Split(',');
-                    Quaternion cameraRot = new Quaternion(
-                        float.Parse(parts[0]),
-                        float.Parse(parts[1]),
-                        float.Parse(parts[2]),
-                        float.Parse(parts[3])
-                    );
-
-                    
-                    
-
-                    
                     Coins = coins; 
                     StartCoroutine(SetPlayerPositionNextFrame(pos, rot,
-                        cameraPos, cameraRot));
+                        cameraRot));
 
                     // TODO Establecer stats... etc.
                     Debug.Log($"Loaded player {name} at {position} with {coins} coins.");
@@ -265,14 +248,22 @@ public class GameController : MonoBehaviour
         connection.Close();
     }
 }
-    private IEnumerator SetPlayerPositionNextFrame(Vector3 pos, Quaternion rot, 
-        Vector3 cameraPosition, Quaternion cameraRotation)
+    private IEnumerator SetPlayerPositionNextFrame(Vector3 pos, Quaternion rot, float cameraRotation)
     {
         yield return null; 
         InputController.instance.transform.position = pos;
         InputController.instance.transform.rotation = rot;
-        cameraObject.position = cameraPosition;
-        cameraObject.rotation = cameraRotation;
-    }  
+        CameraController.lookAngle = cameraRotation;
+    }
+
+    public void ActiveSaveGameCanvas()
+    {
+        saveGameCanvas.SetActive(true);
+    }
+    public void DeActiveSaveGameCanvas()
+    {
+        saveGameCanvas.SetActive(false);
+    }
     
+
 }

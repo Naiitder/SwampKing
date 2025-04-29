@@ -65,7 +65,6 @@
                                   "statistics INTEGER, " +
                                   "position TEXT NULL, " +
                                   "rotation TEXT NULL, " +
-                                  "camera_position TEXT NULL, " +
                                   "camera_rotation TEXT NULL, " +
                                   "coins INTEGER NOT NULL, " +
                                   "FOREIGN KEY(save_id) REFERENCES save_slot(id),"+
@@ -244,23 +243,29 @@
             using (var connection = new SqliteConnection(dbName))
             {
                 connection.Open();
-
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = q;
-                    using (IDataReader reader = command.ExecuteReader())
+
+                    // Detectar si es un SELECT
+                    if (q.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                     {
-                        while (reader.Read())
+                        using (IDataReader reader = command.ExecuteReader())
                         {
-                            if(reader.FieldCount > 0)
+                            while (reader.Read())
                             {
-                                Debug.Log("ID: " + reader["id"] + " Vida: " + reader["max_health"] + " Ataque: " + reader["damage"]);
+                                if (reader.FieldCount > 0)
+                                {
+                                    Debug.Log("ID: " + reader["id"] + " Vida: " + reader["max_health"] + " Ataque: " + reader["damage"]);
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        command.ExecuteNonQuery();
+                    }
                 }
-
-                connection.Close();
             }
         }
         
@@ -462,7 +467,7 @@
         public void InsertInitialGameData(int saveId)
         {
             // Player inicial
-            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, camera_position, camera_rotation, coins) VALUES ({saveId}, 'Gusta', 1, '0,0,0','0,0,0,0','0,0,0','0,0,0,0', 0);");
+            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, camera_rotation, coins) VALUES ({saveId}, 'Gusta', 1, '0,0,0','0,0,0,0','0', 0);");
 
             // Inventario inicial
             Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 1, 5);");
@@ -516,8 +521,8 @@
         }
         
         
-        public void SaveGame(int saveId, Vector3 position, Quaternion rotation, Vector3 cameraPos,
-            Quaternion cameraRot, int coins)
+        public void SaveGame(int saveId, Vector3 position, Quaternion rotation,
+            float cameraRot, int coins)
         {
             using (var connection = new SqliteConnection(dbName))
             {
@@ -526,11 +531,10 @@
                 {
                     string posString = $"{position.x},{position.y},{position.z}";
                     string rotString = $"{rotation.x},{rotation.y},{rotation.z},{rotation.w}";
-                    string cameraPosString = $"{cameraPos.x},{cameraPos.y},{cameraPos.z}";
-                    string cameraRotString = $"{cameraRot.x},{cameraRot.y},{cameraRot.z},{cameraRot.w}";
+                    string cameraRotString = $"{cameraRot}";
                     command.CommandText = @"
                 UPDATE player 
-                SET position = @position, rotation = @rotation, camera_position = @cameraPosition, camera_rotation = @cameraRotation, coins = @coins
+                SET position = @position, rotation = @rotation,camera_rotation = @cameraRotation, coins = @coins
                 WHERE save_id = @saveId;
                 
                 UPDATE save_slot
@@ -539,7 +543,6 @@
             ";
                     command.Parameters.AddWithValue("@position", posString);
                     command.Parameters.AddWithValue("@rotation", rotString);
-                    command.Parameters.AddWithValue("@cameraPosition", cameraPosString);
                     command.Parameters.AddWithValue("@cameraRotation", cameraRotString);
                     command.Parameters.AddWithValue("@coins", coins);
                     command.Parameters.AddWithValue("@saveId", saveId);
