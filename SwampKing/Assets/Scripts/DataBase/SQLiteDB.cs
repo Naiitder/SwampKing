@@ -7,7 +7,7 @@
     public class SQLiteDB : MonoBehaviour
     {
         public static SQLiteDB instance;
-        private string dbName = "URI=file:DataBase.db";
+        public string dbName = "URI=file:DataBase.db";
         
         private void Awake()
         {        
@@ -47,7 +47,8 @@
                     // Tabla Estadísticas
                     sqlcreation = "CREATE TABLE IF NOT EXISTS statistics (" +
                                          "id INTEGER PRIMARY KEY, " +
-                                         "health INTEGER NOT NULL, " +
+                                         "max_health INTEGER NOT NULL, " +
+                                         "current_health INTEGER NULL, " +
                                          "damage INTEGER NOT NULL, " +
                                          "endurance INTEGER NOT NULL, " +
                                          "armor INTEGER NOT NULL, " +
@@ -62,7 +63,10 @@
                                   "save_id INTEGER NOT NULL,"+
                                   "name TEXT NOT NULL, " +
                                   "statistics INTEGER, " +
-                                  "position TEXT NOT NULL, " +
+                                  "position TEXT NULL, " +
+                                  "rotation TEXT NULL, " +
+                                  "camera_position TEXT NULL, " +
+                                  "camera_rotation TEXT NULL, " +
                                   "coins INTEGER NOT NULL, " +
                                   "FOREIGN KEY(save_id) REFERENCES save_slot(id),"+
                                   "FOREIGN KEY(statistics) REFERENCES statistics(id)" +
@@ -250,7 +254,7 @@
                         {
                             if(reader.FieldCount > 0)
                             {
-                                Debug.Log("ID: " + reader["id"] + " Vida: " + reader["health"] + " Ataque: " + reader["damage"]);
+                                Debug.Log("ID: " + reader["id"] + " Vida: " + reader["max_health"] + " Ataque: " + reader["damage"]);
                             }
                         }
                     }
@@ -367,10 +371,10 @@
         public void InsertInitialData()
         {
              // Inserciones estadisticas
-            Query("INSERT OR IGNORE INTO statistics (id, health, damage, endurance, armor, speed) VALUES (1, 200, 25, 15, 15, 6);");
-            Query("INSERT OR IGNORE INTO statistics (id, health, damage, endurance, armor, speed) VALUES (2, 100, 25, 15, 15, 4);");
-            Query("INSERT OR IGNORE INTO statistics (id, health, damage, endurance, armor, speed) VALUES (3, 150, 20, 15, 15, 5);");
-            Query("INSERT OR IGNORE INTO statistics (id, health, damage, endurance, armor, speed) VALUES (4, 450, 50, 15, 15, 6);");
+            Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (1, 200, 25, 15, 15, 6);");
+            Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (2, 100, 25, 15, 15, 4);");
+            Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (3, 150, 20, 15, 15, 5);");
+            Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (4, 450, 50, 15, 15, 6);");
             Query("SELECT * FROM statistics;");
             
             // Inserciones personajes
@@ -458,7 +462,7 @@
         public void InsertInitialGameData(int saveId)
         {
             // Player inicial
-            Query($"INSERT INTO player (save_id, name, statistics, position, coins) VALUES ({saveId}, 'Gusta', 1, '0-0-0', 0);");
+            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, camera_position, camera_rotation, coins) VALUES ({saveId}, 'Gusta', 1, '0,0,0','0,0,0,0','0,0,0','0,0,0,0', 0);");
 
             // Inventario inicial
             Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 1, 5);");
@@ -511,117 +515,44 @@
             return saves;
         }
         
-        public void LoadDataFromSave(int saveId)
-{
-    using (var connection = new SqliteConnection(dbName))
-    {
-        connection.Open();
-
-        // --- PLAYER ---
-        using (var cmd = connection.CreateCommand())
+        
+        public void SaveGame(int saveId, Vector3 position, Quaternion rotation, Vector3 cameraPos,
+            Quaternion cameraRot, int coins)
         {
-            cmd.CommandText = "SELECT name, position, coins, statistics FROM player WHERE save_id = @saveId LIMIT 1;";
-            cmd.Parameters.AddWithValue("@saveId", saveId);
-            using (var reader = cmd.ExecuteReader())
+            using (var connection = new SqliteConnection(dbName))
             {
-                if (reader.Read())
+                connection.Open();
+                using (var command = connection.CreateCommand())
                 {
-                    string name = reader["name"].ToString();
-                    string position = reader["position"].ToString();
-                    int coins = Convert.ToInt32(reader["coins"]);
-                    int statsId = Convert.ToInt32(reader["statistics"]);
-                    
-                    string[] parts = position.Split('-');
-                    Vector3 pos = new Vector3(
-                        float.Parse(parts[0]),
-                        float.Parse(parts[1]),
-                        float.Parse(parts[2])
-                    );
-                    
-                    GameController.instance.Coins = coins;
-                    InputController.instance.transform.position = pos;
-                    // TODO Establecer stats... etc.
-                    Debug.Log($"Loaded player {name} at {position} with {coins} coins.");
+                    string posString = $"{position.x},{position.y},{position.z}";
+                    string rotString = $"{rotation.x},{rotation.y},{rotation.z},{rotation.w}";
+                    string cameraPosString = $"{cameraPos.x},{cameraPos.y},{cameraPos.z}";
+                    string cameraRotString = $"{cameraRot.x},{cameraRot.y},{cameraRot.z},{cameraRot.w}";
+                    command.CommandText = @"
+                UPDATE player 
+                SET position = @position, rotation = @rotation, camera_position = @cameraPosition, camera_rotation = @cameraRotation, coins = @coins
+                WHERE save_id = @saveId;
+                
+                UPDATE save_slot
+                SET play_time = TIME('now') 
+                WHERE id = @saveId;
+            ";
+                    command.Parameters.AddWithValue("@position", posString);
+                    command.Parameters.AddWithValue("@rotation", rotString);
+                    command.Parameters.AddWithValue("@cameraPosition", cameraPosString);
+                    command.Parameters.AddWithValue("@cameraRotation", cameraRotString);
+                    command.Parameters.AddWithValue("@coins", coins);
+                    command.Parameters.AddWithValue("@saveId", saveId);
+
+                    command.ExecuteNonQuery();
                 }
+                connection.Close();
             }
+
+            Debug.Log($"✅ Partida {saveId} guardada correctamente.");
         }
 
-        /*// --- INVENTORY ---
-        using (var cmd = connection.CreateCommand())
-        {
-            cmd.CommandText = "SELECT id_item, quantity FROM inventory WHERE save_id = @saveId;";
-            cmd.Parameters.AddWithValue("@saveId", saveId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    int itemId = Convert.ToInt32(reader["id_item"]);
-                    int quantity = Convert.ToInt32(reader["quantity"]);
-
-                    // Añadir item al inventario del jugador, ejemplo:
-                    InventoryManager.instance.AddItem(itemId, quantity);
-
-                    Debug.Log($"Item {itemId} x{quantity}");
-                }
-            }
-        }
-
-        // --- QUESTS ---
-        using (var cmd = connection.CreateCommand())
-        {
-            cmd.CommandText = "SELECT quest_id, state, progress FROM quest_state WHERE save_id = @saveId;";
-            cmd.Parameters.AddWithValue("@saveId", saveId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    int questId = Convert.ToInt32(reader["quest_id"]);
-                    string state = reader["state"].ToString();
-                    int progress = Convert.ToInt32(reader["progress"]);
-
-                    QuestManager.instance.SetQuestState(questId, state, progress);
-                    Debug.Log($"Quest {questId} - {state} ({progress}%)");
-                }
-            }
-        }*/
-
-        /*// --- CHARACTERS (is_alive) ---
-        using (var cmd = connection.CreateCommand())
-        {
-            cmd.CommandText = "SELECT character_id, is_alive FROM character_state WHERE save_id = @saveId;";
-            cmd.Parameters.AddWithValue("@saveId", saveId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    int charId = Convert.ToInt32(reader["character_id"]);
-                    bool isAlive = Convert.ToInt32(reader["is_alive"]) == 1;
-
-                    CharacterManager.instance.SetCharacterAlive(charId, isAlive);
-                }
-            }
-        }
-
-        // --- EVENTS (opcional) ---
-        using (var cmd = connection.CreateCommand())
-        {
-            cmd.CommandText = "SELECT id, triggered FROM event_state WHERE save_id = @saveId;";
-            cmd.Parameters.AddWithValue("@saveId", saveId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    string eventId = reader["id"].ToString();
-                    bool triggered = Convert.ToInt32(reader["triggered"]) == 1;
-
-                    EventManager.instance.SetEventTriggered(eventId, triggered);
-                }
-            }
-        }*/
-
-        connection.Close();
-    }
-}
+        
 
         
     }

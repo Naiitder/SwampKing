@@ -18,7 +18,6 @@ public class PlayerAirboneState : PlayerBaseState
     {
         InitializeSubState();
         _ctx.PlayerManager.IsGrounded = false;
-        Debug.Log("PlayerAirboneState Entered");
     }
 
     public override void ExitState()

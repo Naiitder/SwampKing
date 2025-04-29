@@ -23,7 +23,8 @@ public class LoadGameUI : MonoBehaviour
     
     public void LoadSave(int saveId)
     {
-        GameController.instance.SaveID = saveId;
+        PlayerPrefs.SetInt("CurrentSaveId", saveId);
+        PlayerPrefs.Save();
         
         LevelManager.instance.LoadScene("SampleScene");
     }
