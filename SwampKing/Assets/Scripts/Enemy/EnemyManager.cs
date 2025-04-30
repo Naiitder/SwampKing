@@ -13,6 +13,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private bool isDead;
     [SerializeField] private bool isReacting;
     [SerializeField] private bool isJumping;
+    [SerializeField] private bool isShooting;
     
     public int AttackCount {get; set;}
     public float TimeSinceLastAttack { get; set; }
@@ -27,6 +28,7 @@ public class EnemyManager : MonoBehaviour
     public bool IsIdle { get => isIdle; set => isIdle = value; }
     public bool IsChasing { get => isChasing; set => isChasing = value; }
     public bool IsAttacking { get => isAttacking; set => isAttacking = value; }
+    public bool IsShooting { get => isShooting; set => isShooting = value; }
     public bool IsDead { get => isDead; set => isDead = value; }
     public bool IsReacting { get => isReacting; set => isReacting = value; }
     

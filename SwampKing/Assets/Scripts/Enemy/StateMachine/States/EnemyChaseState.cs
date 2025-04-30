@@ -19,7 +19,6 @@ public class EnemyChaseState : EnemyBaseState
         {
             _ctx.Agent.stoppingDistance = _ctx.AttackRange;
             _ctx.Agent.SetDestination(_ctx.PlayerTarget.position);
-            Debug.Log("a");
         }
         
         CheckSwitchStates();

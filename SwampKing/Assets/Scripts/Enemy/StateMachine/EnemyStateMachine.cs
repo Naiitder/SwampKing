@@ -21,6 +21,7 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] private float chaseRange = 10f;
     [SerializeField] private float strafeRange = 4f;
     [SerializeField] private float attackRange = 2f;
+    [SerializeField] private float shottingRange = 6f;
     
     //Obtain via Database
     [Header("Movement Stats")]
@@ -65,6 +66,7 @@ public class EnemyStateMachine : MonoBehaviour
             movementSpeed = profile.movementSpeed;
             runningSpeed = profile.runningSpeed;
             rotationSpeed = profile.rotationSpeed;
+            shottingRange = profile.shootingRange;
         }
     }
 
@@ -83,6 +85,11 @@ public class EnemyStateMachine : MonoBehaviour
         return Vector3.Distance(transform.position, PlayerTarget.position) <= attackRange;
     }
     
+    
+    public bool IsInShootingRange()
+    {
+        return Vector3.Distance(transform.position, PlayerTarget.position) <= shottingRange;
+    }
     private void HandleAttackCounter()
     {
         if (!EnemyManager.IsAttacking)
