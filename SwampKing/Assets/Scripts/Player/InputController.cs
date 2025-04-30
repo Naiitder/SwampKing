@@ -22,6 +22,8 @@ public class InputController : MonoBehaviour
     [SerializeField] private bool isAttackPressed;
     [SerializeField] private bool isPausePressed;
     [SerializeField] private bool isInteractPressed;
+    
+    public InputDevice LastUsedDevice { get; private set; }
 
     public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
     public enum InputActionType { Jump, Attack, Aim, Interact }
@@ -60,8 +62,8 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Movement.canceled += onMovementInput;
             playerControlls.Locomotion.Movement.performed += onMovementInput;
             playerControlls.Locomotion.Camera.performed += onCameraInput;
-            playerControlls.Locomotion.Jump.started += ctx => onJumpInputStart();
-            playerControlls.Locomotion.Jump.canceled += ctx => onJumpInputExit();
+            playerControlls.Locomotion.Jump.started +=  onJumpInputStart;
+            playerControlls.Locomotion.Jump.canceled += onJumpInputExit;
             playerControlls.Actions.Attack.started += ctx => onAttackInputStart();
             playerControlls.Actions.Attack.canceled += ctx => onAttackInputExit();
             playerControlls.UserActions.Pause.started += ctx => onPauseInputStart();
@@ -80,18 +82,24 @@ public class InputController : MonoBehaviour
 
     void onMovementInput(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+        
         movementInput = context.ReadValue<Vector2>();
         horizontalInput = movementInput.x;
         verticalInput = movementInput.y;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
     }
-    void onJumpInputStart()
+    void onJumpInputStart(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+        
         isJumpPressed = true;
     }
 
-    void onJumpInputExit()
+    void onJumpInputExit(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+        
         isJumpPressed = false;
         InputBuffer.Enqueue(InputActionType.Jump);
     }

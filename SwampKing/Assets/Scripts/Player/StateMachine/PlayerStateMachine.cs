@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
 {
@@ -12,6 +15,13 @@ public class PlayerStateMachine : MonoBehaviour
 
     public NPCDialogueTrigger npc;
     public GameObject InteractionPrompt; 
+    
+    [SerializeField] private TextMeshProUGUI promptText;
+    [SerializeField] private Sprite keyboardIcon;
+    [SerializeField] private Sprite gamepadIcon;
+    [SerializeField] private Image promptIcon;
+    
+    public InputDevice currentDevice;
     
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
@@ -40,12 +50,37 @@ public class PlayerStateMachine : MonoBehaviour
 
         npc = FindNPC();
         
-        if (InteractionPrompt != null)
-            InteractionPrompt.SetActive(npc != null && !DialogueManager.instance.dialogueBox.activeSelf);
-        
+        UpdateInteractionPrompt();
 
         HandleAttackCounter();
     }
+    
+    void UpdateInteractionPrompt()
+    {
+        if (npc != null && !DialogueManager.instance.dialogueBox.activeSelf)
+        {
+            InteractionPrompt.SetActive(true);
+
+            var device = InputController.instance.LastUsedDevice;
+
+            if (device is Gamepad)
+            {
+                promptText.text = "Presiona";
+                promptIcon.sprite = gamepadIcon;
+                promptIcon.gameObject.SetActive(true);
+            }
+            else if (device is Keyboard)
+            {
+                promptText.text = "Presiona E para interactuar";
+                promptIcon.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            InteractionPrompt.SetActive(false);
+        }
+    }
+
 
     private void HandleJumpCharge()
     {

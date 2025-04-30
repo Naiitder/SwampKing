@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Mono.Data.Sqlite;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -145,21 +146,21 @@ public class GameController : MonoBehaviour
                     string rotation = reader["rotation"].ToString();
                     int coins = Convert.ToInt32(reader["coins"]);
                     int statsId = Convert.ToInt32(reader["statistics"]);
-                    float cameraRot = Convert.ToSingle(reader["camera_rotation"]);
+                    float cameraRot = float.Parse(reader["camera_rotation"].ToString(), CultureInfo.InvariantCulture);
                     
                     string[] parts = position.Split(',');
                     Vector3 pos = new Vector3(
-                        float.Parse(parts[0]),
-                        float.Parse(parts[1]),
-                        float.Parse(parts[2])
+                        float.Parse(parts[0], CultureInfo.InvariantCulture),
+                        float.Parse(parts[1], CultureInfo.InvariantCulture),
+                        float.Parse(parts[2], CultureInfo.InvariantCulture)
                     );
                     
                     parts = rotation.Split(',');
                     Quaternion rot = new Quaternion(
-                        float.Parse(parts[0]),
-                        float.Parse(parts[1]),
-                        float.Parse(parts[2]),
-                        float.Parse(parts[3])
+                        float.Parse(parts[0], CultureInfo.InvariantCulture),
+                        float.Parse(parts[1], CultureInfo.InvariantCulture),
+                        float.Parse(parts[2], CultureInfo.InvariantCulture),
+                        float.Parse(parts[3], CultureInfo.InvariantCulture)
                     );
                     
                     Coins = coins; 
