@@ -17,11 +17,8 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject InteractionPrompt; 
     
     [SerializeField] private TextMeshProUGUI promptText;
-    [SerializeField] private Sprite keyboardIcon;
-    [SerializeField] private Sprite gamepadIcon;
-    [SerializeField] private Image promptIcon;
-    
-    public InputDevice currentDevice;
+    [SerializeField] private TMP_SpriteAsset gamepadSpriteAsset;
+
     
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
@@ -39,6 +36,8 @@ public class PlayerStateMachine : MonoBehaviour
         states = new PlayerStateFactory(this);
         currentState = states.Grounded();
         currentState.EnterState();
+        
+        promptText.spriteAsset = gamepadSpriteAsset;
     }
 
     private void Update()
@@ -65,14 +64,12 @@ public class PlayerStateMachine : MonoBehaviour
 
             if (device is Gamepad)
             {
-                promptText.text = "Presiona";
-                promptIcon.sprite = gamepadIcon;
-                promptIcon.gameObject.SetActive(true);
+                promptText.text = "Presiona <sprite name=\"WestButton_Gamepad\"> para interactuar";   
             }
+            //Todo Cambiarlo por un sprite
             else if (device is Keyboard)
             {
-                promptText.text = "Presiona E para interactuar";
-                promptIcon.gameObject.SetActive(false);
+                promptText.text = "Presiona 'E' para interactuar";
             }
         }
         else

@@ -16764,9 +16764,6 @@ MonoBehaviour:
   npc: {fileID: 0}
   InteractionPrompt: {fileID: 731349454}
   promptText: {fileID: 2092845892}
-  keyboardIcon: {fileID: 0}
-  gamepadIcon: {fileID: 0}
-  promptIcon: {fileID: 0}
 --- !u!114 &5866666021691549343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21506,9 +21503,6 @@ MonoBehaviour:
   npc: {fileID: 0}
   InteractionPrompt: {fileID: 0}
   promptText: {fileID: 0}
-  keyboardIcon: {fileID: 0}
-  gamepadIcon: {fileID: 0}
-  promptIcon: {fileID: 0}
 --- !u!114 &8965725691412757384
 MonoBehaviour:
   m_ObjectHideFlags: 0

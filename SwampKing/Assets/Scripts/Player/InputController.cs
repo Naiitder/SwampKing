@@ -64,11 +64,11 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Camera.performed += onCameraInput;
             playerControlls.Locomotion.Jump.started +=  onJumpInputStart;
             playerControlls.Locomotion.Jump.canceled += onJumpInputExit;
-            playerControlls.Actions.Attack.started += ctx => onAttackInputStart();
-            playerControlls.Actions.Attack.canceled += ctx => onAttackInputExit();
-            playerControlls.UserActions.Pause.started += ctx => onPauseInputStart();
-            playerControlls.Actions.Interact.started += ctx => onInteractStart();
-            playerControlls.Actions.Interact.canceled += ctx => onInteractExit();
+            playerControlls.Actions.Attack.started += onAttackInputStart;
+            playerControlls.Actions.Attack.canceled +=onAttackInputExit;
+            playerControlls.UserActions.Pause.started +=  onPauseInputStart;
+            playerControlls.Actions.Interact.started += onInteractStart;
+            playerControlls.Actions.Interact.canceled +=  onInteractExit;
 
         }
         playerControlls.Enable();
@@ -104,35 +104,47 @@ public class InputController : MonoBehaviour
         InputBuffer.Enqueue(InputActionType.Jump);
     }
 
-    void onAttackInputStart()
+    void onAttackInputStart(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+
         isAttackPressed = true;
     }
 
-    void onAttackInputExit()
+    void onAttackInputExit(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+
         isAttackPressed = false;
         InputBuffer.Enqueue(InputActionType.Attack);
     }
 
-    void onPauseInputStart()
+    void onPauseInputStart(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+
         isPausePressed = !isPausePressed; 
     }
     
-    void onInteractExit()
+    void onInteractExit(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+
         isInteractPressed = true;
         InputBuffer.Enqueue(InputActionType.Interact);
     }
 
-    void onInteractStart()
+    void onInteractStart(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+
         isInteractPressed = false; 
     }
 
     void onCameraInput(InputAction.CallbackContext context)
     {
+        LastUsedDevice = context.control.device;
+
         cameraInput = context.ReadValue<Vector2>();
         cameraHorizontalInput = cameraInput.x;
         cameraVerticalInput = cameraInput.y;
