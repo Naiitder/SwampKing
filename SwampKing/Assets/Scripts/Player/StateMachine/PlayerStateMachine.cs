@@ -76,6 +76,9 @@ public class PlayerStateMachine : MonoBehaviour
         {
             InteractionPrompt.SetActive(false);
         }
+
+        if (PlayerManager.easeHealthSlider.value != PlayerManager.healthSlider.value)
+            PlayerManager.easeHealthSlider.value = Mathf.Lerp(PlayerManager.easeHealthSlider.value, PlayerManager.healthSlider.value, 0.05f);
     }
 
 

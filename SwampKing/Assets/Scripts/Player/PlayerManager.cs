@@ -29,7 +29,8 @@ public class PlayerManager : MonoBehaviour
     
     [Header("CharacterStats")]
     public CharacterStats CharacterStats { get; private set; }
-    [SerializeField] private Slider slider;
+    [SerializeField] public Slider healthSlider;
+    [SerializeField] public Slider easeHealthSlider;
     
     public float JumpChargeTime { get { return jumpChargeTime; } set { jumpChargeTime = value; } }
     public float TapTreshold { get { return tapThreshold; } set { tapThreshold = value; } }
@@ -48,16 +49,25 @@ public class PlayerManager : MonoBehaviour
     {
         CharacterStats = GetComponent<CharacterStats>();
     }
-    
+
+    private void Start()
+    {
+        healthSlider.maxValue = CharacterStats.MaximumHealth;
+        healthSlider.value = CharacterStats.CurrentHealth;
+        
+        easeHealthSlider.maxValue = CharacterStats.MaximumHealth;
+        easeHealthSlider.value = CharacterStats.CurrentHealth;
+    }
+
     public void TakeDamage(int amount, bool reacting = false)
     {
         bool canReact = !isDead && !isJumping && isGrounded;
         
         CharacterStats.CurrentHealth -= amount;
-        if (slider != null)
+        if (healthSlider != null)
         {
-            slider.maxValue = CharacterStats.MaximumHealth;
-            slider.value = CharacterStats.CurrentHealth;
+            healthSlider.maxValue = CharacterStats.MaximumHealth;
+            healthSlider.value = CharacterStats.CurrentHealth;
         }
         if (CharacterStats.CurrentHealth <= 0)
         {
