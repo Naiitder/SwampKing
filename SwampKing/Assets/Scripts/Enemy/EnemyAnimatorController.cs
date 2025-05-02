@@ -14,6 +14,7 @@ public class EnemyAnimatorController : MonoBehaviour
     private int simpleAttack3Hash; 
     private int attackFinishedHash; 
     private int isPreparingAttackHash;
+    private int shootingHash;
     
     private int isReactingHash;
     private int isDeadHash;
@@ -29,6 +30,7 @@ public class EnemyAnimatorController : MonoBehaviour
     public int SimpleAttack3Hash {get { return simpleAttack3Hash; }}
     public int AttackFinishedHash {get { return attackFinishedHash; }}
     public int IsPreparingAttackHash {get { return isPreparingAttackHash; }}
+    public int ShootingHash {get { return shootingHash; }}
     public int IsReactingHash {get { return isReactingHash; }}
     public int IsDeadHash {get { return isDeadHash; }}
     public int ReactionFinishedHash {get { return reactionFinishedHash; }}
@@ -47,6 +49,7 @@ public class EnemyAnimatorController : MonoBehaviour
         isReactingHash = Animator.StringToHash("isReacting");
         isDeadHash = Animator.StringToHash("isDead");
         reactionFinishedHash = Animator.StringToHash("reactionFinished");
+        shootingHash = Animator.StringToHash("isShooting");
     }
     
     public void OnAttackAnimationFinished()

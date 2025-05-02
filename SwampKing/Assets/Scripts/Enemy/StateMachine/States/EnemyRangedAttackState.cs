@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyRangedAttackState : EnemyBaseState
 {
-    private float shootCooldown = 2f;
-    private float lastShootTime;
+    
+    private float attackInterval = 2f;
+    private Coroutine attackCoroutine;
 
     public EnemyRangedAttackState(EnemyStateMachine currentContext, EnemyStateFactory factory)
         : base(currentContext, factory) {}
@@ -12,21 +14,13 @@ public class EnemyRangedAttackState : EnemyBaseState
     {
         _ctx.Agent.isStopped = true; 
         _ctx.EnemyManager.IsShooting = true;
-        lastShootTime = -shootCooldown; 
+        
+        
+        attackCoroutine = _ctx.StartCoroutine(AttackLoop());
     }
 
     public override void UpdateState()
     {
-        if (_ctx.PlayerTarget != null)
-        {
-            _ctx.transform.LookAt(_ctx.PlayerTarget); 
-
-            if (Time.time >= lastShootTime + shootCooldown)
-            {
-                ShootProjectile();
-                lastShootTime = Time.time;
-            }
-        }
 
         CheckSwitchStates();
     }
@@ -35,6 +29,12 @@ public class EnemyRangedAttackState : EnemyBaseState
     {
         _ctx.Agent.isStopped = false;
         _ctx.EnemyManager.IsShooting = false;
+        
+        if (attackCoroutine != null)
+        {
+            _ctx.StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
     }
 
     public override void InitializeSubState() {}
@@ -50,11 +50,46 @@ public class EnemyRangedAttackState : EnemyBaseState
         }
     }
 
-    private void ShootProjectile()
+    private bool AnimationFinished(int animationHash)
     {
-        // Lógica de disparo (ejemplo simple)
-        Debug.Log("Enemy shoots!");
-        // Puedes instanciar un proyectil aquí
-        // GameObject projectile = GameObject.Instantiate(_ctx.projectilePrefab, _ctx.firePoint.position, _ctx.firePoint.rotation);
+        AnimatorStateInfo stateInfo = _ctx.EnemyAnimatorController.Animator.GetCurrentAnimatorStateInfo(1);
+        return stateInfo.shortNameHash == animationHash && stateInfo.normalizedTime >= 1f;
+    }
+    
+    private IEnumerator AttackLoop()
+    {
+        while (true)
+        {
+            yield return AttackRoutine();
+        }
+    }
+    
+    private IEnumerator AttackRoutine()
+    {
+        if (_ctx.PlayerTarget != null)
+        {
+            _ctx.transform.LookAt(_ctx.PlayerTarget); 
+            
+            yield return new WaitForSeconds(attackInterval);
+
+            _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ShootingHash, true); 
+            _ctx.transform.LookAt(_ctx.PlayerTarget); 
+
+            yield return new WaitUntil(() => AnimationFinished(_ctx.EnemyAnimatorController.ShootingHash));
+
+            _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ShootingHash, false);
+          
+            Quaternion rotation = _ctx.transform.rotation;
+            GameObject projectile = Object.Instantiate(_ctx.projectilePrefab, _ctx.projectileSpawnPoint.position, rotation);
+
+            Projectile projectileScript = projectile.GetComponent<Projectile>();
+            if (projectileScript != null)
+            {
+                projectileScript.Damage = _ctx.EnemyManager.CharacterStats.Damage;
+            }
+            
+            _ctx.AudioSource.PlayOneShot(_ctx.shootSound);
+        }
+           
     }
 }

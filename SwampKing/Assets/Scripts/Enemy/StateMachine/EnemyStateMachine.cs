@@ -16,6 +16,9 @@ public class EnemyStateMachine : MonoBehaviour
     public Transform PlayerTarget {get; private set;}
     public NavMeshAgent Agent {get; private set;}
     
+    public AudioSource AudioSource {get; private set;}
+    public AudioClip shootSound;
+    
     
     [Header("Dettection/Chase Stats")]
     [SerializeField] private float chaseRange = 10f;
@@ -29,6 +32,9 @@ public class EnemyStateMachine : MonoBehaviour
     public float runningSpeed = 5f;
     public float rotationSpeed = 15f;
     
+    public Transform projectileSpawnPoint;
+    public GameObject projectilePrefab;
+    
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public EnemyStateFactory States { get { return _states; } set { _states = value; } }
     public float AttackRange { get { return attackRange; } set { attackRange = value; } }
@@ -41,6 +47,7 @@ public class EnemyStateMachine : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         EnemyManager = GetComponent<EnemyManager>();
         EnemyAnimatorController = GetComponent<EnemyAnimatorController>();
+        AudioSource = GetComponent<AudioSource>();
         
         ApplyProfile();
         
