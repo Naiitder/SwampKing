@@ -12,6 +12,7 @@ public class EnemyStateFactory
         chase,
         strafe,
         attack,
+        rangedAttack,
         backing, 
         reaction, 
         die,
@@ -30,6 +31,7 @@ public class EnemyStateFactory
         _states[EnemyStates.chase] = new EnemyChaseState(_context, this);
         _states[EnemyStates.strafe] = new EnemyStrafeState(_context, this);
         _states[EnemyStates.attack] = new EnemyAttackState(_context, this);
+        _states[EnemyStates.rangedAttack] = new EnemyRangedAttackState(_context, this);
         _states[EnemyStates.backing] = new EnemyBackState(_context, this);
         _states[EnemyStates.reaction] = new EnemyReactionState(_context, this);
         _states[EnemyStates.die] = new EnemyDieState(_context, this);
@@ -61,6 +63,10 @@ public class EnemyStateFactory
     
     public EnemyBaseState Attack() {
         return _states[EnemyStates.attack];
+    }
+    
+    public EnemyBaseState RangedAttack() {
+        return _states[EnemyStates.rangedAttack];
     }
     
     public EnemyBaseState Reaction() {

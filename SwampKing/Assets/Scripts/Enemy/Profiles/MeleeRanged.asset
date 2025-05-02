@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bfc87b407c2e475b8a685c6c16f3028, type: 3}
-  m_Name: BasicRanged
+  m_Name: MeleeRanged
   m_EditorClassIdentifier: 
   enemyName: BasicMelee
   isAggressive: 0

@@ -6,6 +6,7 @@ public class EnemyProfile : ScriptableObject
     public string enemyName;
 
     public bool isAggressive;
+    public bool canMeleeAttack = true;
     public bool attacksFromDistance;
     public bool canChainAttacks;
     public bool canStrafe;

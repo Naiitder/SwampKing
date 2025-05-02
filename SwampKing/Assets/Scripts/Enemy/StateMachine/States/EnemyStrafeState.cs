@@ -50,8 +50,10 @@ public class EnemyStrafeState : EnemyBaseState
         
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
             SwitchState(_factory.Idle());
-        else if (_ctx.IsInAttackRange())
+        else if (_ctx.IsInAttackRange() && _ctx.profile.canMeleeAttack)
             SwitchState(_factory.Attack());
+        else if (_ctx.IsInShootingRange() && _ctx.profile.attacksFromDistance) 
+            SwitchState(_factory.RangedAttack()); 
         else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
             SwitchState(_factory.Chase());
     }

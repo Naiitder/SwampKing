@@ -34,7 +34,11 @@ public class EnemyIdleState : EnemyBaseState
         
         if (_ctx.PlayerTarget != null)
         {
-            if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SwitchState(_factory.Strafe());
+            if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
+                SwitchState(_factory.RangedAttack());
+            else if(_ctx.profile.canMeleeAttack && _ctx.IsInAttackRange() && _ctx.profile.canMeleeAttack)
+                SwitchState(_factory.Attack());
+            else if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SwitchState(_factory.Strafe());
             else if (_ctx.IsInChaseRange()) SwitchState(_factory.Chase());
         }
     }

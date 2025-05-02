@@ -38,8 +38,10 @@ public class EnemyChaseState : EnemyBaseState
         else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange()) SwitchState(_factory.Idle());
+        else if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
+            SwitchState(_factory.RangedAttack());
         else if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SwitchState(_factory.Strafe());
-        else if (_ctx.IsInAttackRange()) SwitchState(_factory.Attack());
+        else if (_ctx.IsInAttackRange() && _ctx.profile.canMeleeAttack) SwitchState(_factory.Attack());
         
     }
 }

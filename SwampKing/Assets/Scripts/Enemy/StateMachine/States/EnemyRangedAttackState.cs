@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyRangedAttackState : EnemyBaseState
@@ -44,10 +45,15 @@ public class EnemyRangedAttackState : EnemyBaseState
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
         else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
-        if (_ctx.PlayerTarget == null || !_ctx.IsInShootingRange() || !_ctx.profile.attacksFromDistance)
+        if(_ctx.PlayerTarget == null || (!_ctx.IsInShootingRange() && !_ctx.IsInChaseRange())) SwitchState(_factory.Idle());
+        else if (!_ctx.IsInShootingRange())
         {
-            SwitchState(_factory.Chase()); 
+            if (_ctx.IsInChaseRange()) 
+                SwitchState(_factory.Chase()); 
         }
+        else if (_ctx.IsInAttackRange() && _ctx.profile.canMeleeAttack) SwitchState(_factory.Attack());
+        
+        //TODO condicion para usar strafe y back state
     }
 
     private bool AnimationFinished(int animationHash)

@@ -91,7 +91,8 @@ public class EnemyAttackState : EnemyBaseState
         
         if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
             SwitchState(_factory.Idle());
-        
+        else if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
+            SwitchState(_factory.RangedAttack());
         else if (_ctx.profile.canRetreat && (_ctx.IsInAttackRange() || _ctx.IsInStrafeRange()))
             SwitchState(_factory.Backing());
         else if (_ctx.profile.canStrafe && (_ctx.IsInStrafeRange())) SwitchState(_factory.Strafe());
