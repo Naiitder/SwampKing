@@ -30,6 +30,8 @@ public class EnemyRangedAttackState : EnemyBaseState
     {
         _ctx.Agent.isStopped = false;
         _ctx.EnemyManager.IsShooting = false;
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ShootingHash, false);
+
         
         if (attackCoroutine != null)
         {
@@ -58,7 +60,7 @@ public class EnemyRangedAttackState : EnemyBaseState
 
     private bool AnimationFinished(int animationHash)
     {
-        AnimatorStateInfo stateInfo = _ctx.EnemyAnimatorController.Animator.GetCurrentAnimatorStateInfo(1);
+        AnimatorStateInfo stateInfo = _ctx.EnemyAnimatorController.Animator.GetCurrentAnimatorStateInfo(0);
         return stateInfo.shortNameHash == animationHash && stateInfo.normalizedTime >= 1f;
     }
     
@@ -74,10 +76,6 @@ public class EnemyRangedAttackState : EnemyBaseState
     {
         if (_ctx.PlayerTarget != null)
         {
-            _ctx.transform.LookAt(_ctx.PlayerTarget); 
-            
-            yield return new WaitForSeconds(attackInterval);
-
             _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ShootingHash, true); 
             _ctx.transform.LookAt(_ctx.PlayerTarget); 
 
@@ -95,6 +93,7 @@ public class EnemyRangedAttackState : EnemyBaseState
             }
             
             _ctx.AudioSource.PlayOneShot(_ctx.shootSound);
+            yield return new WaitForSeconds(attackInterval);
         }
            
     }

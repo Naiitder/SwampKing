@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: BasicMelee
   isAggressive: 0
-  canMeleeAttack: 0
+  canMeleeAttack: 1
   attacksFromDistance: 1
   canChainAttacks: 0
   canStrafe: 0
