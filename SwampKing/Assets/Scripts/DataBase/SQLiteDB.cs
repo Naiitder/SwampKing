@@ -3,6 +3,7 @@
     using UnityEngine;
     using Mono.Data.Sqlite;
     using System.Data;
+    using System.Globalization;
 
     public class SQLiteDB : MonoBehaviour
     {
@@ -529,9 +530,17 @@
                 connection.Open();
                 using (var command = connection.CreateCommand())
                 {
-                    string posString = $"{position.x},{position.y},{position.z}";
-                    string rotString = $"{rotation.x},{rotation.y},{rotation.z},{rotation.w}";
-                    string cameraRotString = $"{cameraRot}";
+
+                    string posString = $"{position.x.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{position.y.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{position.z.ToString(CultureInfo.InvariantCulture)}";
+
+                    string rotString = $"{rotation.x.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{rotation.y.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{rotation.z.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{rotation.w.ToString(CultureInfo.InvariantCulture)}";
+
+                    string cameraRotString = cameraRot.ToString(CultureInfo.InvariantCulture);
                     command.CommandText = @"
                 UPDATE player 
                 SET position = @position, rotation = @rotation,camera_rotation = @cameraRotation, coins = @coins
@@ -549,8 +558,10 @@
 
                     command.ExecuteNonQuery();
                 }
+
                 connection.Close();
             }
+
 
             Debug.Log($"✅ Partida {saveId} guardada correctamente.");
         }

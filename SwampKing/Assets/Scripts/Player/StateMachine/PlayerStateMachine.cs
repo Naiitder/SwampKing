@@ -64,12 +64,12 @@ public class PlayerStateMachine : MonoBehaviour
 
             if (device is Gamepad)
             {
-                promptText.text = "Presiona <sprite name=\"WestButton_Gamepad\"> para interactuar";   
+                promptText.text = "<sprite name=\"WestButton_Gamepad\">: Hablar";   
             }
             //Todo Cambiarlo por un sprite
             else if (device is Keyboard)
             {
-                promptText.text = "Presiona 'E' para interactuar";
+                promptText.text = "<sprite name=\"KeyboardButtons_E\">: Hablar";
             }
         }
         else
