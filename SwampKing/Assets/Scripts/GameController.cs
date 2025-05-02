@@ -103,6 +103,7 @@ public class GameController : MonoBehaviour
     public void ResumeGame()
     {
         pauseCanvas.SetActive(false);
+        DeActiveSaveGameCanvas();
         isGamePaused = false;
         Time.timeScale = 1;
     }
