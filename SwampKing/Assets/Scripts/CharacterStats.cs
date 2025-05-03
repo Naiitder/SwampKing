@@ -4,7 +4,7 @@ using UnityEngine;
 public class CharacterStats : MonoBehaviour
 {
     [SerializeField] private int maximumHealth, currentHealth;
-    private int damage;
+    [SerializeField] private int damage;
     
     
     public int MaximumHealth {get{return maximumHealth;} set{maximumHealth = value;}}

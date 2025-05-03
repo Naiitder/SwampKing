@@ -22,6 +22,7 @@ public class EnemyRangedAttackState : EnemyBaseState
 
     public override void UpdateState()
     {
+        _ctx.transform.LookAt(_ctx.PlayerTarget); 
 
         CheckSwitchStates();
     }
@@ -77,7 +78,6 @@ public class EnemyRangedAttackState : EnemyBaseState
         if (_ctx.PlayerTarget != null)
         {
             _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ShootingHash, true); 
-            _ctx.transform.LookAt(_ctx.PlayerTarget); 
 
             yield return new WaitUntil(() => AnimationFinished(_ctx.EnemyAnimatorController.ShootingHash));
 
@@ -90,6 +90,7 @@ public class EnemyRangedAttackState : EnemyBaseState
             if (projectileScript != null)
             {
                 projectileScript.Damage = _ctx.EnemyManager.CharacterStats.Damage;
+                projectileScript.Target = _ctx.PlayerTarget;
             }
             
             _ctx.AudioSource.PlayOneShot(_ctx.shootSound);
