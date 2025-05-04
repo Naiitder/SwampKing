@@ -22,11 +22,12 @@ public class InputController : MonoBehaviour
     [SerializeField] private bool isAttackPressed;
     [SerializeField] private bool isPausePressed;
     [SerializeField] private bool isInteractPressed;
+    [SerializeField] private bool isAimingPressed;
     
     public InputDevice LastUsedDevice { get; private set; }
 
     public Queue<InputActionType> InputBuffer = new Queue<InputActionType>();
-    public enum InputActionType { Jump, Attack, Aim, Interact }
+    public enum InputActionType { Jump, Attack, Interact }
 
     #region GettersAndSetters
     public float VerticalInput { get { return verticalInput; } }
@@ -39,7 +40,9 @@ public class InputController : MonoBehaviour
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
     public bool IsAttackPressed { get { return isAttackPressed; } set { isAttackPressed = value; } }
     public bool IsPausePressed { get { return isPausePressed; } set { isPausePressed = value; } }
+    
     public bool IsInteractPressed { get { return isInteractPressed; } set { isInteractPressed = value; } }
+    public bool IsAimingPressed { get { return isAimingPressed; } set { isAimingPressed = value; } }
     #endregion
 
     //public delegate void MovementInputEvent(float horizontal, float vertical, float delta);
@@ -65,10 +68,12 @@ public class InputController : MonoBehaviour
             playerControlls.Locomotion.Jump.started +=  onJumpInputStart;
             playerControlls.Locomotion.Jump.canceled += onJumpInputExit;
             playerControlls.Actions.Attack.started += onAttackInputStart;
-            playerControlls.Actions.Attack.canceled +=onAttackInputExit;
+            playerControlls.Actions.Attack.canceled += onAttackInputExit;
             playerControlls.UserActions.Pause.started +=  onPauseInputStart;
             playerControlls.Actions.Interact.started += onInteractStart;
             playerControlls.Actions.Interact.canceled +=  onInteractExit;
+            playerControlls.Actions.Aiming.started += onAimingStart;
+            playerControlls.Actions.Aiming.canceled +=  onAimingExit;
 
         }
         playerControlls.Enable();
@@ -103,6 +108,20 @@ public class InputController : MonoBehaviour
         isJumpPressed = false;
         InputBuffer.Enqueue(InputActionType.Jump);
     }
+    
+    void onAimingStart(InputAction.CallbackContext context)
+    {
+        LastUsedDevice = context.control.device;
+        
+        isAimingPressed = true;
+    }
+
+    void onAimingExit(InputAction.CallbackContext context)
+    {
+        LastUsedDevice = context.control.device;
+        
+        isAimingPressed = false;
+    }
 
     void onAttackInputStart(InputAction.CallbackContext context)
     {
@@ -110,6 +129,8 @@ public class InputController : MonoBehaviour
 
         isAttackPressed = true;
     }
+    
+    
 
     void onAttackInputExit(InputAction.CallbackContext context)
     {

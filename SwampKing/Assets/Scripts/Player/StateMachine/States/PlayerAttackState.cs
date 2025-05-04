@@ -18,9 +18,11 @@ public class PlayerAttackState : PlayerBaseState
         if (attackFinished) 
         {
             if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());
+            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());
+            else if (InputController.instance.IsAimingPressed) SwitchState(_factory.Aimning());
             else if (InputController.instance.MoveAmount == 0) SwitchState(_factory.Idle());
             else if (InputController.instance.MoveAmount > 0) SwitchState(_factory.Walk());
-            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());
+
         }
     }
 
@@ -39,7 +41,7 @@ public class PlayerAttackState : PlayerBaseState
             _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(currentAttackHash, true);
             _ctx.AudioSource.pitch = 1;
-            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttack);
+            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttackSound);
 
         }
         else if (_ctx.PlayerManager.AttackCount == 1)
@@ -47,7 +49,7 @@ public class PlayerAttackState : PlayerBaseState
             _ctx.PlayerManager.AttackCount++;
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash2, true);
             _ctx.AudioSource.pitch = .9f;
-            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttack);
+            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttackSound);
 
         }
         else if (_ctx.PlayerManager.AttackCount == 2)
@@ -55,7 +57,7 @@ public class PlayerAttackState : PlayerBaseState
             _ctx.PlayerManager.AttackCount = 0;
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash3, true);
             _ctx.AudioSource.pitch = .8f;
-            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttack);
+            _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttackSound);
         }
 
         InputController.instance.InputBuffer.Dequeue();

@@ -253,6 +253,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aiming"",
+                    ""type"": ""Button"",
+                    ""id"": ""f654f758-a5e4-4e9b-8211-cb0282afcdfd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -299,6 +308,28 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""687a31d0-9ac6-4f7a-b4fe-bd8a7a562dec"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aiming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb83fc63-d2dc-40bc-8ede-935866e651f8"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aiming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -310,7 +341,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""e4083162-f47c-413f-a03d-9160b5736638"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -353,6 +384,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
         m_Actions_Attack = m_Actions.FindAction("Attack", throwIfNotFound: true);
         m_Actions_Interact = m_Actions.FindAction("Interact", throwIfNotFound: true);
+        m_Actions_Aiming = m_Actions.FindAction("Aiming", throwIfNotFound: true);
         // UserActions
         m_UserActions = asset.FindActionMap("UserActions", throwIfNotFound: true);
         m_UserActions_Pause = m_UserActions.FindAction("Pause", throwIfNotFound: true);
@@ -558,6 +590,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private List<IActionsActions> m_ActionsActionsCallbackInterfaces = new List<IActionsActions>();
     private readonly InputAction m_Actions_Attack;
     private readonly InputAction m_Actions_Interact;
+    private readonly InputAction m_Actions_Aiming;
     /// <summary>
     /// Provides access to input actions defined in input action map "Actions".
     /// </summary>
@@ -577,6 +610,10 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Actions/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Actions_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "Actions/Aiming".
+        /// </summary>
+        public InputAction @Aiming => m_Wrapper.m_Actions_Aiming;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -609,6 +646,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Aiming.started += instance.OnAiming;
+            @Aiming.performed += instance.OnAiming;
+            @Aiming.canceled += instance.OnAiming;
         }
 
         /// <summary>
@@ -626,6 +666,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Aiming.started -= instance.OnAiming;
+            @Aiming.performed -= instance.OnAiming;
+            @Aiming.canceled -= instance.OnAiming;
         }
 
         /// <summary>
@@ -805,6 +848,13 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Aiming" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAiming(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UserActions" which allows adding and removing callbacks.

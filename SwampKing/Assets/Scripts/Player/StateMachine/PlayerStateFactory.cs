@@ -14,7 +14,8 @@ public class PlayerStateFactory
         jump,
         fall,
         jumpAttack, 
-        interact, 
+        interact,
+        aiming,
         usingItem,
         dead, 
         reaction
@@ -37,6 +38,7 @@ public class PlayerStateFactory
         _states[PlayerStates.fall] = new PlayerFallingState(_context,this);
         _states[PlayerStates.jumpAttack] = new PlayerJumpAttackState(_context, this);
         _states[PlayerStates.interact] = new PlayerInteractState(_context, this);
+        _states[PlayerStates.aiming] = new PlayerAimingState(_context, this);
         _states[PlayerStates.usingItem] = new PlayerUseItemState(_context, this);
         _states[PlayerStates.dead] = new PlayerDeadState(_context,this);
         _states[PlayerStates.reaction] = new PlayerReactionState(_context,this);
@@ -98,6 +100,11 @@ public class PlayerStateFactory
     public PlayerBaseState Reaction()
     {
         return _states[PlayerStates.reaction];
+    }
+    
+    public PlayerBaseState Aimning()
+    {
+        return _states[PlayerStates.aiming];
     }
     
 }

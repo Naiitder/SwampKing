@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -11,13 +12,20 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerStateFactory states;
     
     public AudioSource AudioSource;
-    public AudioClip SimpleAttack;
+    public AudioClip SimpleAttackSound;
+    public AudioClip ShootSound;
 
     public NPCDialogueTrigger npc;
     public GameObject InteractionPrompt; 
     
     [SerializeField] private TextMeshProUGUI promptText;
     [SerializeField] private TMP_SpriteAsset gamepadSpriteAsset;
+
+    [Header("GunStats")] 
+    public GameObject GunProjectilePrefab;
+    public Transform ShootPoint;
+    
+    private Collider[] npcBuffer = new Collider[10];
 
     
     public PlayerMovement PlayerMovement { get; private set; }
@@ -52,6 +60,9 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateInteractionPrompt();
 
         HandleAttackCounter();
+        
+        if (PlayerManager.easeHealthSlider.value != PlayerManager.healthSlider.value)
+            PlayerManager.easeHealthSlider.value = Mathf.Lerp(PlayerManager.easeHealthSlider.value, PlayerManager.healthSlider.value, 0.05f);
     }
     
     void UpdateInteractionPrompt()
@@ -64,21 +75,18 @@ public class PlayerStateMachine : MonoBehaviour
 
             if (device is Gamepad)
             {
-                promptText.text = "Presiona <sprite name=\"WestButton_Gamepad\"> para interactuar";   
+                promptText.text = "<sprite name=\"WestButton_Gamepad\">: Hablar";   
             }
-            //Todo Cambiarlo por un sprite
             else if (device is Keyboard)
             {
-                promptText.text = "Presiona 'E' para interactuar";
+                promptText.text = "<sprite name=\"KeyboardButtons_E\">: Hablar";
             }
         }
         else
         {
             InteractionPrompt.SetActive(false);
         }
-
-        if (PlayerManager.easeHealthSlider.value != PlayerManager.healthSlider.value)
-            PlayerManager.easeHealthSlider.value = Mathf.Lerp(PlayerManager.easeHealthSlider.value, PlayerManager.healthSlider.value, 0.05f);
+        
     }
 
 
@@ -124,12 +132,16 @@ public class PlayerStateMachine : MonoBehaviour
     private NPCDialogueTrigger FindNPC()
     {
         float interactionRadius = 2f;
-        Vector3 center = transform.position + Vector3.up;
+        Vector3 center = transform.position + Vector3.up * 1.5f; 
 
-        Collider[] colliders = Physics.OverlapSphere(center, interactionRadius);
-        foreach (Collider collider in colliders)
+        int count = Physics.OverlapSphereNonAlloc(center, interactionRadius, npcBuffer, LayerMask.GetMask("NPC"));
+
+        for (int i = 0; i < count; i++)
         {
-            NPCDialogueTrigger npc = collider.GetComponent<NPCDialogueTrigger>();
+            Collider col = npcBuffer[i];
+            if (col == null) continue;
+
+            NPCDialogueTrigger npc = col.GetComponent<NPCDialogueTrigger>();
             if (npc != null)
             {
                 return npc;
