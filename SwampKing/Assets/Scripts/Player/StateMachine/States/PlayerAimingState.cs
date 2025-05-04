@@ -7,6 +7,7 @@ public class PlayerAimingState  : PlayerBaseState
     private bool attackFinished = true;
     private float attackDelay; 
     private Collider[] enemyBuffer = new Collider[20]; 
+    private Transform playerTransform;
 
 
     public PlayerAimingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) { }
@@ -48,6 +49,7 @@ public class PlayerAimingState  : PlayerBaseState
     public override void UpdateState()
     {
         _ctx.PlayerMovement.HandleGroundedMovement();
+        playerTransform = GetNearestVisibleEnemy(20f);
         AimAtNearestEnemy();
 
         if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
@@ -77,6 +79,7 @@ public class PlayerAimingState  : PlayerBaseState
         if (projectileScript != null)
         {
             projectileScript.Damage = _ctx.PlayerManager.CharacterStats.Damage;
+            if(playerTransform != null) projectileScript.Target = playerTransform;
         }
         _ctx.StartCoroutine(ResetAttackCooldown(0.2f));
     }
@@ -89,11 +92,10 @@ public class PlayerAimingState  : PlayerBaseState
     
     private void AimAtNearestEnemy()
     {
-        Transform target = GetNearestVisibleEnemy(20f); 
 
-        if (target != null)
+        if (playerTransform != null)
         {
-            Vector3 direction = (target.position - _ctx.transform.position).normalized;
+            Vector3 direction = (playerTransform.position - _ctx.transform.position).normalized;
 
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             _ctx.transform.rotation = Quaternion.Slerp(_ctx.transform.rotation, lookRotation, Time.deltaTime * 8f);

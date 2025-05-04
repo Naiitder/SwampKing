@@ -21,12 +21,16 @@ public class Projectile : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+            Vector3 targetPosition = target.position + Vector3.up * 1.5f;
+
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            if (direction != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(direction); 
+            }
         }
-        else transform.position += transform.forward * speed * Time.deltaTime;
+
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
     
 }
