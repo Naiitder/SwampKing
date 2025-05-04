@@ -90,7 +90,6 @@ public class EnemyRangedAttackState : EnemyBaseState
             if (projectileScript != null)
             {
                 projectileScript.Damage = _ctx.EnemyManager.CharacterStats.Damage;
-                projectileScript.Target = _ctx.PlayerTarget;
             }
             
             _ctx.AudioSource.PlayOneShot(_ctx.shootSound);

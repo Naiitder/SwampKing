@@ -4,6 +4,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;  
     [SerializeField] protected float lifetime = 2f;
+    float rotationSpeed = 15f;
     protected Transform target;
 
     protected int damage = 0;
@@ -18,7 +19,14 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        if (target != null)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+        }
+        else transform.position += transform.forward * speed * Time.deltaTime;
     }
     
 }
