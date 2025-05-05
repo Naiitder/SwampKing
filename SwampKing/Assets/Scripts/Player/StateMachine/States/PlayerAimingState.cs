@@ -40,6 +40,8 @@ public class PlayerAimingState  : PlayerBaseState
     {
         _ctx.PlayerManager.IsAiming = false;
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+        _ctx.PlayerAnimator.Animator.SetBool("Shot",false); 
+
 
     }
 
@@ -69,9 +71,7 @@ public class PlayerAimingState  : PlayerBaseState
     private void Shoot()
     {
         attackFinished = false;
-        
-        //TODO ANIM
-        //_ctx.PlayerAnimator.Animator.SetTrigger("Shoot"); 
+        _ctx.PlayerAnimator.Animator.SetBool("Shot",true); 
         
         _ctx.AudioSource.PlayOneShot(_ctx.ShootSound);
         
@@ -90,6 +90,7 @@ public class PlayerAimingState  : PlayerBaseState
     private IEnumerator ResetAttackCooldown(float delay)
     {
         yield return new WaitForSeconds(delay);
+        _ctx.PlayerAnimator.Animator.SetBool("Shot",false); 
         attackFinished = true;
     }
     
