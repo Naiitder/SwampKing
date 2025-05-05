@@ -18,7 +18,7 @@ public class PlayerAttackState : PlayerBaseState
         if (attackFinished) 
         {
             if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());
-            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());
+            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack) && _ctx.PlayerManager.AttackCount != 0 ) SwitchState(_factory.Attack());
             else if (InputController.instance.IsAimingPressed) SwitchState(_factory.Aimning());
             else if (InputController.instance.MoveAmount == 0) SwitchState(_factory.Idle());
             else if (InputController.instance.MoveAmount > 0) SwitchState(_factory.Walk());

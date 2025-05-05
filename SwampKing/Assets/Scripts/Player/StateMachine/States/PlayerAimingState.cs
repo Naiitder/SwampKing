@@ -5,7 +5,7 @@ public class PlayerAimingState  : PlayerBaseState
 {
 
     private bool attackFinished = true;
-    private float attackDelay; 
+    private float attackDelay = 0.4f; 
     private Collider[] enemyBuffer = new Collider[20]; 
     private Transform playerTransform;
 
@@ -28,7 +28,8 @@ public class PlayerAimingState  : PlayerBaseState
     public override void EnterState()
     {
         attackFinished = true;
-        
+        _ctx.PlayerManager.IsAiming = true;
+
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
         
     }
@@ -36,7 +37,7 @@ public class PlayerAimingState  : PlayerBaseState
 
     public override void ExitState()
     {
-        _ctx.PlayerManager.IsAttacking = false;
+        _ctx.PlayerManager.IsAiming = false;
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
 
     }
@@ -55,6 +56,7 @@ public class PlayerAimingState  : PlayerBaseState
         if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
         {
             Shoot();
+            InputController.instance.InputBuffer.Dequeue();
         }
 
 
@@ -81,7 +83,7 @@ public class PlayerAimingState  : PlayerBaseState
             projectileScript.Damage = _ctx.PlayerManager.CharacterStats.Damage;
             if(playerTransform != null) projectileScript.Target = playerTransform;
         }
-        _ctx.StartCoroutine(ResetAttackCooldown(0.2f));
+        _ctx.StartCoroutine(ResetAttackCooldown(attackDelay));
     }
 
     private IEnumerator ResetAttackCooldown(float delay)
@@ -99,6 +101,18 @@ public class PlayerAimingState  : PlayerBaseState
 
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             _ctx.transform.rotation = Quaternion.Slerp(_ctx.transform.rotation, lookRotation, Time.deltaTime * 8f);
+            
+            Vector3 velocity = _ctx.PlayerMovement.CharacterController.velocity;
+            Vector3 localVelocity = _ctx.transform.InverseTransformDirection(velocity);
+
+            float vertical = Mathf.Clamp(localVelocity.z, -1f, 1f);
+            float horizontal = Mathf.Clamp(localVelocity.x, -1f, 1f);
+            _ctx.PlayerAnimator.UpdateMovementAnimationValues(vertical, horizontal);
+        }
+        else
+        {
+            _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
+            _ctx.PlayerMovement.HandleRotation();
         }
     }
     

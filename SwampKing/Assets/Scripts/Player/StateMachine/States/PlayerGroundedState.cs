@@ -15,7 +15,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     } 
     public override void UpdateState(){
-        _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
+        if(!_ctx.PlayerManager.IsAiming) _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
 
 
         CheckSwitchStates();

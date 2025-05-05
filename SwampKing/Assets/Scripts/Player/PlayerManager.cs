@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] bool isAttacking; 
     [SerializeField] bool isDead;
     [SerializeField] bool isReacting; 
+    [SerializeField] bool isAiming;
     [SerializeField] private bool canDoubleJump;
 
     [SerializeField] private int attackCount = 0;
@@ -41,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     public bool IsDead { get { return isDead; } set { isDead = value; } }
     public bool IsGrounded { get { return isGrounded; } set { isGrounded = value; } }
     public bool IsReacting { get { return isReacting; } set { isReacting = value; } }
+    public bool IsAiming { get { return isAiming; } set { isAiming = value; } }
     public bool CanDoubleJump { get { return canDoubleJump; } set { canDoubleJump = value; } }
     public bool IsChargingJumping { get { return isChargingJumping; } set { isChargingJumping = value; } }
     public int AttackCount { get { return attackCount; } set { attackCount = value; } }
