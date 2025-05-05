@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2503876545958951353}
   - component: {fileID: 3666883111970472406}
   - component: {fileID: 8607468019162561705}
-  - component: {fileID: 5951530091633687968}
+  - component: {fileID: 7402494571838036204}
   m_Layer: 0
   m_Name: PlayerProjectile
   m_TagString: Untagged
@@ -110,7 +110,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5951530091633687968
+--- !u!114 &7402494571838036204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,10 +119,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5527739495974681888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9becd23a23c924a20848ed1fc918057d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0964a12f92b094ea6a90dd2548ea2b5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 25
   lifetime: 2
 --- !u!1001 &4667079758376992149
 PrefabInstance:

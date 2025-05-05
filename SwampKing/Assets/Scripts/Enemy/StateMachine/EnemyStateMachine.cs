@@ -11,6 +11,8 @@ public class EnemyStateMachine : MonoBehaviour
     public EnemyAnimatorController EnemyAnimatorController {get; private set;}
     public EnemyManager EnemyManager {get; private set;}
     public EnemyProfile profile;
+    
+    [SerializeField] public GameObject CoinPrefab;
 
     public PlayerManager PlayerManager {get; private set;}
     public Transform PlayerTarget {get; private set;}

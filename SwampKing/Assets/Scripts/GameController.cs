@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Mono.Data.Sqlite;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,6 +15,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject saveGameCanvas;
     [SerializeField] private CameraController CameraController;
+    
+    [SerializeField] private TextMeshProUGUI coinsText;
 
     [SerializeField] public int Coins;
     [SerializeField] public int SaveID = -1;
@@ -51,6 +54,8 @@ public class GameController : MonoBehaviour
         {
             stats.LoadStats();
         }
+
+        UpdateCoins();
     }
 
     private void Update()
@@ -62,6 +67,12 @@ public class GameController : MonoBehaviour
         }
 
         LevelManager.instance?.UpdateProgressBar();
+    }
+
+    public void UpdateCoins(int coins = 0)
+    {
+        Coins += coins;
+        if(coinsText != null) coinsText.text = "x" + Coins.ToString();
     }
     
     
@@ -131,7 +142,7 @@ public class GameController : MonoBehaviour
 
         using (var cmd = connection.CreateCommand())
         {
-            cmd.CommandText = "SELECT name, position, rotation, camera_rotation, coins, statistics FROM player WHERE save_id = @saveId LIMIT 1;";
+            cmd.CommandText = "SELECT name, position, rotation, camera_rotation, coins FROM player WHERE save_id = @saveId LIMIT 1;";
             cmd.Parameters.AddWithValue("@saveId", saveId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -141,7 +152,6 @@ public class GameController : MonoBehaviour
                     string position = reader["position"].ToString();
                     string rotation = reader["rotation"].ToString();
                     int coins = Convert.ToInt32(reader["coins"]);
-                    int statsId = Convert.ToInt32(reader["statistics"]);
                     float cameraRot = float.Parse(reader["camera_rotation"].ToString(), CultureInfo.InvariantCulture);
                     
                     string[] parts = position.Split(',');
