@@ -49,7 +49,6 @@
                     sqlcreation = "CREATE TABLE IF NOT EXISTS statistics (" +
                                          "id INTEGER PRIMARY KEY, " +
                                          "max_health INTEGER NOT NULL, " +
-                                         "current_health INTEGER NULL, " +
                                          "damage INTEGER NOT NULL, " +
                                          "endurance INTEGER NOT NULL, " +
                                          "armor INTEGER NOT NULL, " +
@@ -90,6 +89,22 @@
                                   "character_id INTEGER,"+
                                   "save_id INTEGER,"+
                                   "is_alive INTEGER DEFAULT 1,"+
+                                  "FOREIGN KEY(character_id) REFERENCES character(id),"+
+                                  "FOREIGN KEY(save_id) REFERENCES save_slot(id)"+
+                                  ");";
+                    command.CommandText = sqlcreation;
+                    command.ExecuteNonQuery();
+                    
+                    sqlcreation = "CREATE TABLE IF NOT EXISTS character_stats_state ("+
+                                  "character_id INTEGER NOT NULL,"+
+                                  "save_id INTEGER NOT NULL,"+
+                                  "current_health INTEGER DEFAULT NULL,"+
+                                  "max_health INTEGER NOT NULL,"+
+                                  "damage INTEGER NOT NULL,"+
+                                  "endurance INTEGER NOT NULL,"+
+                                  "armor INTEGER NOT NULL,"+
+                                  "speed INTEGER NOT NULL,"+
+                                  "PRIMARY KEY (character_id, save_id),"+
                                   "FOREIGN KEY(character_id) REFERENCES character(id),"+
                                   "FOREIGN KEY(save_id) REFERENCES save_slot(id)"+
                                   ");";
@@ -268,30 +283,6 @@
                     }
                 }
             }
-        }
-        
-        public (string title, string description) GetRandomTip()
-        {
-            using (var connection = new SqliteConnection(dbName))
-            {
-                connection.Open();
-
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "SELECT title, description FROM tips ORDER BY RANDOM() LIMIT 1;";
-                    using (IDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            string title = reader["title"].ToString();
-                            string description = reader["description"].ToString();
-                            return (title, description);
-                        }
-                    }
-                }
-            }
-
-            return ("", "");
         }
         
         public List<string> GetRandomDialogue(int characterID)
@@ -480,6 +471,12 @@
             {
                 Query($"INSERT INTO character_state (character_id, save_id, is_alive) VALUES ({characterId}, {saveId}, 1);");
             }
+            // Estado de personajes (todos vivos al empezar)
+            Query($@"INSERT INTO character_stats_state 
+(character_id, save_id, max_health, current_health, damage, endurance, armor, speed)
+SELECT c.id, {saveId}, s.max_health, s.max_health, s.damage, s.endurance, s.armor, s.speed
+FROM character c
+JOIN statistics s ON c.statistics = s.id;");
             
             Query($"INSERT INTO quest_state (quest_id, save_id, state, progress) VALUES (1, {saveId}, 'not accepted', 0);");
             Query($"INSERT INTO quest_state (quest_id, save_id, state, progress) VALUES (2, {saveId}, 'not accepted', 0);");
@@ -521,48 +518,6 @@
             return saves;
         }
         
-        
-        public void SaveGame(int saveId, Vector3 position, Quaternion rotation,
-            float cameraRot, int coins)
-        {
-            using (var connection = new SqliteConnection(dbName))
-            {
-                connection.Open();
-                using (var command = connection.CreateCommand())
-                {
-                    string posString = $"{position.x.ToString(CultureInfo.InvariantCulture)}," +
-                                       $"{position.y.ToString(CultureInfo.InvariantCulture)}," +
-                                       $"{position.z.ToString(CultureInfo.InvariantCulture)}";
-
-                    string rotString = $"{rotation.x.ToString(CultureInfo.InvariantCulture)}," +
-                                       $"{rotation.y.ToString(CultureInfo.InvariantCulture)}," +
-                                       $"{rotation.z.ToString(CultureInfo.InvariantCulture)}," +
-                                       $"{rotation.w.ToString(CultureInfo.InvariantCulture)}";
-
-                    string cameraRotString = cameraRot.ToString(CultureInfo.InvariantCulture);
-                    command.CommandText = @"
-                UPDATE player 
-                SET position = @position, rotation = @rotation,camera_rotation = @cameraRotation, coins = @coins
-                WHERE save_id = @saveId;
-                
-                UPDATE save_slot
-                SET play_time = TIME('now') 
-                WHERE id = @saveId;
-            ";
-                    command.Parameters.AddWithValue("@position", posString);
-                    command.Parameters.AddWithValue("@rotation", rotString);
-                    command.Parameters.AddWithValue("@cameraRotation", cameraRotString);
-                    command.Parameters.AddWithValue("@coins", coins);
-                    command.Parameters.AddWithValue("@saveId", saveId);
-
-                    command.ExecuteNonQuery();
-                }
-                connection.Close();
-            }
-
-            Debug.Log($"✅ Partida {saveId} guardada correctamente.");
-        }
-
         
 
         

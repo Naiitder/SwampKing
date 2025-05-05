@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using Mono.Data.Sqlite;
 using TMPro;
 
 public class LevelManager : MonoBehaviour
@@ -38,7 +40,7 @@ public class LevelManager : MonoBehaviour
         if (isLoading) return; 
         isLoading = true;
         
-        var tipData = SQLiteDB.instance.GetRandomTip();
+        var tipData = GetRandomTip();
         title.text = tipData.title;
         description.text = tipData.description;
         
@@ -68,6 +70,30 @@ public class LevelManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+    
+    public (string title, string description) GetRandomTip()
+    {
+        using (var connection = new SqliteConnection(SQLiteDB.instance.dbName))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT title, description FROM tips ORDER BY RANDOM() LIMIT 1;";
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string title = reader["title"].ToString();
+                        string description = reader["description"].ToString();
+                        return (title, description);
+                    }
+                }
+            }
+        }
+
+        return ("", "");
     }
 
 }

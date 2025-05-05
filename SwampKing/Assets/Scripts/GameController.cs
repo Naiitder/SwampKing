@@ -46,6 +46,11 @@ public class GameController : MonoBehaviour
         if(SaveID > 0) LoadDataFromSave(SaveID);
         PlayerPrefs.SetInt("CurrentSaveId", -1);
         PlayerPrefs.Save();
+        
+        foreach (CharacterStats stats in FindObjectsOfType<CharacterStats>())
+        {
+            stats.LoadStats();
+        }
     }
 
     private void Update()
@@ -59,15 +64,6 @@ public class GameController : MonoBehaviour
         LevelManager.instance?.UpdateProgressBar();
     }
     
-    public void SetSceneUI(GameObject pause, GameObject gameOver, GameObject save)
-    {
-        pauseCanvas = pause;
-        gameOverCanvas = gameOver;
-        saveGameCanvas = save;
-
-        pauseCanvas.SetActive(false);
-        saveGameCanvas.SetActive(false);
-    }
     
     public void SaveCurrentGame(int saveId)
     {
@@ -77,7 +73,7 @@ public class GameController : MonoBehaviour
 
             float currentCameraRot = CameraController.transform.rotation.eulerAngles.y;
             
-            SQLiteDB.instance.SaveGame(saveId, currentPos, currentRot, currentCameraRot , Coins);
+            SaveGame(saveId, currentPos, currentRot, currentCameraRot , Coins);
     }
     
 
@@ -133,7 +129,6 @@ public class GameController : MonoBehaviour
     {
         connection.Open();
 
-        // --- PLAYER ---
         using (var cmd = connection.CreateCommand())
         {
             cmd.CommandText = "SELECT name, position, rotation, camera_rotation, coins, statistics FROM player WHERE save_id = @saveId LIMIT 1;";
@@ -250,6 +245,68 @@ public class GameController : MonoBehaviour
         connection.Close();
     }
 }
+    public void SaveGame(int saveId, Vector3 position, Quaternion rotation,
+            float cameraRot, int coins)
+        {
+            using (var connection = new SqliteConnection(SQLiteDB.instance.dbName))
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    string posString = $"{position.x.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{position.y.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{position.z.ToString(CultureInfo.InvariantCulture)}";
+
+                    string rotString = $"{rotation.x.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{rotation.y.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{rotation.z.ToString(CultureInfo.InvariantCulture)}," +
+                                       $"{rotation.w.ToString(CultureInfo.InvariantCulture)}";
+
+                    string cameraRotString = cameraRot.ToString(CultureInfo.InvariantCulture);
+                    command.CommandText = @"
+                UPDATE player 
+                SET position = @position, rotation = @rotation,camera_rotation = @cameraRotation, coins = @coins
+                WHERE save_id = @saveId;
+                
+                UPDATE save_slot
+                SET play_time = TIME('now') 
+                WHERE id = @saveId;
+            ";
+                    command.Parameters.AddWithValue("@position", posString);
+                    command.Parameters.AddWithValue("@rotation", rotString);
+                    command.Parameters.AddWithValue("@cameraRotation", cameraRotString);
+                    command.Parameters.AddWithValue("@coins", coins);
+                    command.Parameters.AddWithValue("@saveId", saveId);
+
+                    command.ExecuteNonQuery();
+                }
+                foreach (var stats in FindObjectsOfType<CharacterStats>())
+                {
+                    using (var cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = @"
+            UPDATE character_stats_state
+            SET current_health = @currentHealth,
+                max_health = @maxHealth,
+                damage = @damage
+            WHERE character_id = @charId AND save_id = @saveId;";
+
+                        cmd.Parameters.AddWithValue("@currentHealth", stats.CurrentHealth);
+                        cmd.Parameters.AddWithValue("@maxHealth", stats.MaximumHealth);
+                        cmd.Parameters.AddWithValue("@damage", stats.Damage);
+                        cmd.Parameters.AddWithValue("@charId", stats.ID);
+                        cmd.Parameters.AddWithValue("@saveId", saveId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                
+                connection.Close();
+            }
+
+            Debug.Log($"✅ Partida {saveId} guardada correctamente.");
+        }
+
     private IEnumerator SetPlayerPositionNextFrame(Vector3 pos, Quaternion rot, float cameraRotation)
     {
         yield return null; 

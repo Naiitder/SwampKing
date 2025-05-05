@@ -22,6 +22,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private int jumpAttackHash;
     private int aimingHash;
+    private int shotHash;
     
     private int isDeadHash;
     private int isReactingHash;
@@ -40,6 +41,7 @@ public class PlayerAnimator : MonoBehaviour
     public int SimpleAttackHash3 { get { return simpleAttackHash3; } }
     public int AttackFinishedHash { get { return attackFinishedHash; } }
     public int IsPreparingAttackHash { get { return isPreparingAttackHash; } }
+    public int ShotHash { get { return shotHash; } }
     
     public int JumpAttackHash { get { return jumpAttackHash; } }
     public int IsDeadHash { get { return isDeadHash; } }
@@ -67,6 +69,7 @@ public class PlayerAnimator : MonoBehaviour
         reactionFinishedHash = Animator.StringToHash("reactionFinished");
         isFallingHash = Animator.StringToHash("isFalling");
         aimingHash = Animator.StringToHash("isAiming");
+        shotHash = Animator.StringToHash("Shot");
     }
 
     public void UpdateMovementAnimationValues(float verticalMovement, float horizontalMovement)
