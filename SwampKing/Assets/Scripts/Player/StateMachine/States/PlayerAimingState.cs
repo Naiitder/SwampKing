@@ -5,7 +5,8 @@ public class PlayerAimingState  : PlayerBaseState
 {
 
     private bool attackFinished = true;
-    private float attackDelay = 0.4f; 
+    private float attackDelay = 0.4f;
+    private float distance = 40f;
     private Collider[] enemyBuffer = new Collider[20]; 
     private Transform playerTransform;
 
@@ -50,7 +51,7 @@ public class PlayerAimingState  : PlayerBaseState
     public override void UpdateState()
     {
         _ctx.PlayerMovement.HandleGroundedMovement();
-        playerTransform = GetNearestVisibleEnemy(20f);
+        playerTransform = GetNearestVisibleEnemy(distance);
         AimAtNearestEnemy();
 
         if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
@@ -102,11 +103,22 @@ public class PlayerAimingState  : PlayerBaseState
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             _ctx.transform.rotation = Quaternion.Slerp(_ctx.transform.rotation, lookRotation, Time.deltaTime * 8f);
             
-            Vector3 velocity = _ctx.PlayerMovement.CharacterController.velocity;
-            Vector3 localVelocity = _ctx.transform.InverseTransformDirection(velocity);
+            _ctx.CameraController.lookAngle = _ctx.transform.eulerAngles.y;
+            
+            Vector3 inputDir = new Vector3(InputController.instance.MovementInput.x, 0f, InputController.instance.MovementInput.y);
 
-            float vertical = Mathf.Clamp(localVelocity.z, -1f, 1f);
-            float horizontal = Mathf.Clamp(localVelocity.x, -1f, 1f);
+            Vector3 toEnemy = (playerTransform.position - _ctx.transform.position).normalized;
+            toEnemy.y = 0f;
+            
+            Vector3 right = Vector3.Cross(Vector3.up, toEnemy).normalized;
+            
+            Vector3 moveWorldDir = (right * inputDir.x + toEnemy * inputDir.z).normalized;
+            
+            Vector3 localInputDir = _ctx.transform.InverseTransformDirection(moveWorldDir);
+
+            float vertical = Mathf.Clamp(localInputDir.z, -1f, 1f);
+            float horizontal = Mathf.Clamp(localInputDir.x, -1f, 1f);
+
             _ctx.PlayerAnimator.UpdateMovementAnimationValues(vertical, horizontal);
         }
         else

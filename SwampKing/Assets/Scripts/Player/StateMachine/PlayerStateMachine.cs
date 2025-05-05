@@ -27,6 +27,7 @@ public class PlayerStateMachine : MonoBehaviour
     
     private Collider[] npcBuffer = new Collider[10];
 
+    public CameraController CameraController;
     
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
