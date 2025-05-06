@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float initialJumpVelocity;
     [SerializeField] float maxJumpHeight = 4.0f;
     [SerializeField] float maxJumpTime = 0.75f;
+    [SerializeField] float groundCheckSphereRadius = 0.2f;
 
     public CharacterController CharacterController { get { return characterController; } }
 
@@ -83,11 +85,19 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public bool isGrounded()
+    {
+        return Physics.CheckSphere(transform.position,
+            groundCheckSphereRadius,
+            groundLayer,
+            QueryTriggerInteraction.Ignore
+        );
+    }
+
     public void HandleGravity()
     {
-        bool isFalling = moveDirection.y <= 0.0f || !InputController.instance.IsJumpPressed;
         float fallMultiplier = 2.0f;
-        if (isFalling)
+        if (!playerManager.IsGrounded && moveDirection.y < 0)
         {
             float previousYVelocity = moveDirection.y;
             moveDirection.y = moveDirection.y + (gravity * fallMultiplier*Time.deltaTime);
@@ -134,5 +144,9 @@ public class PlayerMovement : MonoBehaviour
         gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
         initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
     }
-    
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawSphere(transform.position, groundCheckSphereRadius);
+    }
 }

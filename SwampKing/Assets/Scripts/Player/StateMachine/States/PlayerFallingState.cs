@@ -29,7 +29,7 @@ public class PlayerFallingState : PlayerBaseState
 
         if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
 
-        if (_ctx.PlayerMovement.CharacterController.isGrounded) 
+        if (_ctx.PlayerMovement.isGrounded()) 
             SwitchState(_factory.Grounded());
 
         if (_ctx.PlayerManager.InAirTimer <= fallThreshold

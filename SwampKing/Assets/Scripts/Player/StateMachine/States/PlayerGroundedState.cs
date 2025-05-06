@@ -16,8 +16,6 @@ public class PlayerGroundedState : PlayerBaseState
     } 
     public override void UpdateState(){
         if(!_ctx.PlayerManager.IsAiming) _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
-
-
         CheckSwitchStates();
     }
 
@@ -30,7 +28,7 @@ public class PlayerGroundedState : PlayerBaseState
     }
     public override void CheckSwitchStates(){
         if ((InputController.instance.CheckActions(InputController.InputActionType.Jump) && !_ctx.PlayerManager.IsDead)
-            || !_ctx.PlayerMovement.CharacterController.isGrounded) 
+            || !_ctx.PlayerMovement.isGrounded()) 
                 SwitchState(_factory.Airbone());
     }
 

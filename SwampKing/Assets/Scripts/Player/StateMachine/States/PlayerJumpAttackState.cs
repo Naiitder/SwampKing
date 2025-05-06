@@ -9,7 +9,7 @@ public class PlayerJumpAttackState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        if (_ctx.PlayerMovement.CharacterController.isGrounded && attackFinished) 
+        if (_ctx.PlayerMovement.isGrounded() && attackFinished) 
             SwitchState(_factory.Grounded());
     }
 
