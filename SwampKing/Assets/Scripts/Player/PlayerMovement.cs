@@ -60,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
         appliedMovement.x = moveDirection.x;
         appliedMovement.z = moveDirection.z;
         characterController.Move(appliedMovement*Time.deltaTime);
-        Debug.Log(appliedMovement);
     }
 
     public void HandleGroundedMovement()

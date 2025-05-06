@@ -27,6 +27,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float jumpChargeTime = 0f;
 
     [SerializeField] private float inAirTimer = 0f;
+    [SerializeField] private float coyoteTime = 0.2f;
     
     [Header("CharacterStats")]
     public CharacterStats CharacterStats { get; private set; }
@@ -37,6 +38,7 @@ public class PlayerManager : MonoBehaviour
     public float TapTreshold { get { return tapThreshold; } set { tapThreshold = value; } }
     public float MaxChargeTime { get { return maxChargeTime; } set { maxChargeTime = value; } }
     public float InAirTimer { get { return inAirTimer; } set { inAirTimer = value; } }
+    public float CoyoteTime { get { return coyoteTime; } set { coyoteTime = value; } }
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
     public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
     public bool IsDead { get { return isDead; } set { isDead = value; } }

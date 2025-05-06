@@ -1,9 +1,6 @@
 
 public class PlayerFallingState : PlayerBaseState
 {
-
-    private float fallThreshold = 0.1f;
-
     public PlayerFallingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     : base(currentContext, playerStateFactory)
     {
@@ -13,7 +10,7 @@ public class PlayerFallingState : PlayerBaseState
     }
     public override void UpdateState()
     {
-        if (!_ctx.PlayerAnimator.Animator.GetBool(_ctx.PlayerAnimator.IsFallingHash) && _ctx.PlayerManager.InAirTimer > fallThreshold) 
+        if (!_ctx.PlayerAnimator.Animator.GetBool(_ctx.PlayerAnimator.IsFallingHash) && _ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime) 
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, true);
         CheckSwitchStates();
     }
@@ -32,10 +29,10 @@ public class PlayerFallingState : PlayerBaseState
         if (_ctx.PlayerMovement.isGrounded()) 
             SwitchState(_factory.Grounded());
 
-        if (_ctx.PlayerManager.InAirTimer <= fallThreshold
+        if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
             && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
             SwitchState(_factory.Jump());
-        else if (_ctx.PlayerManager.InAirTimer > fallThreshold
+        else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
             && InputController.instance.CheckActions(InputController.InputActionType.Jump)
             && _ctx.PlayerManager.CanDoubleJump) 
             SwitchState(_factory.DoubleJump());
