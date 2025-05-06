@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("JumpStats")]
     [SerializeField] float gravity = -9.8f;
-    [SerializeField] float groundCheckSphereRadius = .25f;
     [SerializeField] float initialJumpVelocity;
     [SerializeField] float maxJumpHeight = 4.0f;
     [SerializeField] float maxJumpTime = 0.75f;
@@ -59,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         appliedMovement.x = moveDirection.x;
         appliedMovement.z = moveDirection.z;
         characterController.Move(appliedMovement*Time.deltaTime);
+        Debug.Log(appliedMovement);
     }
 
     public void HandleGroundedMovement()
@@ -134,10 +134,5 @@ public class PlayerMovement : MonoBehaviour
         gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
         initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
     }
-
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawSphere(transform.position, groundCheckSphereRadius);
-    }
+    
 }

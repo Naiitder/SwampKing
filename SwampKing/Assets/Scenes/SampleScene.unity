@@ -6146,7 +6146,7 @@ Transform:
   m_GameObject: {fileID: 994192189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -8}
+  m_LocalPosition: {x: 0.3, y: 0, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12481,7 +12481,7 @@ Transform:
   m_GameObject: {fileID: 8618367072320695181}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.294, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13330,7 +13330,7 @@ Transform:
   m_GameObject: {fileID: 3128469110289668743}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.294, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14260,7 +14260,7 @@ Transform:
   m_GameObject: {fileID: 7562827609090757772}
   serializedVersion: 2
   m_LocalRotation: {x: -3.393523e-10, y: 0.00000003141991, z: -0.0000004946269, w: 1}
-  m_LocalPosition: {x: 1.2940001, y: 0.8735286, z: 0.0038496442}
+  m_LocalPosition: {x: 0, y: 0.8735286, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19554,7 +19554,6 @@ MonoBehaviour:
   movementSpeed: 6
   rotationSpeed: 10
   gravity: -9.8
-  groundCheckSphereRadius: 0.25
   initialJumpVelocity: 0
   maxJumpHeight: 6
   maxJumpTime: 1
