@@ -40,7 +40,8 @@ public class EnemyDieState : EnemyBaseState
         
         if (coins > 0 && _ctx.CoinPrefab != null)
         {
-            GameObject coinObject = Object.Instantiate(_ctx.CoinPrefab, _ctx.transform.position, Quaternion.identity);
+            GameObject coinObject = Object.Instantiate(_ctx.CoinPrefab,
+                _ctx.transform.position+_ctx.transform.up, Quaternion.identity);
             Coins coinScript = coinObject.GetComponent<Coins>();
             if (coinScript != null)
             {

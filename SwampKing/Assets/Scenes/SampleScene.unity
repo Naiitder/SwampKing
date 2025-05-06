@@ -3962,6 +3962,14 @@ PrefabInstance:
       propertyPath: coins
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 798739251703563377, guid: 09460a1d1d2e6428f92fdddd1e25c6c5, type: 3}
+      propertyPath: attractionSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 798739251703563377, guid: 09460a1d1d2e6428f92fdddd1e25c6c5, type: 3}
+      propertyPath: attractionDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1176531095761150461, guid: 09460a1d1d2e6428f92fdddd1e25c6c5, type: 3}
       propertyPath: m_Name
       value: Coins
@@ -4577,7 +4585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881cd13325687fa4dbcb5be0cd0c5d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 2
+  id: 1
   maximumHealth: 0
   currentHealth: 0
   damage: 0
@@ -10835,6 +10843,7 @@ GameObject:
   - component: {fileID: 2133342600}
   - component: {fileID: 2133342601}
   - component: {fileID: 2133342602}
+  - component: {fileID: 2133342603}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -10920,6 +10929,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dbName: URI=file:DataBase.db
+--- !u!114 &2133342603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133342597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229602d0e65124d1abff8b954fd9f668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!1 &2134667214
 GameObject:
   m_ObjectHideFlags: 0
