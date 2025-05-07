@@ -104,7 +104,6 @@ public class PlayerAimingState  : PlayerBaseState
 
         if (playerTransform != null)
         {
-            _ctx.aimCamera.LookAt = playerTransform;
             
             Vector3 inputDir = new Vector3(InputController.instance.MovementInput.x, 0f, InputController.instance.MovementInput.y);
 
