@@ -8,7 +8,7 @@ public class PlayerAimingState  : PlayerBaseState
     private float attackDelay = 0.4f;
     private float distance = 40f;
     private Collider[] enemyBuffer = new Collider[20]; 
-    private Transform playerTransform;
+    private Transform enemyTransform;
 
 
     public PlayerAimingState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) { }
@@ -46,8 +46,7 @@ public class PlayerAimingState  : PlayerBaseState
         _ctx.PlayerManager.IsAiming = false;
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-
-
+        _ctx.cameraObject.SetActive(false);
     }
 
     public override void InitializeSubState()
@@ -58,7 +57,7 @@ public class PlayerAimingState  : PlayerBaseState
     public override void UpdateState()
     {
         _ctx.PlayerMovement.HandleGroundedMovement();
-        playerTransform = GetNearestVisibleEnemy(distance);
+        enemyTransform = GetNearestVisibleEnemy(distance);
         AimAtNearestEnemy();
 
         if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
@@ -87,7 +86,7 @@ public class PlayerAimingState  : PlayerBaseState
         if (projectileScript != null)
         {
             projectileScript.Damage = _ctx.PlayerManager.CharacterStats.Damage;
-            if(playerTransform != null) projectileScript.Target = playerTransform;
+            if(enemyTransform != null) projectileScript.Target = enemyTransform;
         }
         _ctx.StartCoroutine(ResetAttackCooldown(attackDelay));
     }
@@ -102,12 +101,14 @@ public class PlayerAimingState  : PlayerBaseState
     private void AimAtNearestEnemy()
     {
 
-        if (playerTransform != null)
-        {
-            
+        if (enemyTransform != null)
+        { 
+            _ctx.cameraObject.SetActive(true);
+            _ctx.aimCamera.Target.LookAtTarget = enemyTransform;
+            _ctx.transform.LookAt(enemyTransform);
             Vector3 inputDir = new Vector3(InputController.instance.MovementInput.x, 0f, InputController.instance.MovementInput.y);
 
-            Vector3 toEnemy = (playerTransform.position - _ctx.transform.position).normalized;
+            Vector3 toEnemy = (enemyTransform.position - _ctx.transform.position).normalized;
             toEnemy.y = 0f;
             
             Vector3 right = Vector3.Cross(Vector3.up, toEnemy).normalized;
@@ -123,6 +124,7 @@ public class PlayerAimingState  : PlayerBaseState
         }
         else
         {
+            _ctx.cameraObject.SetActive(false);
             _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
             _ctx.PlayerMovement.HandleRotation();
         }
@@ -147,7 +149,8 @@ public class PlayerAimingState  : PlayerBaseState
             Vector3 dirToEnemy = (col.transform.position - _ctx.transform.position).normalized;
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
-            if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, ~LayerMask.GetMask("IgnoreRaycast", "Enemy")))
+            if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
+                    ~LayerMask.GetMask("Default", "Enemy","Ground")))
             {
                 if (hit.transform != col.transform) continue;
             }
@@ -158,7 +161,7 @@ public class PlayerAimingState  : PlayerBaseState
                 nearestEnemy = col.transform;
             }
         }
-
+        
         return nearestEnemy;
     }
 

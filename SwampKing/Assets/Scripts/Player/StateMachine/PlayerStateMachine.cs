@@ -28,10 +28,11 @@ public class PlayerStateMachine : MonoBehaviour
     public Transform ShootPoint;
     
     private Collider[] npcBuffer = new Collider[10];
-
-    public CameraController CameraController;
+    
     [Header("Cinemachine")]
     public CinemachineCamera aimCamera;
+    public GameObject cameraObject;
+
     
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }
