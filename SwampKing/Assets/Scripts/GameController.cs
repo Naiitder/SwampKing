@@ -50,7 +50,7 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt("CurrentSaveId", -1);
         PlayerPrefs.Save();
         
-        foreach (CharacterStats stats in FindObjectsOfType<CharacterStats>())
+        foreach (CharacterStats stats in FindObjectsByType<CharacterStats>(FindObjectsSortMode.None))
         {
             stats.LoadStats();
         }
@@ -290,7 +290,7 @@ public class GameController : MonoBehaviour
 
                     command.ExecuteNonQuery();
                 }
-                foreach (var stats in FindObjectsOfType<CharacterStats>())
+                foreach (var stats in FindObjectsByType<CharacterStats>(FindObjectsSortMode.None))
                 {
                     using (var cmd = connection.CreateCommand())
                     {

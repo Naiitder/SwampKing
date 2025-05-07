@@ -2029,7 +2029,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &351577751
 Transform:
   m_ObjectHideFlags: 0
@@ -2995,68 +2995,6 @@ Transform:
   - {fileID: 884385866}
   m_Father: {fileID: 1913427638}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &519170644
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 519170646}
-  - component: {fileID: 519170645}
-  m_Layer: 0
-  m_Name: CameraHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &519170645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519170644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17d9080ab9b5b314491c51dbc4f28260, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTransform: {fileID: 2315235827865174077}
-  cameraTransform: {fileID: 994192192}
-  cameraPivotTransform: {fileID: 1384943005}
-  ignoreLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  playerMovement: {fileID: 8557246577416378957}
-  lookSpeed: 200
-  pivotSpeed: 50
-  groundedFollowSpeed: 0.15
-  aerialFollowSpeed: 0.25
-  lookAngle: 0
-  minimumPivot: -15
-  maximumPivot: 45
-  cameraSphereRadius: 0.1
-  cameraCollisionOffSet: 0.2
-  minimumCollisionOffset: 0.2
---- !u!4 &519170646
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519170644}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1384943005}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &524294352
 GameObject:
   m_ObjectHideFlags: 0
@@ -3576,6 +3514,7 @@ GameObject:
   - component: {fileID: 607462028}
   - component: {fileID: 607462030}
   - component: {fileID: 607462033}
+  - component: {fileID: 607462035}
   - component: {fileID: 607462032}
   m_Layer: 0
   m_Name: CinemachineCamera
@@ -3598,7 +3537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Priority:
     Enabled: 0
-    m_Value: 0
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -3745,13 +3684,52 @@ MonoBehaviour:
   TiltAxis:
     Value: 0
     Center: 0
-    Range: {x: 0, y: 35}
+    Range: {x: 0, y: 75}
     Wrap: 0
     Recentering:
       Enabled: 0
       Wait: 1
       Time: 2
     Restrictions: 0
+--- !u!114 &607462035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607462025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe43d662878a7c43bcd44d43c9e2094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 256
+  IgnoreTag: 
+  TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  MinimumDistanceFromTarget: 0.3
+  AvoidObstacles:
+    Enabled: 1
+    DistanceLimit: 0
+    MinimumOcclusionTime: 0
+    CameraRadius: 0.4
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Strategy: 0
+    MaximumEffort: 4
+    SmoothingTime: 0
+    Damping: 0.4
+    DampingWhenOccluded: 0.2
+  ShotQualityEvaluation:
+    Enabled: 0
+    OptimalDistance: 10
+    NearLimit: 5
+    FarLimit: 30
+    MaxQualityBoost: 0.2
 --- !u!1 &630012654
 GameObject:
   m_ObjectHideFlags: 0
@@ -6324,12 +6302,12 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 12.417442
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
   m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 21.946, y: 16.002}
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -6365,7 +6343,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994192189}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.41229045, y: 1.4133985, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8211,37 +8189,6 @@ Transform:
   - {fileID: 566042091}
   - {fileID: 1597003301}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1384943004
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1384943005}
-  m_Layer: 0
-  m_Name: CameraPivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1384943005
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1384943004}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.65, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 519170646}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1410470777
 GameObject:
@@ -11117,7 +11064,7 @@ MonoBehaviour:
   pauseCanvas: {fileID: 351577750}
   gameOverCanvas: {fileID: 943104796}
   saveGameCanvas: {fileID: 4876129069425974027}
-  CameraController: {fileID: 519170645}
+  CameraController: {fileID: 0}
   coinsText: {fileID: 1483757318}
   Coins: 0
   SaveID: -1
@@ -19759,7 +19706,8 @@ MonoBehaviour:
   gamepadSpriteAsset: {fileID: 11400000, guid: b30709020cc7f684b91b19c7d1291ad2, type: 2}
   GunProjectilePrefab: {fileID: 5527739495974681888, guid: aceb002a5f9a497458d22ec71e215e56, type: 3}
   ShootPoint: {fileID: 1693244827}
-  CameraController: {fileID: 519170645}
+  CameraController: {fileID: 0}
+  aimCamera: {fileID: 607462028}
 --- !u!114 &8557246577416378956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20520,7 +20468,6 @@ SceneRoots:
   - {fileID: 896310804}
   - {fileID: 2133342599}
   - {fileID: 994192192}
-  - {fileID: 519170646}
   - {fileID: 607462029}
   - {fileID: 828460271}
   - {fileID: 285173663}

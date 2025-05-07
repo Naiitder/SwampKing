@@ -16,8 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("CharacterMovementStats")]
     [SerializeField] float walkingSpeed = 2.5f;
     [SerializeField] float movementSpeed = 5f;
-    Vector3 moveDirection;
-    [SerializeField] Vector3 appliedMovement;
+    Vector3 moveDirection; 
+    Vector3 appliedMovement;
     Transform myTransform;
     [SerializeField] float rotationSpeed = 10;
 
@@ -64,24 +64,24 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleGroundedMovement()
     {
-        Vector3 moveDirectionAux;
-        moveDirectionAux = cameraObject.transform.forward * InputController.instance.VerticalInput;
-        moveDirectionAux = moveDirectionAux + cameraObject.transform.right * InputController.instance.HorizontalInput;
-        moveDirectionAux.Normalize();
-        moveDirection.x = moveDirectionAux.x;
-        moveDirection.z = moveDirectionAux.z;
+        Vector3 forward = cameraObject.forward;
+        forward.y = 0;
+        forward.Normalize();
 
-        if (InputController.instance.MoveAmount > 0.5f)
-        {
-            moveDirection.x = moveDirection.x * movementSpeed;
-            moveDirection.z = moveDirection.z * movementSpeed;
-        }
-        else if (InputController.instance.MoveAmount <= 0.5f)
-        {
-            moveDirection.x = moveDirection.x * walkingSpeed;
-            moveDirection.z = moveDirection.z * walkingSpeed;
-        }
+        Vector3 right = cameraObject.right;
+        right.y = 0;
+        right.Normalize();
 
+        Vector3 inputDir = forward * InputController.instance.VerticalInput
+                           + right   * InputController.instance.HorizontalInput;
+        inputDir.Normalize();
+        
+        float speed = InputController.instance.MoveAmount > 0.5f
+            ? movementSpeed
+            : walkingSpeed;
+
+        moveDirection.x = inputDir.x * speed;
+        moveDirection.z = inputDir.z * speed;
     }
 
     public bool isGrounded()
@@ -106,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
             float previousYVelocity = moveDirection.y;
             moveDirection.y = moveDirection.y + (gravity * fallMultiplier*Time.deltaTime);
             appliedMovement.y = Mathf.Max((previousYVelocity + moveDirection.y) * .5f, -20.0f);
-            Debug.Log(appliedMovement.y);
         }
         else
         {
@@ -118,8 +117,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetGravity()
     {
-        moveDirection.y = -20f;
-        appliedMovement.y = -20f;
+        moveDirection.y = -10f;
+        appliedMovement.y = -10f;
     }
 
     public void HandleRotation()

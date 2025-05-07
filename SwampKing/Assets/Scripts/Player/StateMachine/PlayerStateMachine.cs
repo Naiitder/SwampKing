@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -29,6 +30,8 @@ public class PlayerStateMachine : MonoBehaviour
     private Collider[] npcBuffer = new Collider[10];
 
     public CameraController CameraController;
+    [Header("Cinemachine")]
+    public CinemachineCamera aimCamera;
     
     public PlayerMovement PlayerMovement { get; private set; }
     public PlayerManager PlayerManager { get; private set; }

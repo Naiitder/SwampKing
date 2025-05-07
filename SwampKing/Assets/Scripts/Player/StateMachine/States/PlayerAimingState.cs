@@ -104,12 +104,7 @@ public class PlayerAimingState  : PlayerBaseState
 
         if (playerTransform != null)
         {
-            Vector3 direction = (playerTransform.position - _ctx.transform.position).normalized;
-
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            _ctx.transform.rotation = Quaternion.Slerp(_ctx.transform.rotation, lookRotation, Time.deltaTime * 8f);
-            
-            _ctx.CameraController.lookAngle = _ctx.transform.eulerAngles.y;
+            _ctx.aimCamera.LookAt = playerTransform;
             
             Vector3 inputDir = new Vector3(InputController.instance.MovementInput.x, 0f, InputController.instance.MovementInput.y);
 

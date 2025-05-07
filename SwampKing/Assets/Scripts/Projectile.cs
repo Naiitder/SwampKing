@@ -4,7 +4,6 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;  
     [SerializeField] protected float lifetime = 2f;
-    float rotationSpeed = 15f;
     protected Transform target;
 
     protected int damage = 0;
