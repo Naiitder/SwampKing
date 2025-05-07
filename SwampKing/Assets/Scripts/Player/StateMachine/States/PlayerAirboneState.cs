@@ -13,7 +13,12 @@ public class PlayerAirboneState : PlayerBaseState
     {
 
     }
-
+    
+    public override void FixedUpdateState()
+    {
+        _ctx.PlayerMovement.HandleGravity();
+    }
+    
     public override void EnterState()
     {
         InitializeSubState();
@@ -38,7 +43,7 @@ public class PlayerAirboneState : PlayerBaseState
 
     public override void UpdateState()
     {
-        _ctx.PlayerMovement.HandleGravity();
+
         CheckSwitchStates();
     }
 }

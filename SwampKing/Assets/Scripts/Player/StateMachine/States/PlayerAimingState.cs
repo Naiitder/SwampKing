@@ -26,6 +26,11 @@ public class PlayerAimingState  : PlayerBaseState
         }
     }
 
+    public override void FixedUpdateState()
+    {
+        
+    }
+
     public override void EnterState()
     {
         attackFinished = true;

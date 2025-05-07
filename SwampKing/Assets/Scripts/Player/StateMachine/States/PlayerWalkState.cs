@@ -13,6 +13,12 @@ public class PlayerWalkState : PlayerBaseState
     }
     public override void ExitState() { }
     public override void InitializeSubState() { }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
+    
     public override void CheckSwitchStates() {
         if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
         else if(_ctx.PlayerManager.IsReacting) SwitchState(_factory.Reaction());

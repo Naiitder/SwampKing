@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float walkingSpeed = 2.5f;
     [SerializeField] float movementSpeed = 5f;
     Vector3 moveDirection;
-    Vector3 appliedMovement;
+    [SerializeField] Vector3 appliedMovement;
     Transform myTransform;
     [SerializeField] float rotationSpeed = 10;
 
@@ -95,12 +95,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleGravity()
     {
+        bool isGrounded = Physics.CheckSphere(transform.position,
+            groundCheckSphereRadius,
+            groundLayer,
+            QueryTriggerInteraction.Ignore
+        );
         float fallMultiplier = 2.0f;
-        if (!playerManager.IsGrounded && moveDirection.y < 0)
+        if (!isGrounded && moveDirection.y < 0)
         {
             float previousYVelocity = moveDirection.y;
             moveDirection.y = moveDirection.y + (gravity * fallMultiplier*Time.deltaTime);
             appliedMovement.y = Mathf.Max((previousYVelocity + moveDirection.y) * .5f, -20.0f);
+            Debug.Log(appliedMovement.y);
         }
         else
         {
@@ -112,8 +118,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetGravity()
     {
-        moveDirection.y = gravity;
-        appliedMovement.y = gravity;
+        moveDirection.y = -20f;
+        appliedMovement.y = -20f;
     }
 
     public void HandleRotation()

@@ -12,6 +12,11 @@ public class PlayerJumpAttackState : PlayerBaseState
         if (_ctx.PlayerMovement.isGrounded() && attackFinished) 
             SwitchState(_factory.Grounded());
     }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
 
     public override void EnterState()
     {

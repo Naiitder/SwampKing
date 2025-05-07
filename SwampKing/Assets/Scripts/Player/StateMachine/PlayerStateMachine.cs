@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -65,7 +66,12 @@ public class PlayerStateMachine : MonoBehaviour
         if (PlayerManager.easeHealthSlider.value != PlayerManager.healthSlider.value)
             PlayerManager.easeHealthSlider.value = Mathf.Lerp(PlayerManager.easeHealthSlider.value, PlayerManager.healthSlider.value, 0.05f);
     }
-    
+
+    private void FixedUpdate()
+    {
+        currentState.FixedUpdateState();
+    }
+
     void UpdateInteractionPrompt()
     {
         if (npc != null && !DialogueManager.instance.dialogueBox.activeSelf)

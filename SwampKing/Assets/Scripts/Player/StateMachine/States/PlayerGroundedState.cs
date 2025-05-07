@@ -18,6 +18,11 @@ public class PlayerGroundedState : PlayerBaseState
         if(!_ctx.PlayerManager.IsAiming) _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
         CheckSwitchStates();
     }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
 
     public override void ExitState()
     { }

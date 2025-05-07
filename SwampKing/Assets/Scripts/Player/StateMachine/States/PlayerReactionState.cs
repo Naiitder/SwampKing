@@ -21,6 +21,11 @@ public class PlayerReactionState : PlayerBaseState
         else SwitchState(_factory.Idle());
 
     }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
 
     public override void EnterState()
     {

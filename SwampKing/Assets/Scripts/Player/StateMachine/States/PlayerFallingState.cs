@@ -21,6 +21,12 @@ public class PlayerFallingState : PlayerBaseState
     public override void InitializeSubState()
     {
     }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
+    
     public override void CheckSwitchStates()
     {
 

@@ -25,6 +25,10 @@ public class PlayerAttackState : PlayerBaseState
 
         }
     }
+    public override void FixedUpdateState()
+    {
+        
+    }
 
     public override void EnterState()
     {

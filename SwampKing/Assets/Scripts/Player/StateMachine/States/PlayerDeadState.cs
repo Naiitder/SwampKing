@@ -18,7 +18,11 @@ public class PlayerDeadState : PlayerBaseState
         timeOfDeath = Time.time;
             
     }
-
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
 
     public override void ExitState()
     {

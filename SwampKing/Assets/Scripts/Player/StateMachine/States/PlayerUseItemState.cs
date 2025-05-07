@@ -12,6 +12,11 @@ public class PlayerUseItemState : PlayerBaseState
         CheckSwitchStates();
     }
     public override void ExitState() { }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
     public override void InitializeSubState() { }
     public override void CheckSwitchStates() {
         if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());

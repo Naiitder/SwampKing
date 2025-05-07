@@ -12,6 +12,11 @@ public class PlayerChargeJumpState : PlayerBaseState
         
         if (InputController.instance.CheckActions(InputController.InputActionType.Jump)) SwitchState(_factory.Airbone());
     }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
 
     public override void EnterState()
     {

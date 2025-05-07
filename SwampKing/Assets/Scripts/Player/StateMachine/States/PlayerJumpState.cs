@@ -33,6 +33,12 @@ public class PlayerJumpState : PlayerBaseState
     public override void InitializeSubState() {
 
     }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
+    
     public override void CheckSwitchStates() {
         if (_ctx.PlayerManager.CanDoubleJump 
             && InputController.instance.CheckActions(InputController.InputActionType.Jump)

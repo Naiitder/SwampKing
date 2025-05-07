@@ -21,6 +21,11 @@ public class PlayerDoubleJumpState : PlayerBaseState
         _ctx.PlayerManager.CanDoubleJump = false;
         InputController.instance.InputBuffer.Dequeue();
     }
+    
+    public override void FixedUpdateState()
+    {
+        
+    }
 
     public override void ExitState()
     {
