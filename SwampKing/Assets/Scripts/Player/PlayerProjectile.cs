@@ -8,6 +8,7 @@ public class PlayerProjectile : Projectile
         if(stats != null)
         {
             stats.TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
 }
