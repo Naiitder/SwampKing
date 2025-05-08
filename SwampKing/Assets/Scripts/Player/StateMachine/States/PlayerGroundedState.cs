@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public class PlayerGroundedState : PlayerBaseState
 {
     public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
@@ -15,6 +17,8 @@ public class PlayerGroundedState : PlayerBaseState
 
     } 
     public override void UpdateState(){
+        HandleJumpCharge();
+        
         if(!_ctx.PlayerManager.IsAiming) _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
         CheckSwitchStates();
     }
@@ -35,6 +39,22 @@ public class PlayerGroundedState : PlayerBaseState
         if ((InputController.instance.CheckActions(InputController.InputActionType.Jump) && !_ctx.PlayerManager.IsDead)
             || !_ctx.PlayerMovement.isGrounded()) 
                 SwitchState(_factory.Airbone());
+    }
+    
+    
+    private void HandleJumpCharge()
+    {
+        if (InputController.instance.IsJumpPressed 
+            && _ctx.PlayerMovement.CharacterController.isGrounded 
+            && !_ctx.PlayerManager.IsDead
+            && !_ctx.PlayerManager.IsReacting
+            && !_ctx.PlayerManager.IsAiming
+            && !_ctx.PlayerManager.IsAttacking)
+        {
+            if (_ctx.PlayerManager.JumpChargeTime >= _ctx.PlayerManager.TapTreshold) _ctx.PlayerManager.IsChargingJumping = true;
+            _ctx.PlayerManager.JumpChargeTime += Time.deltaTime;
+        }
+        else _ctx.PlayerManager.IsChargingJumping = false;
     }
 
 }

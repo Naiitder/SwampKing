@@ -58,7 +58,6 @@ public class PlayerStateMachine : MonoBehaviour
     {
         currentState.UpdateStates();
         PlayerMovement.HandleMovement();
-        HandleJumpCharge();
         HandleAirTimer();
 
         npc = FindNPC();
@@ -98,17 +97,6 @@ public class PlayerStateMachine : MonoBehaviour
             InteractionPrompt.SetActive(false);
         }
         
-    }
-
-
-    private void HandleJumpCharge()
-    {
-        if (InputController.instance.IsJumpPressed && PlayerMovement.CharacterController.isGrounded)
-        {
-            if (PlayerManager.JumpChargeTime >= PlayerManager.TapTreshold) PlayerManager.IsChargingJumping = true;
-            PlayerManager.JumpChargeTime += Time.deltaTime;
-        }
-        else PlayerManager.IsChargingJumping = false;
     }
     
     private void HandleAirTimer()
