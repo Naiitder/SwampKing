@@ -81,10 +81,7 @@ public class GameController : MonoBehaviour
             Vector3 currentPos = InputController.instance.transform.position;
             Quaternion currentRot = InputController.instance.transform.rotation;
             
-
-            float currentCameraRot = CameraController.transform.rotation.eulerAngles.y;
-            
-            SaveGame(saveId, currentPos, currentRot, currentCameraRot , Coins);
+            SaveGame(saveId, currentPos, currentRot , Coins);
     }
     
 
@@ -142,7 +139,7 @@ public class GameController : MonoBehaviour
 
         using (var cmd = connection.CreateCommand())
         {
-            cmd.CommandText = "SELECT name, position, rotation, camera_rotation, coins FROM player WHERE save_id = @saveId LIMIT 1;";
+            cmd.CommandText = "SELECT name, position, rotation, coins FROM player WHERE save_id = @saveId LIMIT 1;";
             cmd.Parameters.AddWithValue("@saveId", saveId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -152,7 +149,6 @@ public class GameController : MonoBehaviour
                     string position = reader["position"].ToString();
                     string rotation = reader["rotation"].ToString();
                     int coins = Convert.ToInt32(reader["coins"]);
-                    float cameraRot = float.Parse(reader["camera_rotation"].ToString(), CultureInfo.InvariantCulture);
                     
                     string[] parts = position.Split(',');
                     Vector3 pos = new Vector3(
@@ -170,8 +166,7 @@ public class GameController : MonoBehaviour
                     );
                     
                     Coins = coins; 
-                    StartCoroutine(SetPlayerPositionNextFrame(pos, rot,
-                        cameraRot));
+                    StartCoroutine(SetPlayerPositionNextFrame(pos, rot));
 
                     // TODO Establecer stats... etc.
                     Debug.Log($"Loaded player {name} at {position} with {coins} coins.");
@@ -255,8 +250,7 @@ public class GameController : MonoBehaviour
         connection.Close();
     }
 }
-    public void SaveGame(int saveId, Vector3 position, Quaternion rotation,
-            float cameraRot, int coins)
+    public void SaveGame(int saveId, Vector3 position, Quaternion rotation, int coins)
         {
             using (var connection = new SqliteConnection(SQLiteDB.instance.dbName))
             {
@@ -271,11 +265,10 @@ public class GameController : MonoBehaviour
                                        $"{rotation.y.ToString(CultureInfo.InvariantCulture)}," +
                                        $"{rotation.z.ToString(CultureInfo.InvariantCulture)}," +
                                        $"{rotation.w.ToString(CultureInfo.InvariantCulture)}";
-
-                    string cameraRotString = cameraRot.ToString(CultureInfo.InvariantCulture);
+                    
                     command.CommandText = @"
                 UPDATE player 
-                SET position = @position, rotation = @rotation,camera_rotation = @cameraRotation, coins = @coins
+                SET position = @position, rotation = @rotation, coins = @coins
                 WHERE save_id = @saveId;
                 
                 UPDATE save_slot
@@ -284,7 +277,6 @@ public class GameController : MonoBehaviour
             ";
                     command.Parameters.AddWithValue("@position", posString);
                     command.Parameters.AddWithValue("@rotation", rotString);
-                    command.Parameters.AddWithValue("@cameraRotation", cameraRotString);
                     command.Parameters.AddWithValue("@coins", coins);
                     command.Parameters.AddWithValue("@saveId", saveId);
 
@@ -317,12 +309,11 @@ public class GameController : MonoBehaviour
             Debug.Log($"✅ Partida {saveId} guardada correctamente.");
         }
 
-    private IEnumerator SetPlayerPositionNextFrame(Vector3 pos, Quaternion rot, float cameraRotation)
+    private IEnumerator SetPlayerPositionNextFrame(Vector3 pos, Quaternion rot)
     {
         yield return null; 
         InputController.instance.transform.position = pos;
         InputController.instance.transform.rotation = rot;
-        CameraController.lookAngle = cameraRotation;
     }
 
     public void ActiveSaveGameCanvas()

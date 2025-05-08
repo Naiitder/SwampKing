@@ -65,7 +65,6 @@
                                   "statistics INTEGER, " +
                                   "position TEXT NULL, " +
                                   "rotation TEXT NULL, " +
-                                  "camera_rotation TEXT NULL, " +
                                   "coins INTEGER NOT NULL, " +
                                   "FOREIGN KEY(save_id) REFERENCES save_slot(id),"+
                                   "FOREIGN KEY(statistics) REFERENCES statistics(id)" +
@@ -459,7 +458,7 @@
         public void InsertInitialGameData(int saveId)
         {
             // Player inicial
-            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, camera_rotation, coins) VALUES ({saveId}, 'Gusta', 1, '0,0,0','0,0,0,0','0', 0);");
+            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, coins) VALUES ({saveId}, 'Gusta', 1, '0,0,0','0,0,0,0', 0);");
 
             // Inventario inicial
             Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 1, 5);");
