@@ -29,10 +29,7 @@ public class PlayerDoubleJumpAimingState : PlayerBaseState
 
     public override void EnterState()
     {
-        attackFinished = true;
-        _ctx.PlayerManager.IsAiming = true;
-
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
+        EnableAiming();
         
         _ctx.PlayerMovement.PerformJump(1.25f);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, true);
@@ -49,13 +46,10 @@ public class PlayerDoubleJumpAimingState : PlayerBaseState
 
     public override void ExitState()
     {
+        ResetAiming();
+        
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, false);
         _ctx.PlayerManager.IsJumping = false;
-        
-        _ctx.PlayerManager.IsAiming = false;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-        _ctx.cameraObject.SetActive(false);
     }
 
     public override void InitializeSubState()
@@ -66,18 +60,40 @@ public class PlayerDoubleJumpAimingState : PlayerBaseState
     public override void UpdateState()
     {
         _ctx.PlayerMovement.HandleGroundedMovement();
-        enemyTransform = GetNearestVisibleEnemy(distance);
-        AimAtNearestEnemy();
-
-        if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
+        if (InputController.instance.IsAimingPressed)
         {
-            Shoot();
-            InputController.instance.InputBuffer.Dequeue();
+            if(!_ctx.PlayerManager.IsAiming) EnableAiming();
+            
+            enemyTransform = GetNearestVisibleEnemy(distance);
+            AimAtNearestEnemy();
+
+            if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
+            {
+                Shoot();
+                InputController.instance.InputBuffer.Dequeue();
+            }
+        }else if (attackFinished && !InputController.instance.IsAimingPressed)
+        {
+            ResetAiming();
         }
         
         CheckSwitchStates();
     }
     
+    private void EnableAiming()
+    {
+        attackFinished = true;
+        _ctx.PlayerManager.IsAiming = true;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
+    }
+
+    private void ResetAiming()
+    {
+        _ctx.PlayerManager.IsAiming = false;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+        _ctx.cameraObject.SetActive(false);
+    }
       private void Shoot()
     {
         attackFinished = false;
@@ -156,7 +172,7 @@ public class PlayerDoubleJumpAimingState : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy","Ground")))
+                    ~LayerMask.GetMask("Default", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }

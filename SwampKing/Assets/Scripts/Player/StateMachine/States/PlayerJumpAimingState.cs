@@ -16,10 +16,7 @@ public class PlayerJumpAimingState : PlayerBaseState
     }
 
     public override void EnterState() {
-        attackFinished = true;
-        _ctx.PlayerManager.IsAiming = true;
-
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
+        EnableAiming();
         
         _ctx.PlayerMovement.PerformJump();
         _ctx.PlayerManager.JumpChargeTime = 0;
@@ -33,23 +30,30 @@ public class PlayerJumpAimingState : PlayerBaseState
         if (!_hasLeftGround && !_ctx.PlayerMovement.isGrounded()) _hasLeftGround = true;
         
         _ctx.PlayerMovement.HandleGroundedMovement();
-        enemyTransform = GetNearestVisibleEnemy(distance);
-        AimAtNearestEnemy();
 
-        if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
+        if (InputController.instance.IsAimingPressed)
         {
-            Shoot();
-            InputController.instance.InputBuffer.Dequeue();
+            if(!_ctx.PlayerManager.IsAiming) EnableAiming();
+            
+            enemyTransform = GetNearestVisibleEnemy(distance);
+            AimAtNearestEnemy();
+
+            if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
+            {
+                Shoot();
+                InputController.instance.InputBuffer.Dequeue();
+            }
+        }else if (attackFinished && !InputController.instance.IsAimingPressed)
+        {
+            ResetAiming();
         }
-        
+
+
         CheckSwitchStates();
     }
-    public override void ExitState() {
-        
-        _ctx.PlayerManager.IsAiming = false;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-        _ctx.cameraObject.SetActive(false);
+    public override void ExitState()
+    {
+        ResetAiming();
         
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsJumpingHash, false);
         _ctx.PlayerManager.IsJumping = false;
@@ -68,14 +72,37 @@ public class PlayerJumpAimingState : PlayerBaseState
         if (_ctx.PlayerMovement.isGrounded() && _hasLeftGround) 
             SwitchState(_factory.Grounded());
 
-        if (attackFinished && !InputController.instance.IsAimingPressed)
+        if (!InputController.instance.IsAimingPressed)
         {
             if (_ctx.PlayerManager.CanDoubleJump 
                 && InputController.instance.CheckActions(InputController.InputActionType.Jump)
                 && !_ctx.PlayerMovement.isGrounded()) 
                 SwitchState(_factory.DoubleJump());
-            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());   
+            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) 
+                SwitchState(_factory.JumpAttack());   
         }
+        else
+        {
+            if(_ctx.PlayerManager.CanDoubleJump 
+               && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+               && !_ctx.PlayerMovement.isGrounded())
+                SwitchState(_factory.DoubleJumpAiming());
+        }
+    }
+
+    private void EnableAiming()
+    {
+        attackFinished = true;
+        _ctx.PlayerManager.IsAiming = true;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
+    }
+    
+    private void ResetAiming()
+    {
+        _ctx.PlayerManager.IsAiming = false;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+        _ctx.cameraObject.SetActive(false);
     }
     
     
@@ -157,7 +184,7 @@ public class PlayerJumpAimingState : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy","Ground")))
+                    ~LayerMask.GetMask("Default", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }

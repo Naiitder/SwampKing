@@ -31,14 +31,28 @@ public class PlayerAirboneState : PlayerBaseState
 
     public override void InitializeSubState()
     {
-        if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
-            && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
-            SetSubState(_factory.Jump());
-        else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
-            && InputController.instance.CheckActions(InputController.InputActionType.Jump)
-            && _ctx.PlayerManager.CanDoubleJump) 
-            SetSubState(_factory.DoubleJump());
-        else SetSubState(_factory.Falling());
+        if (!InputController.instance.IsAimingPressed)
+        {
+            if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
+                && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
+                SetSubState(_factory.Jump());
+            else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
+                     && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+                     && _ctx.PlayerManager.CanDoubleJump) 
+                SetSubState(_factory.DoubleJump());
+            else SetSubState(_factory.Falling());
+        }
+        else
+        {
+            if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
+                && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
+                SetSubState(_factory.JumpAiming());
+            else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
+                     && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+                     && _ctx.PlayerManager.CanDoubleJump) 
+                SetSubState(_factory.DoubleJumpAiming());
+            else SetSubState(_factory.FallAiming());
+        }
     }
 
     public override void UpdateState()

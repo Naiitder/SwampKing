@@ -1,10 +1,17 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class PlayerJumpState : PlayerBaseState
 {
     float multiplierJumpForce;
     bool _hasLeftGround;
+    
+    private bool attackFinished = true;
+    private float attackDelay = 0.4f;
+    private float distance = 40f;
+    private Collider[] enemyBuffer = new Collider[20]; 
+    private Transform enemyTransform;
 
     public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     : base(currentContext, playerStateFactory) {
@@ -23,7 +30,25 @@ public class PlayerJumpState : PlayerBaseState
     public override void UpdateState(){
         if (!_hasLeftGround && !_ctx.PlayerMovement.isGrounded()) _hasLeftGround = true;
         _ctx.PlayerMovement.HandleGroundedMovement();
-        _ctx.PlayerMovement.HandleRotation();
+        
+        if (InputController.instance.IsAimingPressed)
+        {
+            if(!_ctx.PlayerManager.IsAiming) EnableAiming();
+            
+            enemyTransform = GetNearestVisibleEnemy(distance);
+            AimAtNearestEnemy();
+
+            if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
+            {
+                Shoot();
+                InputController.instance.InputBuffer.Dequeue();
+            }
+        }else if (attackFinished && !InputController.instance.IsAimingPressed)
+        {
+            ResetAiming();
+            _ctx.PlayerMovement.HandleRotation();
+        }
+        
         CheckSwitchStates();
     }
     public override void ExitState() {
@@ -40,13 +65,131 @@ public class PlayerJumpState : PlayerBaseState
     }
     
     public override void CheckSwitchStates() {
-        if (_ctx.PlayerManager.CanDoubleJump 
-            && InputController.instance.CheckActions(InputController.InputActionType.Jump)
-            && !_ctx.PlayerMovement.isGrounded()) 
-            SwitchState(_factory.DoubleJump());
-        else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
-        else if (_ctx.PlayerMovement.isGrounded() && _hasLeftGround) 
+        if (_ctx.PlayerMovement.isGrounded() && _hasLeftGround) 
             SwitchState(_factory.Grounded());
+
+        if (InputController.instance.IsAimingPressed)
+        {
+            if (_ctx.PlayerManager.CanDoubleJump 
+                && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+                && !_ctx.PlayerMovement.isGrounded()) 
+                SwitchState(_factory.DoubleJump());
+            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
+        }
+        else
+        {
+            if (_ctx.PlayerManager.CanDoubleJump 
+                && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+                && !_ctx.PlayerMovement.isGrounded()) 
+                SwitchState(_factory.DoubleJumpAiming());
+        }
+
+    }
+    
+     private void EnableAiming()
+    {
+        attackFinished = true;
+        _ctx.PlayerManager.IsAiming = true;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
+    }
+    private void ResetAiming()
+    {
+        _ctx.PlayerManager.IsAiming = false;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+        _ctx.cameraObject.SetActive(false);
+    }
+    private void Shoot()
+    {
+        attackFinished = false;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,true); 
+        
+        _ctx.AudioSource.PlayOneShot(_ctx.ShootSound);
+        
+
+        Quaternion rotation = _ctx.transform.rotation;
+        GameObject projectile = GameObject.Instantiate(_ctx.GunProjectilePrefab, _ctx.ShootPoint.position, rotation);
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        if (projectileScript != null)
+        {
+            projectileScript.Damage = _ctx.PlayerManager.CharacterStats.Damage;
+            if(enemyTransform != null) projectileScript.Target = enemyTransform;
+        }
+        _ctx.StartCoroutine(ResetAttackCooldown(attackDelay));
+    }
+
+    private IEnumerator ResetAttackCooldown(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+        attackFinished = true;
+    }
+    
+    private void AimAtNearestEnemy()
+    {
+
+        if (enemyTransform != null)
+        { 
+            _ctx.cameraObject.SetActive(true);
+            _ctx.aimCamera.Target.LookAtTarget = enemyTransform;
+            _ctx.transform.LookAt(enemyTransform);
+            Vector3 inputDir = new Vector3(InputController.instance.MovementInput.x, 0f, InputController.instance.MovementInput.y);
+
+            Vector3 toEnemy = (enemyTransform.position - _ctx.transform.position).normalized;
+            toEnemy.y = 0f;
+            
+            Vector3 right = Vector3.Cross(Vector3.up, toEnemy).normalized;
+            
+            Vector3 moveWorldDir = (right * inputDir.x + toEnemy * inputDir.z).normalized;
+            
+            Vector3 localInputDir = _ctx.transform.InverseTransformDirection(moveWorldDir);
+
+            float vertical = Mathf.Clamp(localInputDir.z, -1f, 1f);
+            float horizontal = Mathf.Clamp(localInputDir.x, -1f, 1f);
+
+            _ctx.PlayerAnimator.UpdateMovementAnimationValues(vertical, horizontal);
+        }
+        else
+        {
+            _ctx.cameraObject.SetActive(false);
+            _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
+            _ctx.PlayerMovement.HandleRotation();
+        }
+    }
+    
+    private Transform GetNearestVisibleEnemy(float maxDistance)
+    {
+        int layerMask = LayerMask.GetMask("Enemy"); 
+        int count = Physics.OverlapSphereNonAlloc(_ctx.transform.position, maxDistance, enemyBuffer, layerMask);
+
+        Transform nearestEnemy = null;
+        float shortestDistance = maxDistance;
+
+        for (int i = 0; i < count; i++)
+        {
+            Collider col = enemyBuffer[i];
+            if (col == null) continue;
+
+            EnemyManager enemy = col.GetComponent<EnemyManager>(); 
+            if (enemy == null) continue;
+
+            Vector3 dirToEnemy = (col.transform.position - _ctx.transform.position).normalized;
+            float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
+            
+            if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
+                    ~LayerMask.GetMask("Default", "Enemy")))
+            {
+                if (hit.transform != col.transform) continue;
+            }
+            
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearestEnemy = col.transform;
+            }
+        }
+        
+        return nearestEnemy;
     }
 
 }

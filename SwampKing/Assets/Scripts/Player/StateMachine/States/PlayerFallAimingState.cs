@@ -16,10 +16,7 @@ public class PlayerFallAimingState : PlayerBaseState
     }
     public override void EnterState()
     {
-        attackFinished = true;
-        _ctx.PlayerManager.IsAiming = true;
-
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
+        EnableAiming();
     }
     public override void UpdateState()
     {
@@ -27,25 +24,31 @@ public class PlayerFallAimingState : PlayerBaseState
             _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, true);
         
         _ctx.PlayerMovement.HandleGroundedMovement();
-        enemyTransform = GetNearestVisibleEnemy(distance);
-        AimAtNearestEnemy();
-
-        if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
+        
+        if (InputController.instance.IsAimingPressed)
         {
-            Shoot();
-            InputController.instance.InputBuffer.Dequeue();
+            if(!_ctx.PlayerManager.IsAiming) EnableAiming();
+            
+            enemyTransform = GetNearestVisibleEnemy(distance);
+            AimAtNearestEnemy();
+
+            if (attackFinished && InputController.instance.CheckActions(InputController.InputActionType.Attack))
+            {
+                Shoot();
+                InputController.instance.InputBuffer.Dequeue();
+            }
+        }else if (attackFinished && !InputController.instance.IsAimingPressed)
+        {
+            ResetAiming();
         }
         
         CheckSwitchStates();
     }
     public override void ExitState()
     {
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, false);
+        ResetAiming();
         
-        _ctx.PlayerManager.IsAiming = false;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-        _ctx.cameraObject.SetActive(false);
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, false);
     }
     public override void InitializeSubState()
     {
@@ -61,9 +64,10 @@ public class PlayerFallAimingState : PlayerBaseState
         if (_ctx.PlayerMovement.isGrounded()) 
             SwitchState(_factory.Grounded());
 
-        if (attackFinished && !InputController.instance.IsAimingPressed)
+        if (!InputController.instance.IsAimingPressed)
         {
-            if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
+            if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) 
+                SwitchState(_factory.JumpAttack());
 
             if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
                 && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
@@ -73,11 +77,34 @@ public class PlayerFallAimingState : PlayerBaseState
                      && _ctx.PlayerManager.CanDoubleJump) 
                 SwitchState(_factory.DoubleJump());
         }
+        else 
+        {
+            if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
+                && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
+                SwitchState(_factory.JumpAiming());
+            else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
+                     && InputController.instance.CheckActions(InputController.InputActionType.Jump)
+                     && _ctx.PlayerManager.CanDoubleJump) 
+                SwitchState(_factory.DoubleJumpAiming());
+        }
 
        
     }
     
-      private void Shoot()
+    private void EnableAiming()
+    {
+        attackFinished = true;
+        _ctx.PlayerManager.IsAiming = true;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, true);
+    }
+    private void ResetAiming()
+    {
+        _ctx.PlayerManager.IsAiming = false;
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+        _ctx.cameraObject.SetActive(false);
+    }
+    private void Shoot()
     {
         attackFinished = false;
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,true); 
@@ -155,7 +182,7 @@ public class PlayerFallAimingState : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy","Ground")))
+                    ~LayerMask.GetMask("Default", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }

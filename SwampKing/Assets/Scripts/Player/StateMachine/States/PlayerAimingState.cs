@@ -150,7 +150,7 @@ public class PlayerAimingState  : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy","Ground")))
+                    ~LayerMask.GetMask("Default", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }

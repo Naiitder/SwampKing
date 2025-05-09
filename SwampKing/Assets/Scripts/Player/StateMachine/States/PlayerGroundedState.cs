@@ -31,7 +31,7 @@ public class PlayerGroundedState : PlayerBaseState
     public override void ExitState()
     { }
     public override void InitializeSubState(){
-        if (_ctx.PlayerManager.IsChargingJumping) SetSubState(_factory.ChargeJump());
+        if (InputController.instance.IsAimingPressed) SetSubState(_factory.Aimning());
         else if (InputController.instance.MoveAmount != 0) SetSubState(_factory.Walk());
         else SetSubState(_factory.Idle());
     }
