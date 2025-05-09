@@ -470,7 +470,8 @@
             {
                 Query($"INSERT INTO character_state (character_id, save_id, is_alive) VALUES ({characterId}, {saveId}, 1);");
             }
-            // Estado de personajes (todos vivos al empezar)
+            
+            // Estado de personajes
             Query($@"INSERT INTO character_stats_state 
 (character_id, save_id, max_health, current_health, damage, endurance, armor, speed)
 SELECT c.id, {saveId}, s.max_health, s.max_health, s.damage, s.endurance, s.armor, s.speed
