@@ -15,6 +15,7 @@ public class PlayerFallingState : PlayerBaseState
     }
     public override void EnterState()
     {
+        attackFinished = true;
     }
     public override void UpdateState()
     {
@@ -61,27 +62,18 @@ public class PlayerFallingState : PlayerBaseState
         
         if (_ctx.PlayerMovement.isGrounded()) 
             SwitchState(_factory.Grounded());
-        if (!InputController.instance.IsAimingPressed)
-        {
-            if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
-            if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
+        
+        if (!InputController.instance.IsAimingPressed && InputController.instance.CheckActions(InputController.InputActionType.Attack)) 
+            SwitchState(_factory.JumpAttack());
+        
+        if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
                 && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
                 SwitchState(_factory.Jump());
-            else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
+        else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
                      && InputController.instance.CheckActions(InputController.InputActionType.Jump)
                      && _ctx.PlayerManager.CanDoubleJump) 
                 SwitchState(_factory.DoubleJump());
-        }
-        else
-        {
-            if (_ctx.PlayerManager.InAirTimer <= _ctx.PlayerManager.CoyoteTime
-                && InputController.instance.CheckActions(InputController.InputActionType.Jump)) 
-                SwitchState(_factory.JumpAiming());
-            else if (_ctx.PlayerManager.InAirTimer > _ctx.PlayerManager.CoyoteTime
-                     && InputController.instance.CheckActions(InputController.InputActionType.Jump)
-                     && _ctx.PlayerManager.CanDoubleJump) 
-                SwitchState(_factory.DoubleJumpAiming());
-        }
+
     }
     
      private void EnableAiming()
@@ -93,10 +85,13 @@ public class PlayerFallingState : PlayerBaseState
 
     private void ResetAiming()
     {
-        _ctx.PlayerManager.IsAiming = false;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-        _ctx.cameraObject.SetActive(false);
+        if (!InputController.instance.IsAimingPressed)
+        {
+            _ctx.PlayerManager.IsAiming = false;
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+            _ctx.cameraObject.SetActive(false);
+        }
     }
       private void Shoot()
     {

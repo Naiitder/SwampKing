@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerDoubleJumpState : PlayerBaseState
 {
-    private bool attackFinished = true;
+        private bool attackFinished = true;
     private float attackDelay = 0.4f;
     private float distance = 40f;
     private Collider[] enemyBuffer = new Collider[20]; 
@@ -20,13 +20,15 @@ public class PlayerDoubleJumpState : PlayerBaseState
         if (_ctx.PlayerMovement.isGrounded()) 
             SwitchState(_factory.Grounded());
         
-        if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) 
+        if (!InputController.instance.IsAimingPressed && InputController.instance.CheckActions(InputController.InputActionType.Attack)) 
             SwitchState(_factory.JumpAttack());
 
     }
 
     public override void EnterState()
     {
+        attackFinished = true;
+        
         _ctx.PlayerMovement.PerformJump(1.25f);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, true);
         _ctx.PlayerManager.JumpChargeTime = 0;
@@ -44,6 +46,7 @@ public class PlayerDoubleJumpState : PlayerBaseState
     {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, false);
         _ctx.PlayerManager.IsJumping = false;
+        ResetAiming();
     }
 
     public override void InitializeSubState()
@@ -84,10 +87,13 @@ public class PlayerDoubleJumpState : PlayerBaseState
 
     private void ResetAiming()
     {
-        _ctx.PlayerManager.IsAiming = false;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-        _ctx.cameraObject.SetActive(false);
+        if (!InputController.instance.IsAimingPressed)
+        {
+            _ctx.PlayerManager.IsAiming = false;
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+            _ctx.cameraObject.SetActive(false);
+        }
     }
       private void Shoot()
     {

@@ -43,10 +43,7 @@ public class PlayerAimingState  : PlayerBaseState
 
     public override void ExitState()
     {
-        _ctx.PlayerManager.IsAiming = false;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-        _ctx.cameraObject.SetActive(false);
+        ResetAiming();
     }
 
     public override void InitializeSubState()
@@ -68,6 +65,17 @@ public class PlayerAimingState  : PlayerBaseState
 
 
         CheckSwitchStates();
+    }
+    
+    private void ResetAiming()
+    {
+        if (!InputController.instance.IsAimingPressed)
+        {
+            _ctx.PlayerManager.IsAiming = false;
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+            _ctx.cameraObject.SetActive(false);
+        }
     }
 
 

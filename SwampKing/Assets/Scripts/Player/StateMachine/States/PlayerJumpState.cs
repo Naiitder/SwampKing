@@ -18,6 +18,8 @@ public class PlayerJumpState : PlayerBaseState
     }
 
     public override void EnterState() {
+        attackFinished = true;
+        
         multiplierJumpForce = _ctx.PlayerManager.JumpChargeTime > _ctx.PlayerManager.TapTreshold ? 1.5f : 1f;
         _ctx.PlayerMovement.PerformJump(multiplierJumpForce);
         _ctx.PlayerManager.JumpChargeTime = 0;
@@ -67,22 +69,13 @@ public class PlayerJumpState : PlayerBaseState
     public override void CheckSwitchStates() {
         if (_ctx.PlayerMovement.isGrounded() && _hasLeftGround) 
             SwitchState(_factory.Grounded());
-
-        if (InputController.instance.IsAimingPressed)
-        {
+        
             if (_ctx.PlayerManager.CanDoubleJump 
                 && InputController.instance.CheckActions(InputController.InputActionType.Jump)
                 && !_ctx.PlayerMovement.isGrounded()) 
                 SwitchState(_factory.DoubleJump());
-            else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
-        }
-        else
-        {
-            if (_ctx.PlayerManager.CanDoubleJump 
-                && InputController.instance.CheckActions(InputController.InputActionType.Jump)
-                && !_ctx.PlayerMovement.isGrounded()) 
-                SwitchState(_factory.DoubleJumpAiming());
-        }
+            
+            else if (!InputController.instance.IsAimingPressed && InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.JumpAttack());
 
     }
     
@@ -94,10 +87,13 @@ public class PlayerJumpState : PlayerBaseState
     }
     private void ResetAiming()
     {
-        _ctx.PlayerManager.IsAiming = false;
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
-        _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
-        _ctx.cameraObject.SetActive(false);
+        if (!InputController.instance.IsAimingPressed)
+        {
+            _ctx.PlayerManager.IsAiming = false;
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.AimingHash, false);
+            _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,false); 
+            _ctx.cameraObject.SetActive(false);
+        }
     }
     private void Shoot()
     {

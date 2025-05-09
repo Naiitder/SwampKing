@@ -16,9 +16,6 @@ public class PlayerStateFactory
         jumpAttack, 
         interact,
         aiming,
-        jumpAiming,
-        doubleJumpAiming,
-        fallAiming,
         usingItem,
         dead, 
         reaction
@@ -42,9 +39,6 @@ public class PlayerStateFactory
         _states[PlayerStates.jumpAttack] = new PlayerJumpAttackState(_context, this);
         _states[PlayerStates.interact] = new PlayerInteractState(_context, this);
         _states[PlayerStates.aiming] = new PlayerAimingState(_context, this);
-        _states[PlayerStates.jumpAiming] = new PlayerJumpAimingState(_context, this);
-        _states[PlayerStates.doubleJumpAiming] = new PlayerDoubleJumpAimingState(_context, this);
-        _states[PlayerStates.fallAiming] = new PlayerFallAimingState(_context, this);
         _states[PlayerStates.usingItem] = new PlayerUseItemState(_context, this);
         _states[PlayerStates.dead] = new PlayerDeadState(_context,this);
         _states[PlayerStates.reaction] = new PlayerReactionState(_context,this);
@@ -111,21 +105,6 @@ public class PlayerStateFactory
     public PlayerBaseState Aimning()
     {
         return _states[PlayerStates.aiming];
-    }
-    
-    public PlayerBaseState JumpAiming()
-    {
-        return _states[PlayerStates.jumpAiming];
-    }
-    
-    public PlayerBaseState DoubleJumpAiming()
-    {
-        return _states[PlayerStates.doubleJumpAiming];
-    }
-    
-    public PlayerBaseState FallAiming()
-    {
-        return _states[PlayerStates.fallAiming];
     }
     
 }
