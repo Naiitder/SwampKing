@@ -1,18 +1,28 @@
 trackSelection = true
 refreshSearchWindowsInPlayMode = false
+pickerAdvancedUI = false
 fetchPreview = true
 defaultFlags = 0
-keepOpen = false
+keepOpen = true
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"picker_window_position_offset.075BCD15" = "-939;348;1592;550"
+	"picker_visibility_flags.075BCD15" = "264"
+	"picker_item_size.075BCD15" = "96"
+	"picker_inspector.075BCD15" = "0"
 }
 providers = {
-	packages = {
+	asset = {
 		active = true
-		priority = 90
+		priority = 25
+		defaultAction = null
+	}
+	scene = {
+		active = true
+		priority = 50
 		defaultAction = null
 	}
 	adb = {
@@ -20,9 +30,9 @@ providers = {
 		priority = 2500
 		defaultAction = null
 	}
-	asset = {
-		active = true
-		priority = 25
+	presets_provider = {
+		active = false
+		priority = -10
 		defaultAction = null
 	}
 	find = {
@@ -30,14 +40,9 @@ providers = {
 		priority = 25
 		defaultAction = null
 	}
-	log = {
+	packages = {
 		active = false
-		priority = 210
-		defaultAction = null
-	}
-	profilermarkers = {
-		active = false
-		priority = 100
+		priority = 90
 		defaultAction = null
 	}
 	performance = {
@@ -45,14 +50,19 @@ providers = {
 		priority = 100
 		defaultAction = null
 	}
-	store = {
-		active = true
+	profilermarkers = {
+		active = false
 		priority = 100
 		defaultAction = null
 	}
-	scene = {
-		active = true
-		priority = 50
+	store = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+	log = {
+		active = false
+		priority = 210
 		defaultAction = null
 	}
 }
@@ -67,7 +77,7 @@ showSavedSearchPanel = false
 hideTabs = false
 expandedQueries = [
 ]
-queryBuilder = false
+queryBuilder = true
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""

@@ -14,6 +14,7 @@ public abstract class PlayerBaseState
 
     public abstract void EnterState();
     public abstract void UpdateState();
+    public abstract void FixedUpdateState();
     public abstract void ExitState();
     public abstract void CheckSwitchStates();
     public abstract void InitializeSubState();
@@ -36,6 +37,7 @@ public abstract class PlayerBaseState
         _currentSuperState = newSuperState;
     }
     protected void SetSubState(PlayerBaseState newSubState) {
+        if(_currentSubState != null) _currentSubState.ExitState();
         _currentSubState = newSubState;
         newSubState.SetSuperState(this);
         _currentSubState.EnterState();

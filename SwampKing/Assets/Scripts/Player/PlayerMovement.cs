@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,17 +16,17 @@ public class PlayerMovement : MonoBehaviour
     [Header("CharacterMovementStats")]
     [SerializeField] float walkingSpeed = 2.5f;
     [SerializeField] float movementSpeed = 5f;
-    Vector3 moveDirection;
+    Vector3 moveDirection; 
     Vector3 appliedMovement;
     Transform myTransform;
     [SerializeField] float rotationSpeed = 10;
 
     [Header("JumpStats")]
     [SerializeField] float gravity = -9.8f;
-    [SerializeField] float groundCheckSphereRadius = .25f;
     [SerializeField] float initialJumpVelocity;
     [SerializeField] float maxJumpHeight = 4.0f;
     [SerializeField] float maxJumpTime = 0.75f;
+    [SerializeField] float groundCheckSphereRadius = 0.2f;
 
     public CharacterController CharacterController { get { return characterController; } }
 
@@ -63,31 +64,44 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleGroundedMovement()
     {
-        Vector3 moveDirectionAux;
-        moveDirectionAux = cameraObject.transform.forward * InputController.instance.VerticalInput;
-        moveDirectionAux = moveDirectionAux + cameraObject.transform.right * InputController.instance.HorizontalInput;
-        moveDirectionAux.Normalize();
-        moveDirection.x = moveDirectionAux.x;
-        moveDirection.z = moveDirectionAux.z;
+        Vector3 forward = cameraObject.forward;
+        forward.y = 0;
+        forward.Normalize();
 
-        if (InputController.instance.MoveAmount > 0.5f)
-        {
-            moveDirection.x = moveDirection.x * movementSpeed;
-            moveDirection.z = moveDirection.z * movementSpeed;
-        }
-        else if (InputController.instance.MoveAmount <= 0.5f)
-        {
-            moveDirection.x = moveDirection.x * walkingSpeed;
-            moveDirection.z = moveDirection.z * walkingSpeed;
-        }
+        Vector3 right = cameraObject.right;
+        right.y = 0;
+        right.Normalize();
 
+        Vector3 inputDir = forward * InputController.instance.VerticalInput
+                           + right   * InputController.instance.HorizontalInput;
+        inputDir.Normalize();
+        
+        float speed = InputController.instance.MoveAmount > 0.5f
+            ? movementSpeed
+            : walkingSpeed;
+
+        moveDirection.x = inputDir.x * speed;
+        moveDirection.z = inputDir.z * speed;
+    }
+
+    public bool isGrounded()
+    {
+        return Physics.CheckSphere(transform.position,
+            groundCheckSphereRadius,
+            groundLayer,
+            QueryTriggerInteraction.Ignore
+        );
     }
 
     public void HandleGravity()
     {
-        bool isFalling = moveDirection.y <= 0.0f || !InputController.instance.IsJumpPressed;
+        bool isGrounded = Physics.CheckSphere(transform.position,
+            groundCheckSphereRadius,
+            groundLayer,
+            QueryTriggerInteraction.Ignore
+        );
         float fallMultiplier = 2.0f;
-        if (isFalling)
+        if (!isGrounded && moveDirection.y < 0)
         {
             float previousYVelocity = moveDirection.y;
             moveDirection.y = moveDirection.y + (gravity * fallMultiplier*Time.deltaTime);
@@ -103,8 +117,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetGravity()
     {
-        moveDirection.y = gravity;
-        appliedMovement.y = gravity;
+        moveDirection.y = -10f;
+        appliedMovement.y = -10f;
     }
 
     public void HandleRotation()
@@ -134,7 +148,6 @@ public class PlayerMovement : MonoBehaviour
         gravity = (-2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
         initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
     }
-
 
     private void OnDrawGizmosSelected()
     {
