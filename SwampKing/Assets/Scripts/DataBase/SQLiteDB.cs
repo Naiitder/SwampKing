@@ -423,8 +423,7 @@
             using (var connection = new SqliteConnection(dbName))
             {
                 connection.Open();
-
-                // Primero comprobamos cuántos saves hay
+                
                 using (var checkCmd = connection.CreateCommand())
                 {
                     checkCmd.CommandText = "SELECT COUNT(*) FROM save_slot;";
@@ -436,8 +435,7 @@
                         return -1; 
                     }
                 }
-
-                // Insertar nuevo save
+                
                 using (var insertCmd = connection.CreateCommand())
                 {
                     insertCmd.CommandText = @"
@@ -446,8 +444,7 @@
                     insertCmd.Parameters.AddWithValue("@location", location);
                     insertCmd.ExecuteNonQuery();
                 }
-
-                // Obtener el ID recién insertado
+                
                 using (var getIdCmd = connection.CreateCommand())
                 {
                     getIdCmd.CommandText = "SELECT last_insert_rowid();";

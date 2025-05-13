@@ -120,7 +120,10 @@ public class GameController : MonoBehaviour
         if (newSaveId != -1)
         {
             SQLiteDB.instance.InsertInitialGameData(newSaveId);
-            Debug.Log($"Nueva partida creada con ID: {newSaveId}");
+            
+            PlayerPrefs.SetInt("CurrentSaveId", newSaveId);
+            PlayerPrefs.Save();
+            
             LevelManager.instance.LoadScene("SampleScene");
         }
         else
@@ -173,27 +176,10 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        
+        Inventory.instance.LoadInventoryFromDatabase(saveId);
 
-        /*// --- INVENTORY ---
-        using (var cmd = connection.CreateCommand())
-        {
-            cmd.CommandText = "SELECT id_item, quantity FROM inventory WHERE save_id = @saveId;";
-            cmd.Parameters.AddWithValue("@saveId", saveId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    int itemId = Convert.ToInt32(reader["id_item"]);
-                    int quantity = Convert.ToInt32(reader["quantity"]);
-
-                    // Añadir item al inventario del jugador, ejemplo:
-                    InventoryManager.instance.AddItem(itemId, quantity);
-
-                    Debug.Log($"Item {itemId} x{quantity}");
-                }
-            }
-        }
-
+        /*
         // --- QUESTS ---
         using (var cmd = connection.CreateCommand())
         {
@@ -300,6 +286,29 @@ public class GameController : MonoBehaviour
                         cmd.Parameters.AddWithValue("@saveId", saveId);
 
                         cmd.ExecuteNonQuery();
+                    }
+                }
+                
+                using (var deleteCmd = connection.CreateCommand())
+                {
+                    deleteCmd.CommandText = "DELETE FROM inventory WHERE save_id = @saveId;";
+                    deleteCmd.Parameters.AddWithValue("@saveId", saveId);
+                    deleteCmd.ExecuteNonQuery();
+                }
+
+                foreach (var slot in Inventory.instance.items)
+                {
+                    using (var insertCmd = connection.CreateCommand())
+                    {
+                        insertCmd.CommandText = @"
+        INSERT INTO inventory (save_id, id_item, quantity)
+        VALUES (@saveId, @itemId, @quantity);";
+
+                        insertCmd.Parameters.AddWithValue("@saveId", saveId);
+                        insertCmd.Parameters.AddWithValue("@itemId", slot.itemData.id);
+                        insertCmd.Parameters.AddWithValue("@quantity", slot.quantity);
+
+                        insertCmd.ExecuteNonQuery();
                     }
                 }
                 

@@ -5,11 +5,20 @@ using UnityEngine;
 public class ItemDatabase : MonoBehaviour
 {
     public List<ItemData> items = new List<ItemData>();
+    public static ItemDatabase instance;
+    private string dbName = "URI=file:DataBase.db";
     
+    void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+        
+        LoadItemsFromDatabase();
+    }
      public void LoadItemsFromDatabase()
     {
         items.Clear();
-        using (var connection = new Mono.Data.Sqlite.SqliteConnection(SQLiteDB.instance.dbName))
+        using (var connection = new Mono.Data.Sqlite.SqliteConnection(dbName))
         {
             connection.Open();
             using (var command = connection.CreateCommand())
