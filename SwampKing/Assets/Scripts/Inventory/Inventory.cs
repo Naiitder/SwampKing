@@ -12,6 +12,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private InventorySlotUI slotPrefab;
     
+    public ItemDetailPanel detailPanel;
+    
     public bool isGameMenuOpen;
 
     void Awake()
@@ -91,10 +93,11 @@ public class Inventory : MonoBehaviour
             gameMenuCanvas.SetActive(true);
             isGameMenuOpen = true;
         }
+        detailPanel.Clear();
         
     }
     
-    private void RefreshUI()
+    public void RefreshUI()
     {
         foreach (Transform t in inventoryPanel.transform)
             Destroy(t.gameObject);
@@ -104,13 +107,21 @@ public class Inventory : MonoBehaviour
             InventorySlotUI slotUI = Instantiate(slotPrefab, inventoryPanel.transform);
             if (i < items.Count)
             {
-                var slot = items[i];
-                slotUI.SetItem(slot.itemData, slot.quantity);
+                slotUI.SetData(items[i]);
             }
             else
             {
-                slotUI.SetItem(null, 0);
+                slotUI.SetData(null);
             }
         }
+    }
+    
+    public void SelectSlot(InventorySlot slot)
+    {
+        if (!isGameMenuOpen) return;
+        if (slot != null)
+            detailPanel.Show(slot);
+        else
+            detailPanel.Clear();
     }
 }

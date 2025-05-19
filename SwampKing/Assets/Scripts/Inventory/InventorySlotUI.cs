@@ -1,28 +1,36 @@
 using UnityEngine;
-
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
 {
-    public Image background;   
-    public Image icon;        
+    [Header("UI References")]
+    public Image background;
+    public Image icon;
     public TextMeshProUGUI quantityText;
+
+    [HideInInspector] public InventorySlot SlotData { get; private set; }
     
-    public void SetItem(ItemData item, int quantity)
+    public void SetData(InventorySlot slot)
     {
-        if (item == null)
+        SlotData = slot;
+        if (slot == null)
         {
-            icon.enabled = false;
+            icon.enabled      = false;
             quantityText.text = "";
         }
         else
         {
-            icon.enabled = true;
-            icon.sprite = item.icon;
-            quantityText.text = quantity > 1 ? quantity.ToString() : "";
+            icon.enabled      = true;
+            icon.sprite       = slot.itemData.icon;
+            quantityText.text = slot.quantity > 1 ? slot.quantity.ToString() : "";
             background.color = Color.black;
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Inventory.instance.SelectSlot(SlotData);
     }
 }
