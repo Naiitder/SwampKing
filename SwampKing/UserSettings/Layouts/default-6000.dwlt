@@ -1011,9 +1011,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 260.92484, y: 260.2036, z: -0.02780646}
+    m_Target: {x: 236.74219, y: 208.38281, z: 0}
     speed: 2
-    m_Value: {x: 5.222455, y: 1.3254712, z: 2.7833202}
+    m_Value: {x: 260.92484, y: 260.2036, z: -0.02780646}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1061,15 +1061,15 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0.02172763, y: 0.9757817, z: -0.111971, w: -0.18665612}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 448.50842
+    m_Target: 239.68042
     speed: 2
-    m_Value: 1.0943408
+    m_Value: 448.50842
   m_Ortho:
     m_Target: 1
     speed: 2
-    m_Value: 0
+    m_Value: 1
   m_CameraSettings:
     m_Speed: 1
     m_SpeedNormalized: 0.5
@@ -1083,7 +1083,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: 0.021731466, y: -0.97595394, z: 0.111990765, w: 0.18668908}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_Viewpoint:
     m_SceneView: {fileID: 15}
@@ -1346,7 +1346,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 362}
     m_SelectedIDs: 32bb0000
     m_LastClickedID: 47922
-    m_ExpandedIDs: 00000000a6ba0000a8ba0000aaba0000acba0000aeba0000b0ba0000b2ba0000b4ba0000b6ba0000b8ba0000
+    m_ExpandedIDs: 00000000feba000000bb000002bb000004bb000006bb000008bb00000abb00000cbb00000ebb000010bb0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1375,7 +1375,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a6ba0000a8ba0000aaba0000acba0000aeba0000b0ba0000b2ba0000b4ba0000b6ba0000b8ba0000
+    m_ExpandedIDs: 00000000feba000000bb000002bb000004bb000006bb000008bb00000abb00000cbb00000ebb000010bb0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
