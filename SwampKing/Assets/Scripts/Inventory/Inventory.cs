@@ -7,11 +7,19 @@ public class Inventory : MonoBehaviour
     public List<InventorySlot> items = new List<InventorySlot>();
     public int maxSlots = 20;
     public static Inventory instance;
+    
+    [SerializeField] private GameObject gameMenuCanvas;
+    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private InventorySlotUI slotPrefab;
+    
+    public bool isGameMenuOpen;
 
     void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+        
+        if(gameMenuCanvas) gameMenuCanvas.SetActive(false);
     }
     public void AddItem(ItemData itemData, int amount)
     {
@@ -70,16 +78,39 @@ public class Inventory : MonoBehaviour
         }
     }
     
-}
-[System.Serializable]
-public class InventorySlot
-{
-    public ItemData itemData;
-    public int quantity;
-
-    public InventorySlot(ItemData data, int amount)
+    public void HandleGameMenu()
     {
-        itemData = data;
-        quantity = amount;
+        if (isGameMenuOpen)
+        {
+            gameMenuCanvas.SetActive(false);
+            isGameMenuOpen = false;
+        }
+        else
+        {
+            RefreshUI();
+            gameMenuCanvas.SetActive(true);
+            isGameMenuOpen = true;
+        }
+        
+    }
+    
+    private void RefreshUI()
+    {
+        foreach (Transform t in inventoryPanel.transform)
+            Destroy(t.gameObject);
+        
+        for (int i = 0; i < maxSlots; i++)
+        {
+            InventorySlotUI slotUI = Instantiate(slotPrefab, inventoryPanel.transform);
+            if (i < items.Count)
+            {
+                var slot = items[i];
+                slotUI.SetItem(slot.itemData, slot.quantity);
+            }
+            else
+            {
+                slotUI.SetItem(null, 0);
+            }
+        }
     }
 }

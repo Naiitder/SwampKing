@@ -14,7 +14,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject pauseCanvas;
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject saveGameCanvas;
-    [SerializeField] private CameraController CameraController;
     
     [SerializeField] private TextMeshProUGUI coinsText;
 
@@ -41,6 +40,7 @@ public class GameController : MonoBehaviour
         if(gameOverCanvas) gameOverCanvas.SetActive(false);
         if(saveGameCanvas) saveGameCanvas.SetActive(false);
 
+
     }
 
     private void Start()
@@ -62,8 +62,14 @@ public class GameController : MonoBehaviour
     {
         if (InputController.instance != null && InputController.instance.IsPausePressed)
         {
-            PauseGame();
+            HandlePauseMenu();
             InputController.instance.IsPausePressed = false;
+        }
+
+        if (InputController.instance != null && InputController.instance.IsMenuPressed)
+        {
+            Inventory.instance.HandleGameMenu();
+            InputController.instance.IsMenuPressed = false;
         }
 
         LevelManager.instance?.UpdateProgressBar();
@@ -85,7 +91,7 @@ public class GameController : MonoBehaviour
     }
     
 
-    public void PauseGame()
+    public void HandlePauseMenu()
     {
         if (isGamePaused)
         {
@@ -96,6 +102,7 @@ public class GameController : MonoBehaviour
             SetPause();
         }
     }
+    
 
     public void SetPause()
     {

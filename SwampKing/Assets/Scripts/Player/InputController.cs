@@ -21,6 +21,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private bool isJumpPressed;
     [SerializeField] private bool isAttackPressed;
     [SerializeField] private bool isPausePressed;
+    [SerializeField] private bool isMenuPressed;
     [SerializeField] private bool isInteractPressed;
     [SerializeField] private bool isAimingPressed;
     
@@ -40,6 +41,7 @@ public class InputController : MonoBehaviour
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
     public bool IsAttackPressed { get { return isAttackPressed; } set { isAttackPressed = value; } }
     public bool IsPausePressed { get { return isPausePressed; } set { isPausePressed = value; } }
+    public bool IsMenuPressed { get { return isMenuPressed; } set { isMenuPressed = value; } }
     
     public bool IsInteractPressed { get { return isInteractPressed; } set { isInteractPressed = value; } }
     public bool IsAimingPressed { get { return isAimingPressed; } set { isAimingPressed = value; } }
@@ -70,6 +72,7 @@ public class InputController : MonoBehaviour
             playerControlls.Actions.Attack.started += onAttackInputStart;
             playerControlls.Actions.Attack.canceled += onAttackInputExit;
             playerControlls.UserActions.Pause.started +=  onPauseInputStart;
+            playerControlls.UserActions.Inventory.started +=  onMenuInputStart;
             playerControlls.Actions.Interact.started += onInteractStart;
             playerControlls.Actions.Interact.canceled +=  onInteractExit;
             playerControlls.Actions.Aiming.started += onAimingStart;
@@ -145,6 +148,13 @@ public class InputController : MonoBehaviour
         LastUsedDevice = context.control.device;
 
         isPausePressed = !isPausePressed; 
+    }
+    
+    void onMenuInputStart(InputAction.CallbackContext context)
+    {
+        LastUsedDevice = context.control.device;
+
+        isMenuPressed = !isMenuPressed; 
     }
     
     void onInteractExit(InputAction.CallbackContext context)

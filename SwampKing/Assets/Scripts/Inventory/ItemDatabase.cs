@@ -46,7 +46,8 @@ public class ItemDatabase : MonoBehaviour
                         {
                             item.armor = GetArmorValue(item.id, connection);
                         }
-
+                        
+                        item.icon = Resources.Load<Sprite>($"ItemIcons/{item.id}");
                         items.Add(item);
                     }
                 }
