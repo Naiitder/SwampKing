@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject pauseCanvas;
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject saveGameCanvas;
+    [SerializeField] private GameObject userCanvas;
     
     [SerializeField] private TextMeshProUGUI coinsText;
 
@@ -73,6 +74,17 @@ public class GameController : MonoBehaviour
         }
 
         LevelManager.instance?.UpdateProgressBar();
+        
+        //if() 
+    }
+
+    public void ShowUserCanvas()
+    {
+        userCanvas.SetActive(true);
+    }
+    public void HideUserCanvas()
+    {
+        userCanvas.SetActive(false);
     }
 
     public void UpdateCoins(int coins = 0)

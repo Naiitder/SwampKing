@@ -15,6 +15,8 @@ public class Inventory : MonoBehaviour
     public ItemDetailPanel detailPanel;
     
     public bool isGameMenuOpen;
+    
+    int assignHotbarIndex = -1;
 
     void Awake()
     {
@@ -86,12 +88,15 @@ public class Inventory : MonoBehaviour
         {
             gameMenuCanvas.SetActive(false);
             isGameMenuOpen = false;
+            GameController.instance.ShowUserCanvas();
         }
         else
         {
             RefreshUI();
             gameMenuCanvas.SetActive(true);
             isGameMenuOpen = true;
+            GameController.instance.HideUserCanvas();
+
         }
         detailPanel.Clear();
         
@@ -123,5 +128,25 @@ public class Inventory : MonoBehaviour
             detailPanel.Show(slot);
         else
             detailPanel.Clear();
+    }
+    
+    public void StartAssignMode(int quickIndex)
+    {
+        assignHotbarIndex = quickIndex;
+    }
+    
+    public void EndAssignMode()
+    {
+        assignHotbarIndex = -1;
+    }
+    
+    public void OnInventorySlotClick(InventorySlot slot)
+    {
+        if (assignHotbarIndex >= 0)
+        {
+            QuickSlotManager.instance.OnInventorySlotClicked(slot);
+            return;
+        }
+        SelectSlot(slot);
     }
 }
