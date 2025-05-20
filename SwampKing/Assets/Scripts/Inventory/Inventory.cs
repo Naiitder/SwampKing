@@ -130,23 +130,4 @@ public class Inventory : MonoBehaviour
             detailPanel.Clear();
     }
     
-    public void StartAssignMode(int quickIndex)
-    {
-        assignHotbarIndex = quickIndex;
-    }
-    
-    public void EndAssignMode()
-    {
-        assignHotbarIndex = -1;
-    }
-    
-    public void OnInventorySlotClick(InventorySlot slot)
-    {
-        if (assignHotbarIndex >= 0)
-        {
-            QuickSlotManager.instance.OnInventorySlotClicked(slot);
-            return;
-        }
-        SelectSlot(slot);
-    }
 }

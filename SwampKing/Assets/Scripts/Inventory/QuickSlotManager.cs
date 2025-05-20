@@ -11,7 +11,9 @@ public class QuickSlotManager : MonoBehaviour
     
     InventorySlot[] hotbar;   
     QuickSlotUI[] slotUIs;
-    int selectedHotbar = -1;
+    
+    [HideInInspector] public int selectedSlot = -1;
+    [HideInInspector] public bool assignMode = false;
     
     void Awake()
     {
@@ -34,79 +36,40 @@ public class QuickSlotManager : MonoBehaviour
         }
     }
     
-    public void OnQuickSlotClicked(int idx)
+    public void DeselectQuickSlot()
     {
-        if (selectedHotbar >= 0)
-        {
-            DeselectHotbar();
-            return;
-        }
-        
-        var slot = hotbar[idx];
-        if (slot != null)
-        {
-            Inventory.instance.SelectSlot(slot);  
-            SelectHotbar(idx);
-        }
-        else
-        {
-            SelectHotbar(idx);
-            Inventory.instance.StartAssignMode(idx);
-        }
+        selectedSlot = -1;
+        assignMode = false;
+        for (int i = 0; i < slotUIs.Length; i++)
+            slotUIs[i].SetSelected(false);
     }
     
-    void SelectHotbar(int idx)
+    public void SelectQuickSlot(int idx)
     {
-        selectedHotbar = idx;
+        assignMode = false;
+
+        selectedSlot = idx;
         for (int i = 0; i < slotCount; i++)
             slotUIs[i].SetSelected(i == idx);
+        
+        Debug.Log($"QuickSlot {idx} seleccionado");
     }
     
-    void DeselectHotbar()
+    public void AssignToSelectedSlot(InventorySlot slot)
     {
-        selectedHotbar = -1;
-        for (int i = 0; i < slotCount; i++)
-            slotUIs[i].SetSelected(false);
-        Inventory.instance.EndAssignMode();
+        if (selectedSlot < 0) return;
+        hotbar[selectedSlot] = slot;
+        slotUIs[selectedSlot].SetSlot(slot);
+        assignMode = false;
+        Debug.Log($"Asignado {slot.itemData.name} a QuickSlot {selectedSlot}");
     }
     
-    public void OnInventorySlotClicked(InventorySlot slot)
+    public void HandleSwapSlot()
     {
-        if (selectedHotbar >= 0)
+        if (selectedSlot >= 0 && Input.GetKeyDown(KeyCode.E))
         {
-            if (hotbar[selectedHotbar] == slot)
-                hotbar[selectedHotbar] = null;
-            else
-                hotbar[selectedHotbar] = slot;
-            
-            slotUIs[selectedHotbar].SetSlot(hotbar[selectedHotbar]);
-            DeselectHotbar();
-        }
-        else
-        {
-            Inventory.instance.SelectSlot(slot);
-        }
-    }
-    
-    public bool IsAssigned(InventorySlot slot)
-        => hotbar.Contains(slot);
-    
-    public void ToggleAssignFromDetail(InventorySlot slot)
-    {
-        int idx = System.Array.IndexOf(hotbar, slot);
-        if (idx >= 0)
-        {
-            hotbar[idx] = null;
-            slotUIs[idx].SetSlot(null);
-        }
-        else
-        {
-            int free = System.Array.IndexOf(hotbar, null);
-            if (free >= 0)
-            {
-                hotbar[free] = slot;
-                slotUIs[free].SetSlot(slot);
-            }
+            assignMode = true;
+            Debug.Log("Assign mode ON for slot " + selectedSlot);
         }
     }
 

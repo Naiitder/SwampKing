@@ -37,6 +37,6 @@ public class QuickSlotUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        QuickSlotManager.instance.OnQuickSlotClicked(index);
+        QuickSlotManager.instance.SelectQuickSlot(index);
     }
 }

@@ -75,7 +75,9 @@ public class GameController : MonoBehaviour
 
         LevelManager.instance?.UpdateProgressBar();
         
-        //if() 
+        //Todo hide UserCanvas when not in fight
+        
+        if(Inventory.instance.isGameMenuOpen) QuickSlotManager.instance.HandleSwapSlot();
     }
 
     public void ShowUserCanvas()

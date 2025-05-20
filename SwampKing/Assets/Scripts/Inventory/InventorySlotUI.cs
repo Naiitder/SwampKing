@@ -31,6 +31,14 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        QuickSlotManager.instance.OnInventorySlotClicked(SlotData);
+        if (QuickSlotManager.instance.assignMode)
+        {
+            if (SlotData != null)
+                QuickSlotManager.instance.AssignToSelectedSlot(SlotData);
+            return;
+        }
+        
+        QuickSlotManager.instance.DeselectQuickSlot();
+        Inventory.instance.SelectSlot(SlotData);
     }
 }

@@ -9641,6 +9641,8 @@ MonoBehaviour:
   quickSlotPanel: {fileID: 1784276403}
   quickSlotPrefab: {fileID: 3954360529073387730, guid: f80035c7b9c404266b807b3bb8444b87, type: 3}
   slotCount: 5
+  selectedSlot: -1
+  assignMode: 0
 --- !u!1 &1453818805
 GameObject:
   m_ObjectHideFlags: 0
