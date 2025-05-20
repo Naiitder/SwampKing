@@ -77,7 +77,11 @@ public class GameController : MonoBehaviour
         
         //Todo hide UserCanvas when not in fight
         
-        if(Inventory.instance.isGameMenuOpen) QuickSlotManager.instance.HandleSwapSlot();
+        if(Inventory.instance.isGameMenuOpen)
+        {
+            QuickSlotManager.instance.HandleSwapSlot();
+            QuickSlotManager.instance.HandleRemoveSlot();
+        }
     }
 
     public void ShowUserCanvas()

@@ -52,7 +52,19 @@ public class QuickSlotManager : MonoBehaviour
         for (int i = 0; i < slotCount; i++)
             slotUIs[i].SetSelected(i == idx);
         
-        Debug.Log($"QuickSlot {idx} seleccionado");
+        var slot = hotbar[idx];
+        if (slot != null)
+        {
+            
+            if (!Inventory.instance.isGameMenuOpen)
+                Inventory.instance.HandleGameMenu();
+
+            Inventory.instance.SelectSlot(slot);
+        }
+        else
+        {
+            Inventory.instance.detailPanel.Clear();
+        }
     }
     
     public void AssignToSelectedSlot(InventorySlot slot)
@@ -61,15 +73,31 @@ public class QuickSlotManager : MonoBehaviour
         hotbar[selectedSlot] = slot;
         slotUIs[selectedSlot].SetSlot(slot);
         assignMode = false;
-        Debug.Log($"Asignado {slot.itemData.name} a QuickSlot {selectedSlot}");
     }
     
     public void HandleSwapSlot()
     {
-        if (selectedSlot >= 0 && Input.GetKeyDown(KeyCode.E))
+        if (selectedSlot >= 0 && InputController.instance.CheckActions(InputController.InputActionType.Interact))
         {
+            InputController.instance.InputBuffer.Dequeue();
             assignMode = true;
-            Debug.Log("Assign mode ON for slot " + selectedSlot);
+        }
+    }
+    
+    public void HandleRemoveSlot()
+    {
+        if (selectedSlot < 0) return;
+
+        if (InputController.instance.IsDequeuePressed)
+        {
+            if (InputController.instance.CheckActions(InputController.InputActionType.Attack))
+                InputController.instance.InputBuffer.Dequeue();
+            
+            if (hotbar[selectedSlot] != null)
+            {
+                hotbar[selectedSlot] = null;
+                slotUIs[selectedSlot].SetSlot(null);
+            }
         }
     }
 
