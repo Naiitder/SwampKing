@@ -16,8 +16,6 @@ public class Inventory : MonoBehaviour
     
     public bool isGameMenuOpen;
     
-    int assignHotbarIndex = -1;
-
     void Awake()
     {
         if (instance == null) instance = this;
@@ -96,7 +94,8 @@ public class Inventory : MonoBehaviour
             gameMenuCanvas.SetActive(true);
             isGameMenuOpen = true;
             GameController.instance.HideUserCanvas();
-
+            
+            QuickSlotManager.instance.DeselectQuickSlot();
         }
         detailPanel.Clear();
         

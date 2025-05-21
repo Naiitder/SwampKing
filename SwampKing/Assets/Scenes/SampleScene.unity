@@ -978,6 +978,7 @@ GameObject:
   - component: {fileID: 105403565}
   - component: {fileID: 105403567}
   - component: {fileID: 105403566}
+  - component: {fileID: 105403568}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1044,6 +1045,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105403564}
   m_CullTransparentMesh: 1
+--- !u!114 &105403568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105403564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18189a95bb31c4831b5dfb20030839f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconImage: {fileID: 1581063697}
 --- !u!1 &120322103
 GameObject:
   m_ObjectHideFlags: 0
@@ -9638,11 +9652,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501c7a51e842c4e999bfffc545fb3225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quickSlotHUD: {fileID: 105403568}
   quickSlotPanel: {fileID: 1784276403}
   quickSlotPrefab: {fileID: 3954360529073387730, guid: f80035c7b9c404266b807b3bb8444b87, type: 3}
   slotCount: 5
   selectedSlot: -1
   assignMode: 0
+  indexQuickItem: 0
 --- !u!1 &1453818805
 GameObject:
   m_ObjectHideFlags: 0
@@ -10188,7 +10204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

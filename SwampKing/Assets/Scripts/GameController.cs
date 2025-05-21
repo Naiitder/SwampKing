@@ -82,6 +82,11 @@ public class GameController : MonoBehaviour
             QuickSlotManager.instance.HandleSwapSlot();
             QuickSlotManager.instance.HandleRemoveSlot();
         }
+
+        if (!Inventory.instance.isGameMenuOpen)
+        {
+            QuickSlotManager.instance.HandleCycleInput();
+        }
     }
 
     public void ShowUserCanvas()
