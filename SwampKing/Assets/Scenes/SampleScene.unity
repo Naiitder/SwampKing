@@ -715,7 +715,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 0.97365475, g: 0.9811321, b: 0.72659314, a: 1}
-  m_Intensity: 1.2
+  m_Intensity: 1.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1613,7 +1613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  size: {x: 1143.0327, y: 303, z: 1021.0056}
+  size: {x: 1152.0327, y: 312, z: 1030.0056}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -1622,7 +1622,7 @@ MonoBehaviour:
   lowestSubdivLevelOverride: 0
   highestSubdivLevelOverride: 7
   overridesSubdivLevels: 0
-  mightNeedRebaking: 1
+  mightNeedRebaking: 0
   cachedTransform:
     e00: 1
     e01: 0
@@ -1640,7 +1640,7 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 1
-  cachedHashCode: 152677481
+  cachedHashCode: -1631472491
   fillEmptySpaces: 0
   version: 2
   globalVolume: 0
@@ -5707,7 +5707,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -9204,13 +9204,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649723210}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2322309, y: -0.65848655, z: 0.09101905, w: 0.7100563}
+  m_LocalRotation: {x: 0.031974163, y: -0.939319, z: 0.24737287, w: -0.2355082}
   m_LocalPosition: {x: 444, y: 392, z: -38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 26.722, y: -88.401, z: -11.402}
+  m_LocalEulerAnglesHint: {x: 26.722, y: -210.867, z: -11.402}
 --- !u!1 &1651725441
 GameObject:
   m_ObjectHideFlags: 0
