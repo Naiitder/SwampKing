@@ -30,6 +30,7 @@ public class PlayerAnimator : MonoBehaviour
     private int reactionFinishedHash;
 
     [SerializeField] private Collider weaponCollider;
+    [SerializeField] private GameObject weaponTrail;
 
     public Animator Animator { get { return animator; } }
 
@@ -70,6 +71,9 @@ public class PlayerAnimator : MonoBehaviour
         isFallingHash = Animator.StringToHash("isFalling");
         aimingHash = Animator.StringToHash("isAiming");
         shotHash = Animator.StringToHash("Shot");
+        
+        weaponCollider.enabled = false;
+        weaponTrail.SetActive(false);
     }
 
     public void UpdateMovementAnimationValues(float verticalMovement, float horizontalMovement)
@@ -108,11 +112,14 @@ public class PlayerAnimator : MonoBehaviour
     public void CloseWeaponCollider()
     {
         weaponCollider.enabled = false;
+        weaponTrail.SetActive(false);
+
     }
 
     public void OpenWeaponCollider()
     {
         weaponCollider.enabled = true;
+        weaponTrail.SetActive(true);
     }
     
     

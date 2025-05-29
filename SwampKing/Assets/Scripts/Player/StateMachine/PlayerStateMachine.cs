@@ -25,6 +25,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     [Header("GunStats")] 
     public GameObject GunProjectilePrefab;
+    public ParticleSystem GunShootParticles;
     public Transform ShootPoint;
     
     private Collider[] npcBuffer = new Collider[10];

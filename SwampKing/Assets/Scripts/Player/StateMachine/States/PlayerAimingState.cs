@@ -90,6 +90,7 @@ public class PlayerAimingState  : PlayerBaseState
 
         Quaternion rotation = _ctx.transform.rotation;
         GameObject projectile = GameObject.Instantiate(_ctx.GunProjectilePrefab, _ctx.ShootPoint.position, rotation);
+        _ctx.GunShootParticles.Play();
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         if (projectileScript != null)
         {
