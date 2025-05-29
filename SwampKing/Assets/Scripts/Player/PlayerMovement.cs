@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("CharacterMovementStats")]
     [SerializeField] float walkingSpeed = 2.5f;
     [SerializeField] float movementSpeed = 5f;
+    [SerializeField] float runningSpeed = 10f;
     Vector3 moveDirection; 
     Vector3 appliedMovement;
     Transform myTransform;
@@ -79,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
         float speed = InputController.instance.MoveAmount > 0.5f
             ? movementSpeed
             : walkingSpeed;
+        
+        speed = playerManager.IsJumping ? runningSpeed : speed;
 
         moveDirection.x = inputDir.x * speed;
         moveDirection.z = inputDir.z * speed;
