@@ -42,6 +42,8 @@ public class GameController : MonoBehaviour
         if(saveGameCanvas) saveGameCanvas.SetActive(false);
 
 
+
+
     }
 
     private void Start()
@@ -57,6 +59,7 @@ public class GameController : MonoBehaviour
         }
 
         UpdateCoins();
+        if(SaveID > 0) HideCursor();
     }
 
     private void Update()
@@ -92,16 +95,30 @@ public class GameController : MonoBehaviour
     public void ShowUserCanvas()
     {
         userCanvas.SetActive(true);
+        HideCursor();
     }
     public void HideUserCanvas()
     {
         userCanvas.SetActive(false);
+        ShowCursor();
     }
 
     public void UpdateCoins(int coins = 0)
     {
         Coins += coins;
         if(coinsText != null) coinsText.text = "x" + Coins.ToString();
+    }
+
+    public void HideCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void ShowCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
     
     
@@ -123,6 +140,7 @@ public class GameController : MonoBehaviour
         else
         {
             SetPause();
+            ShowCursor();
         }
     }
     
@@ -140,6 +158,8 @@ public class GameController : MonoBehaviour
         DeActiveSaveGameCanvas();
         isGamePaused = false;
         Time.timeScale = 1;
+        
+        HideCursor();
     }
 
 

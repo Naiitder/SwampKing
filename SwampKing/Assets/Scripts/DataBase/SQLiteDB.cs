@@ -455,7 +455,7 @@
         public void InsertInitialGameData(int saveId)
         {
             // Player inicial
-            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, coins) VALUES ({saveId}, 'Gusta', 1, '0,0,0','0,0,0,0', 0);");
+            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, coins) VALUES ({saveId}, 'Gusta', 1, '561.74,3.98,458.13','0,-153.423,0,0', 0);");
 
             // Inventario inicial
             Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 1, 5);");
