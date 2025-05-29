@@ -29,8 +29,18 @@ public class PlayerAnimator : MonoBehaviour
     
     private int reactionFinishedHash;
 
+    [Header ("Sword")]
     [SerializeField] private Collider weaponCollider;
     [SerializeField] private GameObject weaponTrail;
+    [SerializeField] private GameObject sword;
+    [SerializeField] private Transform swordHolderSlot;
+    [SerializeField] private Transform swordHandSlot;
+    
+
+    [Header("Gun")]
+    [SerializeField] private GameObject pistol;
+    [SerializeField] private Transform pistolHolderSlot;
+    [SerializeField] private Transform pistolHandSlot;
 
     public Animator Animator { get { return animator; } }
 
@@ -121,9 +131,39 @@ public class PlayerAnimator : MonoBehaviour
         weaponCollider.enabled = true;
         weaponTrail.SetActive(true);
     }
-    
-    
 
+    public void DrawGun()
+    {
+        pistol.transform.SetParent(pistolHandSlot);
+        pistol.transform.localPosition = Vector3.zero;
+        pistol.transform.localScale = new Vector3(4,4,4);
+        pistol.transform.localRotation = Quaternion.identity;
+    }
+
+    public void HideGun()
+    {
+        pistol.transform.SetParent(pistolHolderSlot);
+        pistol.transform.localPosition = Vector3.zero;
+        pistol.transform.localScale = new Vector3(3,3,3);
+        pistol.transform.localRotation = Quaternion.identity;
+    }
+
+    
+    public void DrawSword()
+    {
+        sword.transform.SetParent(swordHandSlot);
+        sword.transform.localPosition = Vector3.zero;
+        sword.transform.localScale = new Vector3(30,30,30);
+        sword.transform.localRotation = Quaternion.identity;
+    }
+
+    public void HideSword()
+    {
+        sword.transform.SetParent(swordHolderSlot);
+        sword.transform.localPosition = Vector3.zero;
+        sword.transform.localScale = new Vector3(25,25,25);
+        sword.transform.localRotation = Quaternion.identity;
+    }
 
 
 }
