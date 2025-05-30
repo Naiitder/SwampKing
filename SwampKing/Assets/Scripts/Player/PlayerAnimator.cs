@@ -28,6 +28,7 @@ public class PlayerAnimator : MonoBehaviour
     private int isReactingHash;
     
     private int reactionFinishedHash;
+    private int drawedSwordHash;
 
     [Header ("Sword")]
     [SerializeField] private Collider weaponCollider;
@@ -60,6 +61,7 @@ public class PlayerAnimator : MonoBehaviour
     public int ReactionFinishedHash { get { return reactionFinishedHash; } }
     public int IsFallingHash { get { return isFallingHash; } }
     public int AimingHash { get { return aimingHash; } }
+    public int DrawedSwordHash { get { return drawedSwordHash; } }
 
     private void Awake()
     {
@@ -81,6 +83,7 @@ public class PlayerAnimator : MonoBehaviour
         isFallingHash = Animator.StringToHash("isFalling");
         aimingHash = Animator.StringToHash("isAiming");
         shotHash = Animator.StringToHash("Shot");
+        drawedSwordHash = Animator.StringToHash("drawedSword");
         
         weaponCollider.enabled = false;
         weaponTrail.SetActive(false);
@@ -155,6 +158,7 @@ public class PlayerAnimator : MonoBehaviour
         sword.transform.localPosition = Vector3.zero;
         sword.transform.localScale = new Vector3(30,30,30);
         sword.transform.localRotation = Quaternion.identity;
+        animator.SetBool(drawedSwordHash,true);
     }
 
     public void HideSword()
@@ -163,6 +167,7 @@ public class PlayerAnimator : MonoBehaviour
         sword.transform.localPosition = Vector3.zero;
         sword.transform.localScale = new Vector3(25,25,25);
         sword.transform.localRotation = Quaternion.identity;
+        animator.SetBool(drawedSwordHash,false);
     }
 
 

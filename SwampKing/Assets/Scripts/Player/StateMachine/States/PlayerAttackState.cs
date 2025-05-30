@@ -65,6 +65,8 @@ public class PlayerAttackState : PlayerBaseState
         }
 
         InputController.instance.InputBuffer.Dequeue();
+        
+        _ctx.PlayerAnimator.DrawSword();
     }
 
 

@@ -4040,7 +4040,7 @@ Transform:
   m_GameObject: {fileID: 607462025}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.1097, y: 5.4335895, z: 452.1385}
+  m_LocalPosition: {x: 562.10944, y: 5.4335895, z: 452.1385}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4382,13 +4382,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648478525}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.021455819, y: 0.19020742, z: 0.5136476, w: 0.83637726}
-  m_LocalPosition: {x: -0.4709874, y: 0.2389779, z: 0.06000021}
+  m_LocalRotation: {x: -0.18128188, y: -0.056304473, z: 0.53787774, w: 0.82137346}
+  m_LocalPosition: {x: -0.472, y: 0.311, z: -0.181}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9098436673248179534}
-  m_LocalEulerAnglesHint: {x: -13.373, y: 17.721, z: 61.017}
+  m_LocalEulerAnglesHint: {x: -13.723, y: -17.215, z: 68.525}
 --- !u!1 &662013119
 GameObject:
   m_ObjectHideFlags: 0
@@ -4435,11 +4435,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 204082512981440439, guid: 26169785b8e30c944a512729256a05cd, type: 3}
       propertyPath: m_Time
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 204082512981440439, guid: 26169785b8e30c944a512729256a05cd, type: 3}
       propertyPath: m_Parameters.widthMultiplier
-      value: 0.25
+      value: 0.125
       objectReference: {fileID: 0}
     - target: {fileID: 2393817908272368249, guid: 26169785b8e30c944a512729256a05cd, type: 3}
       propertyPath: m_Name
@@ -4487,11 +4487,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5102892327729117834, guid: 26169785b8e30c944a512729256a05cd, type: 3}
       propertyPath: m_Time
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5102892327729117834, guid: 26169785b8e30c944a512729256a05cd, type: 3}
       propertyPath: m_Parameters.widthMultiplier
-      value: 0.25
+      value: 0.125
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6157,7 +6157,7 @@ Transform:
   m_GameObject: {fileID: 994192189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.1097, y: 5.4335895, z: 452.1385}
+  m_LocalPosition: {x: 562.10944, y: 5.4335895, z: 452.1385}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
