@@ -72,9 +72,6 @@ public class EnemyStateMachine : MonoBehaviour
             chaseRange = profile.chaseRange;
             strafeRange = profile.strafeRange;
             attackRange = profile.attackRange;
-            movementSpeed = profile.movementSpeed;
-            runningSpeed = profile.runningSpeed;
-            rotationSpeed = profile.rotationSpeed;
             shottingRange = profile.shootingRange;
         }
     }
