@@ -156,7 +156,7 @@ public class PlayerJumpState : PlayerBaseState
     
     private Transform GetNearestVisibleEnemy(float maxDistance)
     {
-        int layerMask = LayerMask.GetMask("Enemy"); 
+        int layerMask = LayerMask.GetMask("Enemy");
         int count = Physics.OverlapSphereNonAlloc(_ctx.transform.position, maxDistance, enemyBuffer, layerMask);
 
         Transform nearestEnemy = null;
@@ -174,7 +174,7 @@ public class PlayerJumpState : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy")))
+                    ~LayerMask.GetMask("Player", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }
@@ -185,7 +185,7 @@ public class PlayerJumpState : PlayerBaseState
                 nearestEnemy = col.transform;
             }
         }
-        
+
         return nearestEnemy;
     }
 
