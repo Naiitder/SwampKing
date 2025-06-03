@@ -16,6 +16,9 @@ public class PlayerFallingState : PlayerBaseState
     public override void EnterState()
     {
         attackFinished = true;
+        
+        _ctx.JumpTrail.SetActive(true);
+
     }
     public override void UpdateState()
     {
@@ -47,6 +50,9 @@ public class PlayerFallingState : PlayerBaseState
     public override void ExitState()
     {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, false);
+        
+        _ctx.JumpTrail.SetActive(false);
+
     }
     public override void InitializeSubState()
     {
@@ -99,6 +105,8 @@ public class PlayerFallingState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,true); 
         
         _ctx.AudioSource.PlayOneShot(_ctx.ShootSound);
+        _ctx.AudioSource.pitch = 1.5f;
+        _ctx.AudioSource.volume = 0.6f;
         
 
         Quaternion rotation = _ctx.transform.rotation;

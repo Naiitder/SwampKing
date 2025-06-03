@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerEyes
+  - Water
+  - Wood
+  - Lilypad
   layers:
   - Default
   - TransparentFX

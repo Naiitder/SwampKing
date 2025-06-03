@@ -86,7 +86,8 @@ public class PlayerAimingState  : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,true); 
         
         _ctx.AudioSource.PlayOneShot(_ctx.ShootSound);
-        
+        _ctx.AudioSource.pitch = 1.5f;
+        _ctx.AudioSource.volume = 0.6f;
 
         Quaternion rotation = _ctx.transform.rotation;
         GameObject projectile = GameObject.Instantiate(_ctx.GunProjectilePrefab, _ctx.ShootPoint.position, rotation);

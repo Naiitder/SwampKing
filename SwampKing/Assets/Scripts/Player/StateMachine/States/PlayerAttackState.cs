@@ -63,6 +63,7 @@ public class PlayerAttackState : PlayerBaseState
             _ctx.AudioSource.pitch = .8f;
             _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttackSound);
         }
+        _ctx.AudioSource.volume = .9f;
 
         InputController.instance.InputBuffer.Dequeue();
         

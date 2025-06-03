@@ -18,6 +18,8 @@ public class PlayerGroundedState : PlayerBaseState
     } 
     public override void UpdateState(){
         HandleJumpCharge();
+
+        _ctx.HandleFootSteepsSound();
         
         if(!_ctx.PlayerManager.IsAiming) _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
         CheckSwitchStates();
@@ -56,5 +58,5 @@ public class PlayerGroundedState : PlayerBaseState
         }
         else _ctx.PlayerManager.IsChargingJumping = false;
     }
-
+    
 }
