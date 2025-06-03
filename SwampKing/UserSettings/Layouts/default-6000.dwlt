@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Scene
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 332}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 26794
+  controlID: 4314
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 26795
+  controlID: 4315
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 26796
+  controlID: 4316
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GameView
+  m_Name: SceneView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -220,14 +220,14 @@ MonoBehaviour:
     height: 674
   m_MinSize: {x: 202, y: 226}
   m_MaxSize: {x: 4002, y: 4026}
-  m_ActualView: {fileID: 12}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 12}
   - {fileID: 14}
   - {fileID: 15}
   - {fileID: 16}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 3
+  m_LastSelected: 0
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -303,8 +303,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 313
-    y: 79
+    x: 314
+    y: 24
     width: 1094
     height: 648
   m_SerializedDataModeController:
@@ -351,7 +351,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -421,10 +421,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 120}
-      m_SelectedIDs: 0cd00000
-      m_LastClickedID: 53260
-      m_ExpandedIDs: 34ecffffacc50000b8cc0000dccd0000e4ce0000ecce00006acf0000f8cf00000cd0000026d000003cd0000064d20000e2d20000
+      scrollPos: {x: 0, y: 669}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 0afbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -644,7 +644,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 53260
+  m_LastSelectedObjectID: -94688
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1224,9 +1224,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 561.56354, y: 5.0179386, z: 458.12747}
+    m_Target: {x: 558.64703, y: 2.0619347, z: 445.72873}
     speed: 2
-    m_Value: {x: 561.56354, y: 5.0179386, z: 458.12747}
+    m_Value: {x: 558.64703, y: 2.0619347, z: 445.72873}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1272,13 +1272,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.045211647, y: -0.34075323, z: 0.017018026, w: -0.9392692}
+    m_Target: {x: 0.052701157, y: -0.91308177, z: 0.122610435, w: 0.38621327}
     speed: 2
-    m_Value: {x: -0.045211647, y: -0.3407532, z: 0.017018024, w: -0.9392691}
+    m_Value: {x: 0.0521309, y: -0.9144951, z: 0.122804, w: 0.3819688}
   m_Size:
-    m_Target: 0.8660254
+    m_Target: 2.707775
     speed: 2
-    m_Value: 0.8660254
+    m_Value: 2.5911725
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1359,7 +1359,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Vefects/Trails VFX URP/VFX/Materials
+    - Assets/Art/Models/01_MainCharacter/New Folder
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1369,16 +1369,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 74
   m_LastFolders:
-  - Assets/Vefects/Trails VFX URP/VFX/Materials
+  - Assets/Art/Models/01_MainCharacter/New Folder
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\0_MyGames\SwampKing\SwampKing
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 343}
-    m_SelectedIDs: a2f90200
-    m_LastClickedID: 194978
-    m_ExpandedIDs: 00000000c0d50000fed7000096f902009ef9020000ca9a3b
+    scrollPos: {x: 0, y: 127}
+    m_SelectedIDs: 9cd00000
+    m_LastClickedID: 53404
+    m_ExpandedIDs: 0000000054cf0000fecf000078d000007ed0000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1407,7 +1407,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c0d5000000ca9a3b
+    m_ExpandedIDs: 0000000054cf000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1435,7 +1435,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000cc63000094f6000056ac00004ed800000000000028700200
     m_RenameOverlay:
       m_UserAcceptedRename: 0
