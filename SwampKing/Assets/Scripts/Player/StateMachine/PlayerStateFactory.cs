@@ -18,7 +18,8 @@ public class PlayerStateFactory
         aiming,
         usingItem,
         dead, 
-        reaction
+        reaction,
+        drown,
     }
 
     private PlayerStateMachine _context;
@@ -42,6 +43,7 @@ public class PlayerStateFactory
         _states[PlayerStates.usingItem] = new PlayerUseItemState(_context, this);
         _states[PlayerStates.dead] = new PlayerDeadState(_context,this);
         _states[PlayerStates.reaction] = new PlayerReactionState(_context,this);
+        _states[PlayerStates.drown] = new PlayerDrownState(_context,this);
     }
 
     public PlayerBaseState Idle() {
@@ -105,6 +107,11 @@ public class PlayerStateFactory
     public PlayerBaseState Aimning()
     {
         return _states[PlayerStates.aiming];
+    }
+    
+    public PlayerBaseState Drown()
+    {
+        return _states[PlayerStates.drown];
     }
     
 }

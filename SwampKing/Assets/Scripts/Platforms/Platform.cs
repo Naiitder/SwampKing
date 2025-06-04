@@ -6,6 +6,8 @@ public class Platform : MonoBehaviour
     public float vaivenAmplitude = 0.1f;
     public float vaivenSpeed = 2f;
     public float delayAntesDeVolver = 2f;
+    
+    PlayerManager playerManager;
 
     private Vector3 startPos;
     [SerializeField] private Vector3 targetPos;
@@ -28,6 +30,8 @@ public class Platform : MonoBehaviour
         float vaiven = Mathf.Sin(tiempoTotal * vaivenSpeed) * vaivenAmplitude;
         
         Vector3 objetivoConVaiven = new Vector3(destinoActual.x, destinoActual.y + vaiven, destinoActual.z);
+        
+        if(playerManager != null && playerManager.IsDrowned) enMovimiento = false;
 
         if (enMovimiento)
         {
@@ -65,6 +69,8 @@ public class Platform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerManager = other.gameObject.GetComponent<PlayerManager>();
+            
             jugadorEncima = true;
             tiempoFuera = 0f;
 

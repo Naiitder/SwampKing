@@ -33,6 +33,13 @@ public class PlayerGroundedState : PlayerBaseState
     public override void ExitState()
     { }
     public override void InitializeSubState(){
+        if(_ctx.PlayerManager.IsDead) SetSubState(_factory.Dead());
+        else if(_ctx.PlayerManager.IsReacting) SetSubState(_factory.Reaction());
+        else if(_ctx.PlayerManager.IsDrowned) SetSubState(_factory.Drown());
+        
+        if (_ctx.PlayerManager.IsChargingJumping) SetSubState(_factory.ChargeJump());
+        else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SetSubState(_factory.Attack());
+        else if (InputController.instance.CheckActions(InputController.InputActionType.Interact)) SetSubState(_factory.Interact());
         if (InputController.instance.IsAimingPressed) SetSubState(_factory.Aimning());
         else if (InputController.instance.MoveAmount != 0) SetSubState(_factory.Walk());
         else SetSubState(_factory.Idle());

@@ -40,7 +40,8 @@ public class PlayerDoubleJumpState : PlayerBaseState
         _ctx.AudioSource.volume = .5f;
         _ctx.AudioSource.PlayOneShot(_ctx.JumpSound);
         
-        _ctx.JumpTrail.SetActive(true);
+        _ctx.JumpTrailLF.SetActive(true);
+        _ctx.JumpTrailRF.SetActive(true);
 
     }
     
@@ -54,7 +55,8 @@ public class PlayerDoubleJumpState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, false);
         _ctx.PlayerManager.IsJumping = false;
         ResetAiming();
-        _ctx.JumpTrail.SetActive(false);
+        _ctx.JumpTrailLF.SetActive(false);
+        _ctx.JumpTrailRF.SetActive(false);
 
         
     }

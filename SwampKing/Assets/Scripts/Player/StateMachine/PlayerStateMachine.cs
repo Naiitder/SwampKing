@@ -14,7 +14,8 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState currentState;
     private PlayerStateFactory states;
     
-    public GameObject JumpTrail;
+    public GameObject JumpTrailLF;
+    public GameObject JumpTrailRF;
     
     [Header ("Audios")]
     public AudioSource AudioSource;
@@ -80,7 +81,8 @@ public class PlayerStateMachine : MonoBehaviour
         alphamapWidth = terrainData.alphamapWidth;
         alphamapHeight = terrainData.alphamapHeight;
         
-        JumpTrail.SetActive(false);
+        JumpTrailLF.SetActive(false);
+        JumpTrailRF.SetActive(false);
     }
 
     private void Update()

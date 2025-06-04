@@ -66,8 +66,7 @@ public class CharacterStats : MonoBehaviour
                     maximumHealth = Convert.ToInt32(reader["max_health"]);
                     damage = Convert.ToInt32(reader["damage"]);
                     currentHealth = maximumHealth;
-
-                    Debug.Log($"[CharacterStats] Stats por defecto para {id} - Vida: {currentHealth}/{maximumHealth}, Daño: {damage}");
+                    
                 }
                 else
                 {

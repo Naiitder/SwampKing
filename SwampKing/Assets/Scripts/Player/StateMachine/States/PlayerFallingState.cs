@@ -17,8 +17,6 @@ public class PlayerFallingState : PlayerBaseState
     {
         attackFinished = true;
         
-        _ctx.JumpTrail.SetActive(true);
-
     }
     public override void UpdateState()
     {
@@ -51,8 +49,6 @@ public class PlayerFallingState : PlayerBaseState
     {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, false);
         
-        _ctx.JumpTrail.SetActive(false);
-
     }
     public override void InitializeSubState()
     {

@@ -60,7 +60,17 @@ public class PlayerMovement : MonoBehaviour
     {
         appliedMovement.x = moveDirection.x;
         appliedMovement.z = moveDirection.z;
-        characterController.Move(appliedMovement*Time.deltaTime);
+        
+        Vector3 platformDelta = Vector3.zero;
+        if (playerManager.currentPlatform != null)
+        {
+            platformDelta = playerManager.currentPlatform.position - playerManager.lastPlatformPosition;
+            playerManager.lastPlatformPosition = playerManager.currentPlatform.position;
+        }
+
+        Vector3 finalMovement = appliedMovement * Time.deltaTime + platformDelta;
+
+        characterController.Move(finalMovement);
     }
 
     public void HandleGroundedMovement()
@@ -109,6 +119,8 @@ public class PlayerMovement : MonoBehaviour
             float previousYVelocity = moveDirection.y;
             moveDirection.y = moveDirection.y + (gravity * fallMultiplier*Time.deltaTime);
             appliedMovement.y = Mathf.Max((previousYVelocity + moveDirection.y) * .5f, -20.0f);
+            
+            playerManager.currentPlatform = null;
         }
         else
         {
@@ -155,5 +167,17 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawSphere(transform.position, groundCheckSphereRadius);
+    }
+    
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (((1 << hit.gameObject.layer) & groundLayer) != 0)
+        {
+            if (hit.moveDirection.y < -0.3f)
+            {
+                playerManager.currentPlatform = hit.collider.transform;
+                playerManager.lastPlatformPosition = hit.collider.transform.position;
+            }
+        }
     }
 }

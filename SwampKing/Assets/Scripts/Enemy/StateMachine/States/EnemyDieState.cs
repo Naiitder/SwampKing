@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using Object = UnityEngine.Object;
 
 public class EnemyDieState : EnemyBaseState
@@ -14,6 +15,7 @@ public class EnemyDieState : EnemyBaseState
         _ctx.Agent.SetDestination(_ctx.transform.position);
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsDeadHash, true);
         
+        Object.Destroy(_ctx.EnemyManager);
         _ctx.StartCoroutine(DropCoinsAfterDelay(1f));
     }
 
@@ -34,9 +36,9 @@ public class EnemyDieState : EnemyBaseState
     
     private System.Collections.IEnumerator DropCoinsAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
-
         int coins = GetCoinsFromDB(_ctx.EnemyManager.CharacterStats.ID);
+        
+        yield return new WaitForSeconds(delay);
         
         if (coins > 0 && _ctx.CoinPrefab != null)
         {
@@ -48,6 +50,9 @@ public class EnemyDieState : EnemyBaseState
                 coinScript.coins = coins; 
             }
         }
+        
+        RemoveAllScriptsExceptStateMachineAndAnimator();
+        
     }
     
     private int GetCoinsFromDB(int characterId)
@@ -70,5 +75,29 @@ public class EnemyDieState : EnemyBaseState
         }
 
         return coins;
+    }
+    
+    private void RemoveAllScriptsExceptStateMachineAndAnimator()
+    {
+        MonoBehaviour[] scripts = _ctx.GetComponents<MonoBehaviour>();
+
+        Collider[] colliders = _ctx.GetComponentsInChildren<Collider>();
+        foreach (var collider in colliders)
+        {
+            Object.Destroy(collider);
+        }
+        
+        NavMeshAgent agent = _ctx.GetComponent<NavMeshAgent>();
+        Object.Destroy(agent);
+        
+        Rigidbody rb = _ctx.GetComponent<Rigidbody>();
+        Object.Destroy(rb);
+        
+        foreach (var script in scripts)
+        {
+            Object.Destroy(script);
+        }
+        
+
     }
 }

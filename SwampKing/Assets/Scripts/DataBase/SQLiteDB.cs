@@ -261,25 +261,8 @@
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = q;
-
-                    // Detectar si es un SELECT
-                    if (q.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
-                    {
-                        using (IDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.FieldCount > 0)
-                                {
-                                    Debug.Log("ID: " + reader["id"] + " Vida: " + reader["max_health"] + " Ataque: " + reader["damage"]);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        command.ExecuteNonQuery();
-                    }
+                    
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -371,7 +354,6 @@
             Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (2, 25, 10, 15, 15, 2);");
             Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (3, 150, 20, 15, 15, 5);");
             Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (4, 450, 50, 15, 15, 6);");
-            Query("SELECT * FROM statistics;");
             
             // Inserciones personajes
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (1,'Gusta', 1, 0, 'player');");

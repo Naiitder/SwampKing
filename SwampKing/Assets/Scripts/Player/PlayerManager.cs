@@ -7,12 +7,16 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
+    public Transform currentPlatform;
+    public Vector3 lastPlatformPosition;
+    
     [Header("PlayerFlags")]
     [SerializeField] bool isJumping;
     [SerializeField] bool isChargingJumping;
     [SerializeField] bool isGrounded;
     [SerializeField] bool isAttacking; 
     [SerializeField] bool isDead;
+    [SerializeField] bool isDrowned;
     [SerializeField] bool isReacting; 
     [SerializeField] bool isAiming;
     [SerializeField] private bool canDoubleJump;
@@ -48,6 +52,8 @@ public class PlayerManager : MonoBehaviour
     public bool CanDoubleJump { get { return canDoubleJump; } set { canDoubleJump = value; } }
     public bool IsChargingJumping { get { return isChargingJumping; } set { isChargingJumping = value; } }
     public int AttackCount { get { return attackCount; } set { attackCount = value; } }
+    
+    public bool IsDrowned { get { return isDrowned; } set { isDrowned = value; } }
 
     private void Awake()
     {

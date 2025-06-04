@@ -29,6 +29,8 @@ public class PlayerAnimator : MonoBehaviour
     
     private int reactionFinishedHash;
     private int drawedSwordHash;
+    
+    private int isDrownHash;
 
     [Header ("Sword")]
     [SerializeField] private Collider weaponCollider;
@@ -57,6 +59,7 @@ public class PlayerAnimator : MonoBehaviour
     
     public int JumpAttackHash { get { return jumpAttackHash; } }
     public int IsDeadHash { get { return isDeadHash; } }
+    public int IsDrownHash { get { return isDrownHash; } }
     public int IsReactingHash { get { return isReactingHash; } }
     public int ReactionFinishedHash { get { return reactionFinishedHash; } }
     public int IsFallingHash { get { return isFallingHash; } }
@@ -84,6 +87,7 @@ public class PlayerAnimator : MonoBehaviour
         aimingHash = Animator.StringToHash("isAiming");
         shotHash = Animator.StringToHash("Shot");
         drawedSwordHash = Animator.StringToHash("drawedSword");
+        isDrownHash = Animator.StringToHash("isDrown");
         
         weaponCollider.enabled = false;
         weaponTrail.SetActive(false);

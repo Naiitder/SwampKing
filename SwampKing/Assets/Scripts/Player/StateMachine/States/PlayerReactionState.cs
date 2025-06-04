@@ -10,6 +10,7 @@ public class PlayerReactionState : PlayerBaseState
     public override void CheckSwitchStates()
     {
         if (_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
+        else if(_ctx.PlayerManager.IsDrowned) SwitchState(_factory.Drown());
         
         if (!hasReacted) return;
         
