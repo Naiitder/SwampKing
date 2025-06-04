@@ -45,7 +45,11 @@ public class PlayerGroundedState : PlayerBaseState
         else SetSubState(_factory.Idle());
     }
     public override void CheckSwitchStates(){
-        if ((InputController.instance.CheckActions(InputController.InputActionType.Jump) && !_ctx.PlayerManager.IsDead)
+        if ((InputController.instance.CheckActions(InputController.InputActionType.Jump) && 
+             !_ctx.PlayerManager.IsDead 
+                &&  !_ctx.PlayerManager.IsDrowned 
+                && !_ctx.PlayerManager.IsAttacking 
+             && !_ctx.PlayerManager.IsReacting)
             || !_ctx.PlayerMovement.isGrounded()) 
                 SwitchState(_factory.Airbone());
     }
@@ -58,7 +62,8 @@ public class PlayerGroundedState : PlayerBaseState
             && !_ctx.PlayerManager.IsDead
             && !_ctx.PlayerManager.IsReacting
             && !_ctx.PlayerManager.IsAiming
-            && !_ctx.PlayerManager.IsAttacking)
+            && !_ctx.PlayerManager.IsAttacking
+            && !_ctx.PlayerManager.IsDrowned)
         {
             if (_ctx.PlayerManager.JumpChargeTime >= _ctx.PlayerManager.TapTreshold) _ctx.PlayerManager.IsChargingJumping = true;
             _ctx.PlayerManager.JumpChargeTime += Time.deltaTime;

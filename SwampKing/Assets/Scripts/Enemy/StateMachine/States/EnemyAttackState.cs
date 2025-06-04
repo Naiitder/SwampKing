@@ -12,6 +12,7 @@ public class EnemyAttackState : EnemyBaseState
     public override void EnterState()
     {
         _ctx.EnemyManager.IsAttacking = true;
+        _ctx.EnemyManager.HasHit = false;
         _ctx.EnemyAnimatorController.Animator.applyRootMotion = true;
         _ctx.Agent.SetDestination(_ctx.transform.position);
         _ctx.transform.LookAt(_ctx.PlayerTarget);

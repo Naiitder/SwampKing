@@ -21,6 +21,8 @@ public class EnemyAnimatorController : MonoBehaviour
     private int reactionFinishedHash;
 
     [SerializeField] private Collider weaponCollider;
+    [SerializeField] private GameObject weaponTrail;
+    [SerializeField] private ParticleSystem weaponVFX;
     
     public Animator Animator { get { return animator; } }
     public int HorizontalHash {get { return horizontalHash; }}
@@ -50,6 +52,8 @@ public class EnemyAnimatorController : MonoBehaviour
         isDeadHash = Animator.StringToHash("isDead");
         reactionFinishedHash = Animator.StringToHash("reactionFinished");
         shootingHash = Animator.StringToHash("isShooting");
+        
+        CloseWeaponCollider();
     }
     
     public void OnAttackAnimationFinished()
@@ -67,11 +71,15 @@ public class EnemyAnimatorController : MonoBehaviour
     public void CloseWeaponCollider()
     {
         if(weaponCollider != null) weaponCollider.enabled = false;
+        if(weaponTrail != null) weaponTrail.SetActive(false);
     }
 
     public void OpenWeaponCollider()
     {
         if(weaponCollider != null) weaponCollider.enabled = true;
+        if(weaponTrail != null) weaponTrail.SetActive(true);
+        if(weaponVFX != null) weaponVFX.Play();
+
     }
 
 }

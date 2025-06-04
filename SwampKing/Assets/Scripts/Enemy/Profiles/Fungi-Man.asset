@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bfc87b407c2e475b8a685c6c16f3028, type: 3}
-  m_Name: BasicMelee
+  m_Name: Fungi-Man
   m_EditorClassIdentifier: 
   enemyName: BasicMelee
   isAggressive: 0
+  canMeleeAttack: 1
   attacksFromDistance: 0
   canChainAttacks: 0
   canStrafe: 0
   canRetreat: 0
   canReact: 1
   chaseRange: 15
-  attackRange: 3
+  attackRange: 2
   strafeRange: 0
   shootingRange: 0
-  movementSpeed: 1.5
-  runningSpeed: 5
-  rotationSpeed: 15
   chanceToChainAttack: 0
