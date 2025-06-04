@@ -24,6 +24,11 @@ public class EnemyAnimatorController : MonoBehaviour
     [SerializeField] private GameObject weaponTrail;
     [SerializeField] private ParticleSystem weaponVFX;
     
+    [SerializeField] private Transform projectileSpawnPoint;
+    [SerializeField] private GameObject projectilePrefab;
+    
+    private EnemyStateMachine enemyStateMachine;
+    
     public Animator Animator { get { return animator; } }
     public int HorizontalHash {get { return horizontalHash; }}
     public int VerticalHash {get { return verticalHash; }}
@@ -52,7 +57,8 @@ public class EnemyAnimatorController : MonoBehaviour
         isDeadHash = Animator.StringToHash("isDead");
         reactionFinishedHash = Animator.StringToHash("reactionFinished");
         shootingHash = Animator.StringToHash("isShooting");
-        
+
+        enemyStateMachine = GetComponent<EnemyStateMachine>();
         CloseWeaponCollider();
     }
     
@@ -80,6 +86,20 @@ public class EnemyAnimatorController : MonoBehaviour
         if(weaponTrail != null) weaponTrail.SetActive(true);
         if(weaponVFX != null) weaponVFX.Play();
 
+    }
+
+    public void ThrowProjectile()
+    {
+        Quaternion rotation = enemyStateMachine.transform.rotation;
+            
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, rotation);
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        if (projectileScript != null)
+        {
+            projectileScript.Damage = enemyStateMachine.EnemyManager.CharacterStats.Damage;
+        }
+            
+        enemyStateMachine.AudioSource.PlayOneShot(enemyStateMachine.shootSound);
     }
 
 }

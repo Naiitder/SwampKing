@@ -82,17 +82,6 @@ public class EnemyRangedAttackState : EnemyBaseState
             yield return new WaitUntil(() => AnimationFinished(_ctx.EnemyAnimatorController.ShootingHash));
 
             _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ShootingHash, false);
-          
-            Quaternion rotation = _ctx.transform.rotation;
-            GameObject projectile = Object.Instantiate(_ctx.projectilePrefab, _ctx.projectileSpawnPoint.position, rotation);
-
-            Projectile projectileScript = projectile.GetComponent<Projectile>();
-            if (projectileScript != null)
-            {
-                projectileScript.Damage = _ctx.EnemyManager.CharacterStats.Damage;
-            }
-            
-            _ctx.AudioSource.PlayOneShot(_ctx.shootSound);
             yield return new WaitForSeconds(attackInterval);
         }
            

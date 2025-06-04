@@ -34,9 +34,6 @@ public class EnemyStateMachine : MonoBehaviour
     public float runningSpeed = 5f;
     public float rotationSpeed = 15f;
     
-    public Transform projectileSpawnPoint;
-    public GameObject projectilePrefab;
-    
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public EnemyStateFactory States { get { return _states; } set { _states = value; } }
     public float AttackRange { get { return attackRange; } set { attackRange = value; } }
