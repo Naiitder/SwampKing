@@ -12,6 +12,7 @@ public class EnemyProfile : ScriptableObject
     public bool canStrafe;
     public bool canRetreat;
     public bool canReact;
+    public bool canPatrol;
     
     public float chaseRange = 10f;
     public float attackRange = 2f;

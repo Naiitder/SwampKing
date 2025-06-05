@@ -16,6 +16,8 @@ public class PlayerDeadState : PlayerBaseState
         _ctx.PlayerMovement.StopMovement();
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDeadHash,true);
         timeOfDeath = Time.time;
+        
+        GameController.instance.ActiveDeadScreen();
             
     }
     

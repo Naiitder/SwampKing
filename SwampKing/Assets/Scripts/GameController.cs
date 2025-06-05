@@ -40,10 +40,7 @@ public class GameController : MonoBehaviour
         if(pauseCanvas) pauseCanvas.SetActive(false);
         if(gameOverCanvas) gameOverCanvas.SetActive(false);
         if(saveGameCanvas) saveGameCanvas.SetActive(false);
-
-
-
-
+        
     }
 
     private void Start()
@@ -80,13 +77,13 @@ public class GameController : MonoBehaviour
         
         //Todo hide UserCanvas when not in fight
         
-        if(Inventory.instance.isGameMenuOpen)
+        if(Inventory.instance != null && Inventory.instance.isGameMenuOpen)
         {
             QuickSlotManager.instance.HandleSwapSlot();
             QuickSlotManager.instance.HandleRemoveSlot();
         }
 
-        if (!Inventory.instance.isGameMenuOpen)
+        if (Inventory.instance != null && !Inventory.instance.isGameMenuOpen)
         {
             QuickSlotManager.instance.HandleCycleInput();
         }
@@ -383,6 +380,10 @@ public class GameController : MonoBehaviour
     {
         saveGameCanvas.SetActive(false);
     }
-    
+
+    public void ActiveDeadScreen()
+    {
+        if(gameOverCanvas) gameOverCanvas.SetActive(true);
+    }
 
 }

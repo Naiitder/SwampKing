@@ -26,10 +26,11 @@ public class EnemyGroundedState : EnemyBaseState
         {
             if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SetSubState(_factory.Strafe());
             else if(_ctx.IsInChaseRange()) SetSubState(_factory.Chase());
+            else if(_ctx.profile.canPatrol) SetSubState(_factory.Patrol());
             else SetSubState(_factory.Idle());
         }
         
-        //Todo Idle or Patrol
+        else if(_ctx.profile.canPatrol) SetSubState(_factory.Patrol());
         else SetSubState(_factory.Idle());
     }
     public override void CheckSwitchStates(){

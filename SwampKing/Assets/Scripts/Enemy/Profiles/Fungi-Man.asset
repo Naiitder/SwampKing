@@ -20,6 +20,7 @@ MonoBehaviour:
   canStrafe: 0
   canRetreat: 0
   canReact: 1
+  canPatrol: 1
   chaseRange: 15
   attackRange: 2
   strafeRange: 0

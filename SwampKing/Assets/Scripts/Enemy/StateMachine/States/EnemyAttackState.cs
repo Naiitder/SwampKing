@@ -90,9 +90,7 @@ public class EnemyAttackState : EnemyBaseState
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,false);
         _ctx.EnemyManager.AttackCount = 0;
         
-        if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
-            SwitchState(_factory.Idle());
-        else if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
+        if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
             SwitchState(_factory.RangedAttack());
         else if (_ctx.profile.canRetreat && (_ctx.IsInAttackRange() || _ctx.IsInStrafeRange()))
             SwitchState(_factory.Backing());
@@ -100,6 +98,10 @@ public class EnemyAttackState : EnemyBaseState
         
         else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
             SwitchState(_factory.Chase());
+        else if ((_ctx.PlayerTarget == null || !_ctx.IsInChaseRange()) && _ctx.profile.canPatrol) 
+            SwitchState(_factory.Patrol());
+        else if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange() && !_ctx.profile.canPatrol)
+            SwitchState(_factory.Idle());
     }
     
 }

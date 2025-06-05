@@ -34,6 +34,15 @@ public class EnemyStateMachine : MonoBehaviour
     public float runningSpeed = 5f;
     public float rotationSpeed = 15f;
     
+    public Vector3 SpawnPoint { get; set; }
+    public float PatrolRadius = 10f;
+    public float PatrolPointTolerance = 1f; 
+    public float PatrolWaitTime = 2f;
+
+    [HideInInspector] public Vector3 currentPatrolTarget;
+    [HideInInspector] public bool hasPatrolTarget = false;
+
+    
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public EnemyStateFactory States { get { return _states; } set { _states = value; } }
     public float AttackRange { get { return attackRange; } set { attackRange = value; } }
@@ -49,6 +58,7 @@ public class EnemyStateMachine : MonoBehaviour
         AudioSource = GetComponent<AudioSource>();
         
         ApplyProfile();
+        SpawnPoint = transform.position; 
         
         _states = new EnemyStateFactory(this);
         _currentState = _states.Grounded();

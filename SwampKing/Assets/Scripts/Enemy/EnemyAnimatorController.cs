@@ -101,5 +101,20 @@ public class EnemyAnimatorController : MonoBehaviour
             
         enemyStateMachine.AudioSource.PlayOneShot(enemyStateMachine.shootSound);
     }
+    
+    public void ThrowBomb()
+    {
+        Quaternion rotation = enemyStateMachine.transform.rotation;
+            
+        GameObject bomb = Instantiate(projectilePrefab, projectileSpawnPoint.position, rotation);
+        Bomb bombScript = bomb.GetComponent<Bomb>();
+        if (bombScript != null)
+        {
+            bombScript.Initialize(enemyStateMachine.PlayerTarget, enemyStateMachine.EnemyManager.CharacterStats.Damage);
+        }
+            
+        enemyStateMachine.AudioSource.PlayOneShot(enemyStateMachine.shootSound);
+    }
+
 
 }

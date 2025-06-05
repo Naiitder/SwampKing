@@ -52,9 +52,8 @@ public class EnemyBackState : EnemyBaseState
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
         else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
-        if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
-            SwitchState(_factory.Idle());
-        else if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
+
+        if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
             SwitchState(_factory.RangedAttack());
         else if (_ctx.IsInAttackRange() && _ctx.profile.canMeleeAttack)
             SwitchState(_factory.Attack());
@@ -62,6 +61,10 @@ public class EnemyBackState : EnemyBaseState
             SwitchState(_factory.Strafe());
         else if (_ctx.IsInChaseRange())
             SwitchState(_factory.Chase());
+        else if ((_ctx.PlayerTarget == null || !_ctx.IsInChaseRange()) && _ctx.profile.canPatrol) 
+            SwitchState(_factory.Patrol());
+        else if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange() && !_ctx.profile.canPatrol)
+            SwitchState(_factory.Idle());
     }
 
     void RetreatFromPlayer()

@@ -231,7 +231,7 @@ public class PlayerStateMachine : MonoBehaviour
             }
             else if (hit.collider.CompareTag("Lilypad"))
             {
-                PlayRandomClip(grassSounds);
+                PlayRandomClip(waterSounds);
                 footAudioSource.volume = 0.2f;
                 return;
             }

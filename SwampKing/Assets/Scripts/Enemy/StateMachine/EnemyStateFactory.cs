@@ -35,6 +35,7 @@ public class EnemyStateFactory
         _states[EnemyStates.backing] = new EnemyBackState(_context, this);
         _states[EnemyStates.reaction] = new EnemyReactionState(_context, this);
         _states[EnemyStates.die] = new EnemyDieState(_context, this);
+        _states[EnemyStates.patrol] = new EnemyPatrolState(_context, this);
     }
 
     public EnemyBaseState Grounded() {

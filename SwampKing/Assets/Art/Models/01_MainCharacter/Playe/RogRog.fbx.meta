@@ -1,0 +1,687 @@
+fileFormatVersion: 2
+guid: 6f796da2ad0dec447b6401bcefff2ca6
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: 5541057f822dc604dbaa9028a6361731, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: Cuerpo_rodillas_bajo1:Hips
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftUpLeg
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightUpLeg
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftLeg
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightLeg
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:Spine
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:Spine1
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:Neck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:Head
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftShoulder
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightShoulder
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftArm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightArm
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftForeArm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightForeArm
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHand
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHand
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftToeBase
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightToeBase
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandThumb1
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandThumb2
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandThumb3
+      humanName: Left Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandIndex1
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandIndex2
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandIndex3
+      humanName: Left Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandMiddle1
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandMiddle2
+      humanName: Left Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:LeftHandMiddle3
+      humanName: Left Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandThumb1
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandThumb2
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandThumb3
+      humanName: Right Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandIndex1
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandIndex2
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandIndex3
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandMiddle1
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandMiddle2
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:RightHandMiddle3
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Cuerpo_rodillas_bajo1:Spine2
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: RogRog(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:Group851
+      parentName: RogRog(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:Hips
+      parentName: RogRog(Clone)
+      position: {x: 0.0001763153, y: 0.91725737, z: -0.012186006}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightUpLeg
+      parentName: Cuerpo_rodillas_bajo1:Hips
+      position: {x: 0.11110712, y: -0.07043106, z: 0.009511886}
+      rotation: {x: 0.000011829269, y: 0.0052242093, z: 0.9999838, w: -0.0022642808}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightLeg
+      parentName: Cuerpo_rodillas_bajo1:RightUpLeg
+      position: {x: 1.7763568e-17, y: 0.44123808, z: -1.110223e-18}
+      rotation: {x: -0.044834394, y: 0.000011632467, z: -0.00025918134, w: 0.9989944}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1.0000001}
+    - name: Cuerpo_rodillas_bajo1:RightFoot
+      parentName: Cuerpo_rodillas_bajo1:RightLeg
+      position: {x: -0, y: 0.34553736, z: 0}
+      rotation: {x: 0.6512594, y: -0.13357903, z: 0.11793671, w: 0.7376374}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: Cuerpo_rodillas_bajo1:RightToeBase
+      parentName: Cuerpo_rodillas_bajo1:RightFoot
+      position: {x: -0, y: 0.19956268, z: -8.881784e-18}
+      rotation: {x: 0.08797916, y: 0.00045020872, z: 0.0050971503, w: 0.9961092}
+      scale: {x: 1.0000002, y: 0.99999964, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightToe_End
+      parentName: Cuerpo_rodillas_bajo1:RightToeBase
+      position: {x: -3.5527136e-17, y: 0.073966354, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftUpLeg
+      parentName: Cuerpo_rodillas_bajo1:Hips
+      position: {x: -0.11110712, y: -0.07043106, z: 0.009771598}
+      rotation: {x: -0.000011196334, y: 0.0049446546, z: 0.9999852, w: 0.0022642983}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftLeg
+      parentName: Cuerpo_rodillas_bajo1:LeftUpLeg
+      position: {x: -1.7763568e-17, y: 0.44123557, z: 1.110223e-18}
+      rotation: {x: -0.04371578, y: -0.000011348295, z: 0.00025934645, w: 0.999044}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftFoot
+      parentName: Cuerpo_rodillas_bajo1:LeftLeg
+      position: {x: -0, y: 0.3454918, z: 0}
+      rotation: {x: 0.6511869, y: 0.13291475, z: -0.11729153, w: 0.7379242}
+      scale: {x: 0.9999999, y: 0.9999997, z: 0.9999999}
+    - name: Cuerpo_rodillas_bajo1:LeftToeBase
+      parentName: Cuerpo_rodillas_bajo1:LeftFoot
+      position: {x: -3.5527136e-17, y: 0.20058349, z: 0}
+      rotation: {x: 0.08725756, y: -0.0007177591, z: -0.008193276, w: 0.9961519}
+      scale: {x: 1.0000007, y: 1.0000006, z: 1.0000004}
+    - name: Cuerpo_rodillas_bajo1:LeftToe_End
+      parentName: Cuerpo_rodillas_bajo1:LeftToeBase
+      position: {x: -0, y: 0.07315473, z: 4.440892e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:Spine
+      parentName: Cuerpo_rodillas_bajo1:Hips
+      position: {x: -0, y: 0.12694716, z: 0.0063915616}
+      rotation: {x: 0.025150204, y: -0, z: -0, w: 0.9996837}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:Spine1
+      parentName: Cuerpo_rodillas_bajo1:Spine
+      position: {x: -0, y: 0.1482926, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:Spine2
+      parentName: Cuerpo_rodillas_bajo1:Spine1
+      position: {x: -0, y: 0.16947725, z: 0}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:Neck
+      parentName: Cuerpo_rodillas_bajo1:Spine2
+      position: {x: -0, y: 0.19066188, z: -0.000000005589115}
+      rotation: {x: -0.21807352, y: -0, z: -0, w: 0.97593236}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:Head
+      parentName: Cuerpo_rodillas_bajo1:Neck
+      position: {x: -0, y: 0.09209122, z: 0.10904681}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:HeadTop_End
+      parentName: Cuerpo_rodillas_bajo1:Head
+      position: {x: -0, y: 0.14807312, z: 0.17533599}
+      rotation: {x: 1.3877788e-17, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftShoulder
+      parentName: Cuerpo_rodillas_bajo1:Spine2
+      position: {x: -0.083041914, y: 0.1787973, z: 0.00032041105}
+      rotation: {x: 0.5339257, y: -0.46392012, z: 0.5319397, w: 0.46555534}
+      scale: {x: 1, y: 0.9999999, z: 1.0000001}
+    - name: Cuerpo_rodillas_bajo1:LeftArm
+      parentName: Cuerpo_rodillas_bajo1:LeftShoulder
+      position: {x: -0, y: 0.1697943, z: 0}
+      rotation: {x: -0.04532225, y: 0.00068929786, z: -0.015190987, w: 0.99885666}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftForeArm
+      parentName: Cuerpo_rodillas_bajo1:LeftArm
+      position: {x: 1.7763568e-17, y: 0.29392552, z: 0}
+      rotation: {x: 0.0045382977, y: 0.000037029382, z: 0.008167356, w: 0.9999563}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+    - name: Cuerpo_rodillas_bajo1:LeftHand
+      parentName: Cuerpo_rodillas_bajo1:LeftForeArm
+      position: {x: 1.7763568e-17, y: 0.40171805, z: 0}
+      rotation: {x: 0.000050723553, y: 0.010901049, z: -0.086204216, w: 0.9962179}
+      scale: {x: 0.99999994, y: 1, z: 0.9999997}
+    - name: Cuerpo_rodillas_bajo1:LeftHandMiddle1
+      parentName: Cuerpo_rodillas_bajo1:LeftHand
+      position: {x: -0.020444497, y: 0.09047176, z: 0.000000039286196}
+      rotation: {x: 0.008787363, y: 0.0007301718, z: 0.08280682, w: 0.9965267}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftHandMiddle2
+      parentName: Cuerpo_rodillas_bajo1:LeftHandMiddle1
+      position: {x: 0.00000040293764, y: 0.0753186, z: 0}
+      rotation: {x: 0.0019923449, y: -0.000000029802322, z: -0, w: 0.9999981}
+      scale: {x: 1.0000001, y: 1, z: 1.0000002}
+    - name: Cuerpo_rodillas_bajo1:LeftHandMiddle3
+      parentName: Cuerpo_rodillas_bajo1:LeftHandMiddle2
+      position: {x: 0.000003170152, y: 0.070604496, z: -2.842171e-16}
+      rotation: {x: -0.0048965667, y: 0.000000044584574, z: -0.00000005954766, w: 0.999988}
+      scale: {x: 0.99999994, y: 1, z: 0.9999999}
+    - name: Cuerpo_rodillas_bajo1:LeftHandMiddle4
+      parentName: Cuerpo_rodillas_bajo1:LeftHandMiddle3
+      position: {x: -0.0000035730898, y: 0.06831768, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftHandIndex1
+      parentName: Cuerpo_rodillas_bajo1:LeftHand
+      position: {x: 0.020444497, y: 0.0974588, z: 0.00000003889886}
+      rotation: {x: 0.003617142, y: 0.0002917321, z: 0.08040819, w: 0.99675536}
+      scale: {x: 0.99999976, y: 1, z: 1.0000001}
+    - name: Cuerpo_rodillas_bajo1:LeftHandIndex2
+      parentName: Cuerpo_rodillas_bajo1:LeftHandIndex1
+      position: {x: -0.000006433223, y: 0.070452966, z: 2.842171e-16}
+      rotation: {x: 0.00006273388, y: 0.00000004470348, z: 0.000000029802319, w: 1}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftHandIndex3
+      parentName: Cuerpo_rodillas_bajo1:LeftHandIndex2
+      position: {x: -0.0000060095012, y: 0.06670417, z: -2.842171e-16}
+      rotation: {x: 0.01425752, y: 0.000000029802322, z: 0.000000059604645, w: 0.99989843}
+      scale: {x: 1, y: 1.0000001, z: 0.9999999}
+    - name: Cuerpo_rodillas_bajo1:LeftHandIndex4
+      parentName: Cuerpo_rodillas_bajo1:LeftHandIndex3
+      position: {x: 0.000012442724, y: 0.06380811, z: -2.842171e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftHandThumb1
+      parentName: Cuerpo_rodillas_bajo1:LeftHand
+      position: {x: 0.02822251, y: 0.04601363, z: 0.01151324}
+      rotation: {x: 0.071250945, y: -0.013096858, z: -0.22728024, w: 0.9711311}
+      scale: {x: 0.9999999, y: 0.9999999, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftHandThumb2
+      parentName: Cuerpo_rodillas_bajo1:LeftHandThumb1
+      position: {x: 0.004086696, y: 0.043965213, z: 0}
+      rotation: {x: 0.032274757, y: 0.0022571546, z: -0.04613257, w: 0.99841124}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:LeftHandThumb3
+      parentName: Cuerpo_rodillas_bajo1:LeftHandThumb2
+      position: {x: -0.0024118363, y: 0.06579452, z: -2.842171e-16}
+      rotation: {x: 0.0081736455, y: 0.00000024267018, z: 0.000000018876067, w: 0.9999666}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000005}
+    - name: Cuerpo_rodillas_bajo1:LeftHandThumb4
+      parentName: Cuerpo_rodillas_bajo1:LeftHandThumb3
+      position: {x: -0.0016748598, y: 0.0696988, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightShoulder
+      parentName: Cuerpo_rodillas_bajo1:Spine2
+      position: {x: 0.083041914, y: 0.17882511, z: 0.00087290193}
+      rotation: {x: 0.5356024, y: 0.46248502, z: -0.5300968, w: 0.46715647}
+      scale: {x: 1.0000001, y: 0.9999999, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightArm
+      parentName: Cuerpo_rodillas_bajo1:RightShoulder
+      position: {x: -0, y: 0.1697943, z: -2.842171e-16}
+      rotation: {x: -0.045157447, y: -0.0005246252, z: 0.011604488, w: 0.99891233}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightForeArm
+      parentName: Cuerpo_rodillas_bajo1:RightArm
+      position: {x: -0, y: 0.29392013, z: 0}
+      rotation: {x: 0.0044953823, y: -0.00003193319, z: -0.007105708, w: 0.9999647}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000002}
+    - name: Cuerpo_rodillas_bajo1:RightHand
+      parentName: Cuerpo_rodillas_bajo1:RightForeArm
+      position: {x: -8.881784e-18, y: 0.40172762, z: 0}
+      rotation: {x: 0.0006056726, y: -0.008437455, z: 0.08677293, w: 0.9961923}
+      scale: {x: 0.9999999, y: 0.99999994, z: 0.99999994}
+    - name: Cuerpo_rodillas_bajo1:RightHandMiddle1
+      parentName: Cuerpo_rodillas_bajo1:RightHand
+      position: {x: 0.021422703, y: 0.090325326, z: 0.00000014504631}
+      rotation: {x: 0.008549302, y: -0.00069165224, z: -0.08063721, w: 0.9967066}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1.0000002}
+    - name: Cuerpo_rodillas_bajo1:RightHandMiddle2
+      parentName: Cuerpo_rodillas_bajo1:RightHandMiddle1
+      position: {x: -0.000000050539924, y: 0.07406115, z: -2.842171e-16}
+      rotation: {x: -0.002196312, y: -0.000000014901161, z: -0, w: 0.9999977}
+      scale: {x: 0.9999999, y: 0.9999996, z: 0.9999999}
+    - name: Cuerpo_rodillas_bajo1:RightHandMiddle3
+      parentName: Cuerpo_rodillas_bajo1:RightHandMiddle2
+      position: {x: 0.000010981983, y: 0.06951314, z: 0}
+      rotation: {x: 0.0044496357, y: 0.000000014901161, z: 0.000000059604645, w: 0.99999017}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000002}
+    - name: Cuerpo_rodillas_bajo1:RightHandMiddle4
+      parentName: Cuerpo_rodillas_bajo1:RightHandMiddle3
+      position: {x: -0.000010931442, y: 0.066873856, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightHandIndex1
+      parentName: Cuerpo_rodillas_bajo1:RightHand
+      position: {x: -0.021422703, y: 0.09634467, z: 0.00000014523512}
+      rotation: {x: 0.0009017885, y: -0.000087201595, z: -0.09629065, w: 0.9953529}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: Cuerpo_rodillas_bajo1:RightHandIndex2
+      parentName: Cuerpo_rodillas_bajo1:RightHandIndex1
+      position: {x: 0.000030759093, y: 0.071074985, z: 0}
+      rotation: {x: 0.0057919323, y: 0.000000014901161, z: -0.000000029802322, w: 0.99998325}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightHandIndex3
+      parentName: Cuerpo_rodillas_bajo1:RightHandIndex2
+      position: {x: 0.0000013668526, y: 0.06638384, z: 2.842171e-16}
+      rotation: {x: 0.0074258293, y: -0.00000002940686, z: 0.000000030082983, w: 0.99997246}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000002}
+    - name: Cuerpo_rodillas_bajo1:RightHandIndex4
+      parentName: Cuerpo_rodillas_bajo1:RightHandIndex3
+      position: {x: -0.000032125947, y: 0.06323068, z: 2.842171e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cuerpo_rodillas_bajo1:RightHandThumb1
+      parentName: Cuerpo_rodillas_bajo1:RightHand
+      position: {x: -0.027966248, y: 0.0471209, z: 0.012547848}
+      rotation: {x: 0.069136046, y: 0.010652406, z: 0.21950962, w: 0.9730993}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000004}
+    - name: Cuerpo_rodillas_bajo1:RightHandThumb2
+      parentName: Cuerpo_rodillas_bajo1:RightHandThumb1
+      position: {x: -0.004320271, y: 0.04476261, z: 0}
+      rotation: {x: 0.033886, y: -0.002913453, z: 0.03409488, w: 0.99883974}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: Cuerpo_rodillas_bajo1:RightHandThumb3
+      parentName: Cuerpo_rodillas_bajo1:RightHandThumb2
+      position: {x: 0.00046754655, y: 0.06483144, z: -2.842171e-16}
+      rotation: {x: -0.0025574118, y: 0.00000006074991, z: 0.000000009366286, w: 0.9999968}
+      scale: {x: 1, y: 0.9999998, z: 0.99999994}
+    - name: Cuerpo_rodillas_bajo1:RightHandThumb4
+      parentName: Cuerpo_rodillas_bajo1:RightHandThumb3
+      position: {x: 0.0038527246, y: 0.068219855, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
