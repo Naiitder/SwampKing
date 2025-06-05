@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour
         CharacterStats = GetComponent<CharacterStats>();
     }
 
-    private void Start()
+    public void Initilize()
     {
         healthSlider.maxValue = CharacterStats.MaximumHealth;
         healthSlider.value = CharacterStats.CurrentHealth;

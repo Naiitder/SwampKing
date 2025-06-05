@@ -7,12 +7,12 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private int id;
     [SerializeField] private int maximumHealth, currentHealth;
     [SerializeField] private int damage;
-    
-    
+    [SerializeField] private String title;
     
     public int MaximumHealth {get{return maximumHealth;} set{maximumHealth = value;}}
     public int CurrentHealth {get{return currentHealth;} set{currentHealth = value;}}
     public int Damage {get{return damage;} set{damage = value;}}
+    public String Title {get{return title;} set{title = value;}}
     public int ID {get{return id;} set{id = value;}}
     
    public void LoadStats()

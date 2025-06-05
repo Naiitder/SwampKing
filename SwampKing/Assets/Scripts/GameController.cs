@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject saveGameCanvas;
     [SerializeField] private GameObject userCanvas;
+    [SerializeField] private GameObject bossUIcanvas;
     
     [SerializeField] private TextMeshProUGUI coinsText;
 
@@ -22,6 +23,9 @@ public class GameController : MonoBehaviour
     [SerializeField] public int SaveID = -1;
 
     public bool isGamePaused;
+    
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip songSound;
 
     void Awake()
     {
@@ -40,6 +44,8 @@ public class GameController : MonoBehaviour
         if(pauseCanvas) pauseCanvas.SetActive(false);
         if(gameOverCanvas) gameOverCanvas.SetActive(false);
         if(saveGameCanvas) saveGameCanvas.SetActive(false);
+        if(bossUIcanvas) bossUIcanvas.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
         
     }
 
@@ -54,7 +60,10 @@ public class GameController : MonoBehaviour
         {
             stats.LoadStats();
         }
-
+        
+        PlayerManager pm = FindObjectOfType<PlayerManager>();
+        pm.Initilize();
+        
         UpdateCoins();
         if(SaveID > 0) HideCursor();
     }
@@ -385,5 +394,21 @@ public class GameController : MonoBehaviour
     {
         if(gameOverCanvas) gameOverCanvas.SetActive(true);
     }
+    public void ChangeSong(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
+
+    public void DeActivateBossCanvas()
+    {
+        bossUIcanvas.SetActive(false);
+    }
+
+    public void ActivateBossCanvas()
+    {
+        bossUIcanvas.SetActive(true);
+    }
+    
 
 }
