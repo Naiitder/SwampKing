@@ -23,6 +23,7 @@ public class EnemyAnimatorController : MonoBehaviour
     [SerializeField] private Collider weaponCollider;
     [SerializeField] private GameObject weaponTrail;
     [SerializeField] private ParticleSystem weaponVFX;
+    [SerializeField] private ParticleSystem premonitionVFX;
     
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private GameObject projectilePrefab;
@@ -73,7 +74,6 @@ public class EnemyAnimatorController : MonoBehaviour
         Animator.SetBool(reactionFinishedHash, true);
         Animator.SetBool(isReactingHash, false);
         enemyStateMachine.EnemyManager.IsReacting = false;
-        Debug.Log(enemyStateMachine.EnemyManager.IsReacting);
     }
 
     
@@ -83,11 +83,17 @@ public class EnemyAnimatorController : MonoBehaviour
         if(weaponTrail != null) weaponTrail.SetActive(false);
     }
 
+    public void SpawnPremonition()
+    {
+        if(premonitionVFX != null) premonitionVFX.Play();
+    }
+
     public void OpenWeaponCollider()
     {
         if(weaponCollider != null) weaponCollider.enabled = true;
         if(weaponTrail != null) weaponTrail.SetActive(true);
         if(weaponVFX != null) weaponVFX.Play();
+        enemyStateMachine.AudioSource.PlayOneShot(enemyStateMachine.slashSound);
 
     }
 

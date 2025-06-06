@@ -16,6 +16,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private bool isShooting; 
     
     [SerializeField] private bool hasHit;
+    [SerializeField] public bool tank = false;
     
     public int AttackCount {get; set;}
     public float TimeSinceLastAttack { get; set; }
@@ -23,8 +24,8 @@ public class EnemyManager : MonoBehaviour
     
     [Header("CharacterStats")]
     public CharacterStats CharacterStats { get; private set; }
-    [SerializeField] private Slider healthSlider;
-    [SerializeField] private Slider easeHealthSlider;
+    [SerializeField] public Slider healthSlider;
+    [SerializeField] public Slider easeHealthSlider;
 
     
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
@@ -50,9 +51,6 @@ public class EnemyManager : MonoBehaviour
         {
             healthSlider.maxValue = CharacterStats.MaximumHealth;
             healthSlider.value = CharacterStats.CurrentHealth;
-        
-            easeHealthSlider.maxValue = CharacterStats.MaximumHealth;
-            easeHealthSlider.value = CharacterStats.CurrentHealth;
         }
         if (CharacterStats.CurrentHealth <= 0)
         {

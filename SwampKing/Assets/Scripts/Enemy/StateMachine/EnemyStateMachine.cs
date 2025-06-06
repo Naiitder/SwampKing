@@ -20,6 +20,7 @@ public class EnemyStateMachine : MonoBehaviour
     
     public AudioSource AudioSource {get; private set;}
     public AudioClip shootSound;
+    public AudioClip slashSound;
     
     
     [Header("Dettection/Chase Stats")]
@@ -70,6 +71,9 @@ public class EnemyStateMachine : MonoBehaviour
     {
         _currentState.UpdateStates();
         HandleAttackCounter();
+        
+        if ((EnemyManager.healthSlider != null && EnemyManager.easeHealthSlider != null) && EnemyManager.easeHealthSlider.value != EnemyManager.healthSlider.value)
+            EnemyManager.easeHealthSlider.value = Mathf.Lerp(EnemyManager.easeHealthSlider.value, EnemyManager.healthSlider.value, 0.05f);
     }
     
     private void ApplyProfile()

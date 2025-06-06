@@ -71,6 +71,8 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int amount, bool reacting = false)
     {
+        if (isJumping) return;
+        
         bool canReact = !isDead && !isJumping && isGrounded;
         
         CharacterStats.CurrentHealth -= amount;

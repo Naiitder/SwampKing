@@ -33,6 +33,9 @@ public class EnemyBackState : EnemyBaseState
         }
 
         backTimer -= Time.deltaTime;
+        
+        if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
+        else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
 
         if (backTimer <= 0f)
         {
@@ -49,9 +52,6 @@ public class EnemyBackState : EnemyBaseState
 
     public override void CheckSwitchStates()
     {
-        if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
-        else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
-        
 
         if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
             SwitchState(_factory.RangedAttack());

@@ -80,7 +80,7 @@ public class PlayerAttackState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash3, false);
         _ctx.PlayerAnimator.Animator.applyRootMotion = false;
         
-        _ctx.PlayerAnimator.CloseWeaponCollider();
+        _ctx.PlayerAnimator.OnAttackAnimationFinished();
 
     }
 
