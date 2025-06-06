@@ -7,5 +7,5 @@ public class SubQuest
     public string description;
     public bool completed;
     public bool isActive = false;
-    
+    public string nextSubQuestId; 
 }
