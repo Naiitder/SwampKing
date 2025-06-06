@@ -78,7 +78,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (isJumping || isDead) return;
         
-        bool canReact = !isDead && !isJumping && isGrounded;
+        bool canReact = !isDead && !isJumping && isGrounded && !isReacting;
         
         CharacterStats.CurrentHealth -= amount;
         if (healthSlider != null)
@@ -99,6 +99,23 @@ public class PlayerManager : MonoBehaviour
             StopCoroutine(nameof(DamageFlashRoutine));
 
         damageFlashCoroutine = StartCoroutine(nameof(DamageFlashRoutine));
+    }
+    
+    public void Heal(int amount)
+    {
+        if (isDead) return;
+        
+        CharacterStats.CurrentHealth += amount;
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = CharacterStats.MaximumHealth;
+            healthSlider.value = CharacterStats.CurrentHealth;
+        }
+        if (CharacterStats.CurrentHealth <= CharacterStats.MaximumHealth)
+        {
+            CharacterStats.CurrentHealth = CharacterStats.MaximumHealth;
+        }
+        
     }
 
     public void Die()

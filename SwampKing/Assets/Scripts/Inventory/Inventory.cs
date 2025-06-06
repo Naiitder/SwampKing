@@ -16,12 +16,15 @@ public class Inventory : MonoBehaviour
     
     public bool isGameMenuOpen;
     
+    PlayerManager playerManager;
+    
     void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
         
         if(gameMenuCanvas) gameMenuCanvas.SetActive(false);
+        playerManager = FindFirstObjectByType<PlayerManager>();
     }
     public void AddItem(ItemData itemData, int amount)
     {
@@ -127,6 +130,21 @@ public class Inventory : MonoBehaviour
             detailPanel.Show(slot);
         else
             detailPanel.Clear();
+    }
+    
+    public void UseItem(InventorySlot slot)
+    {
+        if (slot.itemData.isUsable)
+        {
+            
+            if (slot.itemData.name.Contains("Licor de nenufar")) 
+            {
+                playerManager.Heal(100); 
+            }
+
+            RemoveItem(slot.itemData, 1);
+            RefreshUI();
+        }
     }
     
 }

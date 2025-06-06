@@ -62,7 +62,7 @@ public class GameController : MonoBehaviour
         }
         
         PlayerManager pm = FindObjectOfType<PlayerManager>();
-        pm.Initilize();
+        if(pm != null)pm.Initilize();
         
         UpdateCoins();
         if(SaveID > 0) HideCursor();
