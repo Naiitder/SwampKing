@@ -17,7 +17,6 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private TMP_SpriteAsset gamepadSpriteAsset;
     
     private bool jumpedOnce = false;
-    private bool attackedOnce = false;
 
     private Quest tutorialQuest = new Quest
     {
@@ -36,7 +35,7 @@ public class QuestManager : MonoBehaviour
                 id = "DOUBLE_JUMP", description = "Presiona <sprite name=\"KeyboardButtons_Space\"> otra vez para hacer un doble salto",
                 completed = false
             },
-            new SubQuest { id = "ATTACK_1", description = "Presiona <sprite name=\"mouse-left\"> para atacar", completed = false },
+            new SubQuest { id = "ATTACK_1", description = "Presiona <sprite name=\"mouse-left\"> para atacar", completed = false, nextSubQuestId = "ATTACK_COMBO"},
             new SubQuest
             {
                 id = "ATTACK_COMBO", description = "Presiona <sprite name=\"mouse-left\"> otra vez para hacer un combo", completed = false
@@ -45,7 +44,7 @@ public class QuestManager : MonoBehaviour
             {
                 id = "CHARGE_JUMP", description = "Mantén <sprite name=\"KeyboardButtons_Space\"> para hacer un salto cargado", completed = false
             },
-            new SubQuest { id = "AIM", description = "Mantén <sprite name=\"mouse-right\"> para apuntar", completed = false},
+            new SubQuest { id = "AIM", description = "Mantén <sprite name=\"mouse-right\"> para apuntar", completed = false, nextSubQuestId = "SHOOT"},
             new SubQuest { id = "SHOOT", description = "Presiona <sprite name=\"mouse-left\"> para disparar", completed = false },
             new SubQuest { id = "KILL_BOSS", description = "Derrota al asesino de ranas", completed = false },
             new SubQuest { id = "TALK", description = "Presiona <sprite name=\"KeyboardButtons_E\"> para hablar con el campesino", completed = false },
@@ -79,7 +78,7 @@ public class QuestManager : MonoBehaviour
             {
                 sub.completed = true;
                 
-                if(addNextQuest) quest.ActivateNextSubQuest();
+                if(addNextQuest && !string.IsNullOrEmpty(sub.nextSubQuestId)) quest.ActivateSubQuest(sub.nextSubQuestId);
             }
         }
     }
@@ -111,12 +110,8 @@ public class QuestManager : MonoBehaviour
         
         if (InputController.instance.IsAttackPressed)
         {
-            if (!attackedOnce)
-            {
-                attackedOnce = true;
-                CompleteSubQuest("TUTORIAL_001", "ATTACK_1", addNextQuest: true);
-            }
-            else
+            CompleteSubQuest("TUTORIAL_001", "ATTACK_1", addNextQuest: true);
+            if(playerManager.AttackCount == 2)
             {
                 CompleteSubQuest("TUTORIAL_001", "ATTACK_COMBO");
             }
