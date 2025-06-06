@@ -22,6 +22,9 @@ public class EnemyManager : MonoBehaviour
     public float TimeSinceLastAttack { get; set; }
     public bool PreviousIsAttacking { get; set; }
     
+    private float lastReactionEndTime = 0f;
+
+    
     [Header("CharacterStats")]
     public CharacterStats CharacterStats { get; private set; }
     [SerializeField] public Slider healthSlider;
@@ -47,11 +50,16 @@ public class EnemyManager : MonoBehaviour
         meshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
     }
     
+    public void SetLastReactionTime(float time)
+    {
+        lastReactionEndTime = time;
+    }
+    
     public void TakeDamage(int amount, bool reacting = false)
     {
         if(isDead) return;
         
-        bool canReact = !isDead && !isJumping && isGrounded;
+        bool canReact = !isDead && !isJumping && isGrounded && !isReacting && Time.time >= lastReactionEndTime + .15f;;
         
         CharacterStats.CurrentHealth -= amount;
         if (healthSlider != null && easeHealthSlider != null)

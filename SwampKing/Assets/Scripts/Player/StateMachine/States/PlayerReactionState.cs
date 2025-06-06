@@ -34,12 +34,12 @@ public class PlayerReactionState : PlayerBaseState
         _ctx.PlayerMovement.StopMovement();
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsReactingHash,true);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ReactionFinishedHash, false);
-        
     }
 
 
     public override void ExitState()
     {
+        _ctx.PlayerManager.SetLastReactionTime(Time.time);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsReactingHash,false);
         _ctx.PlayerManager.IsReacting = false;
     }

@@ -115,6 +115,31 @@ MonoBehaviour:
     m_GlyphIndex: 6
     m_Scale: 1
     m_Name: KeyboardButtons_5
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 7
+    m_Scale: 1
+    m_Name: KeyboardButtons_W
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 8
+    m_Scale: 1
+    m_Name: KeyboardButtons_S
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 9
+    m_Scale: 1
+    m_Name: KeyboardButtons_A
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 10
+    m_Scale: 1
+    m_Name: KeyboardButtons_D
+  - m_ElementType: 2
+    m_Unicode: 65534
+    m_GlyphIndex: 11
+    m_Scale: 1
+    m_Name: KeyboardButtons_Space
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
@@ -228,5 +253,85 @@ MonoBehaviour:
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
     sprite: {fileID: -583834364, guid: 690f20745500faf48916fbe91b4ce811, type: 3}
+  - m_Index: 7
+    m_Metrics:
+      m_Width: 44
+      m_Height: 30
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 23
+      m_HorizontalAdvance: 50
+    m_GlyphRect:
+      m_X: 134
+      m_Y: 32
+      m_Width: 47
+      m_Height: 44
+    m_Scale: 0.9
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 512744639, guid: 690f20745500faf48916fbe91b4ce811, type: 3}
+  - m_Index: 8
+    m_Metrics:
+      m_Width: 44
+      m_Height: 30
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 23
+      m_HorizontalAdvance: 50
+    m_GlyphRect:
+      m_X: 270
+      m_Y: 78
+      m_Width: 45
+      m_Height: 43
+    m_Scale: 0.9
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: 1880326860, guid: 690f20745500faf48916fbe91b4ce811, type: 3}
+  - m_Index: 9
+    m_Metrics:
+      m_Width: 44
+      m_Height: 30
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 23
+      m_HorizontalAdvance: 50
+    m_GlyphRect:
+      m_X: 90
+      m_Y: 167
+      m_Width: 45
+      m_Height: 45
+    m_Scale: 0.9
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -213849125, guid: 690f20745500faf48916fbe91b4ce811, type: 3}
+  - m_Index: 10
+    m_Metrics:
+      m_Width: 44
+      m_Height: 30
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 23
+      m_HorizontalAdvance: 50
+    m_GlyphRect:
+      m_X: 225
+      m_Y: 167
+      m_Width: 45
+      m_Height: 45
+    m_Scale: 0.9
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -2056905832, guid: 690f20745500faf48916fbe91b4ce811, type: 3}
+  - m_Index: 11
+    m_Metrics:
+      m_Width: 121
+      m_Height: 30
+      m_HorizontalBearingX: -6.1
+      m_HorizontalBearingY: 26
+      m_HorizontalAdvance: 103.89
+    m_GlyphRect:
+      m_X: 90
+      m_Y: 0
+      m_Width: 90
+      m_Height: 31
+    m_Scale: 0.8
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
+    sprite: {fileID: -65480326, guid: 690f20745500faf48916fbe91b4ce811, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets: []

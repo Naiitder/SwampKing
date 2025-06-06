@@ -32,6 +32,8 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private float inAirTimer = 0f;
     [SerializeField] private float coyoteTime = 0.2f;
+
+    private float lastReactionEndTime = 0f;
     
     [Header("CharacterStats")]
     public CharacterStats CharacterStats { get; private set; }
@@ -65,6 +67,11 @@ public class PlayerManager : MonoBehaviour
         meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
+    public void SetLastReactionTime(float time)
+    {
+        lastReactionEndTime = time;
+    }
+    
     public void Initilize()
     {
         healthSlider.maxValue = CharacterStats.MaximumHealth;
@@ -78,7 +85,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (isJumping || isDead) return;
         
-        bool canReact = !isDead && !isJumping && isGrounded && !isReacting;
+        bool canReact = !isDead && !isJumping && isGrounded && !isReacting &&  Time.time >= lastReactionEndTime + .15f;
         
         CharacterStats.CurrentHealth -= amount;
         if (healthSlider != null)
@@ -91,7 +98,10 @@ public class PlayerManager : MonoBehaviour
             CharacterStats.CurrentHealth = 0;
             Die();
         }
-        else if (reacting && canReact) isReacting = true;
+        else if (reacting && canReact)
+        {
+            isReacting = true;
+        }
         
         audioSource.PlayOneShot(damageSound);
         
@@ -111,7 +121,7 @@ public class PlayerManager : MonoBehaviour
             healthSlider.maxValue = CharacterStats.MaximumHealth;
             healthSlider.value = CharacterStats.CurrentHealth;
         }
-        if (CharacterStats.CurrentHealth <= CharacterStats.MaximumHealth)
+        if (CharacterStats.CurrentHealth >= CharacterStats.MaximumHealth)
         {
             CharacterStats.CurrentHealth = CharacterStats.MaximumHealth;
         }
