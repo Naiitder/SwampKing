@@ -1,0 +1,158 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class QuestManager : MonoBehaviour
+{
+    public static QuestManager instance;
+
+    private PlayerManager playerManager;
+    
+    public TextMeshProUGUI questText;
+    
+    public List<Quest> activeQuests = new List<Quest>();
+    
+    private bool jumpedOnce = false;
+    private bool attackedOnce = false;
+
+    private Quest tutorialQuest = new Quest
+    {
+        id = "TUTORIAL_001",
+        title = "Completa el tutorial",
+        subQuests = new List<SubQuest>
+        {
+            new SubQuest
+            {
+                id = "WASD", description = "Presiona <sprite=0><sprite=1><sprite=2><sprite=3> para moverte",
+                completed = false, isActive =  true
+            },
+            new SubQuest { id = "JUMP", description = "Presiona <sprite=4> para saltar", completed = false },
+            new SubQuest
+            {
+                id = "DOUBLE_JUMP", description = "Presiona <sprite=4> otra vez para hacer un doble salto",
+                completed = false
+            },
+            new SubQuest { id = "ATTACK_1", description = "Presiona <sprite=5> para atacar", completed = false },
+            new SubQuest
+            {
+                id = "ATTACK_COMBO", description = "Presiona <sprite=5> otra vez para hacer un combo", completed = false
+            },
+            new SubQuest { id = "AIM", description = "Mantén <sprite=6> para apuntar", completed = false},
+            new SubQuest { id = "SHOOT", description = "Presiona <sprite=5> para disparar", completed = false },
+            new SubQuest { id = "KILL_BOSS", description = "Derrota al asesino de ranas", completed = false },
+        }
+
+    };
+
+    private void Awake()
+    {
+        if (instance == null) 
+            instance = this;
+        else 
+            Destroy(gameObject);
+        
+        playerManager = FindFirstObjectByType<PlayerManager>();
+        activeQuests.Add(tutorialQuest);
+    }
+
+    public void CompleteSubQuest(string questId, string subQuestId, bool addNextQuest = false)
+    {
+        if(!IsSubQuestActive(questId, subQuestId)) return;
+        
+        Quest quest = activeQuests.Find(q => q.id == questId);
+        if (quest != null)
+        {
+            SubQuest sub = quest.subQuests.Find(s => s.id == subQuestId);
+            if (sub != null && !sub.completed)
+            {
+                sub.completed = true;
+                
+                if(addNextQuest) quest.ActivateNextSubQuest();
+            }
+        }
+    }
+    
+    public void ActivateSubQuest(string questId, string subQuestId)
+    {
+        Quest quest = activeQuests.Find(q => q.id == questId);
+        quest?.ActivateSubQuest(subQuestId);
+    }
+    
+    
+    void Update()
+    {
+        if (InputController.instance.MoveAmount != 0)
+            CompleteSubQuest("TUTORIAL_001", "WASD");
+
+        if (InputController.instance.IsJumpPressed)
+        {
+            if (!jumpedOnce && IsSubQuestActive("TUTORIAL_001", "JUMP"))
+            {
+                jumpedOnce = true;
+                CompleteSubQuest("TUTORIAL_001", "JUMP");
+            } 
+        }
+        if (IsSubQuestActive("TUTORIAL_001", "DOUBLE_JUMP") && !playerManager.CanDoubleJump)
+        {
+            CompleteSubQuest("TUTORIAL_001", "DOUBLE_JUMP");
+        }
+        
+        if (InputController.instance.IsAttackPressed)
+        {
+            if (!attackedOnce)
+            {
+                attackedOnce = true;
+                CompleteSubQuest("TUTORIAL_001", "ATTACK_1", addNextQuest: true);
+            }
+            else
+            {
+                CompleteSubQuest("TUTORIAL_001", "ATTACK_COMBO");
+            }
+        }
+
+        if (InputController.instance.IsAimingPressed)
+            CompleteSubQuest("TUTORIAL_001", "AIM", addNextQuest: true);
+
+        if (InputController.instance.IsAimingPressed && InputController.instance.IsAttackPressed)
+            CompleteSubQuest("TUTORIAL_001", "SHOOT");
+        
+        UpdateQuestText();
+    }
+
+    public bool IsSubQuestActive(string questId, string subQuestId)
+    {
+        Quest quest = activeQuests.Find(q => q.id == questId);
+        if (quest == null) return false;
+
+        SubQuest sub = quest.subQuests.Find(s => s.id == subQuestId);
+        return sub != null && sub.isActive && !sub.completed;
+    }
+    
+    private void UpdateQuestText()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        foreach (var quest in activeQuests)
+        {
+            sb.AppendLine($"<size=40><color=#FFD700>{quest.title}</color></size>");
+
+            bool hasAnySub = false;
+            foreach (var sub in quest.subQuests)
+            {
+                if (sub.isActive && !sub.completed)
+                {
+                    sb.AppendLine($"<size=30>• {sub.description}</size>");
+                    hasAnySub = true;
+                }
+            }
+
+            if (hasAnySub) sb.AppendLine(); 
+        }
+
+        questText.text = sb.ToString().Trim();
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)questText.transform);
+    }
+}

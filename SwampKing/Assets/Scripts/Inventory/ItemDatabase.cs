@@ -36,8 +36,12 @@ public class ItemDatabase : MonoBehaviour
                             price = reader.GetInt32(3),
                             type = reader.IsDBNull(4) ? null : reader.GetString(4)
                         };
-
-                        // Si es arma, buscar daño
+                        
+                        if(item.type == "potion")
+                        {
+                            item.isUsable = true;
+                        }
+                        
                         if (item.type == "weapon")
                         {
                             item.damage = GetWeaponDamage(item.id, connection);

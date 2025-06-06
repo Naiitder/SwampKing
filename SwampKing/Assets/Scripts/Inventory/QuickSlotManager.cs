@@ -42,6 +42,21 @@ public class QuickSlotManager : MonoBehaviour
         }
     }
     
+    public void HandleUseInput()
+    {
+        if (indexQuickItem >= 0 && indexQuickItem < slotCount)
+        {
+            Debug.Log("primero");
+            InventorySlot slot = hotbar[indexQuickItem];
+            if (slot != null && slot.itemData.isUsable)
+            {
+                Debug.Log("segundo");
+                Inventory.instance.UseItem(slot);
+                quickSlotHUD.UpdateSelectedItem(slot); 
+            }
+        }
+    }
+    
     public void HandleCycleInput()
     {
         var assigned = GetAssignedIndices();

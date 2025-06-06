@@ -277,7 +277,6 @@
 
                 using (var command = connection.CreateCommand())
                 {
-                    // Primero seleccionamos un grupo de diálogo aleatorio
                     command.CommandText = @"
                 SELECT id FROM dialogue_group
                 WHERE character_id = @charID AND type = 'random'
@@ -288,8 +287,7 @@
                     if (groupIdObj != null)
                     {
                         int groupId = Convert.ToInt32(groupIdObj);
-
-                        // Luego sacamos todas las líneas del grupo seleccionado
+                        
                         using (var cmd2 = connection.CreateCommand())
                         {
                             cmd2.CommandText = @"
@@ -359,14 +357,14 @@
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (1,'Gusta', 1, 0, 'player');");
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (2,'Fungi-Man', 2, 1, 'enemy',5);");
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (3,'Sapo', 3, 0, 'npc');");
-            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (4,'Asesino Rana', 4, 1, 'boss', 100);");
+            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (4,'Robert, El asesino de ranas', 4, 1, 'boss', 100);");
 
             //Inserciones Misiones
             Query("INSERT OR IGNORE INTO quests (id_quest, name, description) VALUES (1,'Asesino de Rata-Topos', 'Asesina 10 Rata-Topos.');");
             Query("INSERT OR IGNORE INTO quests (id_quest, name, description) VALUES (2,'Llega a Ciudad Charca', 'Llega a Ciudad Charca y habla con los habitantes.');");
             
             //Inserciones Objetos
-            Query("INSERT OR IGNORE INTO item (id, name, description, price) VALUES (1,'Licor de nenufar', 'Restaura 100 puntos de vida.', 50);");
+            Query("INSERT OR IGNORE INTO item (id, name, description, price, type) VALUES (1,'Licor de nenufar', 'Restaura 100 puntos de vida.', 50, 'potion');");
             Query("INSERT OR IGNORE INTO item (id, name, description, price, type) VALUES (2,'Espada del rey rana', 'Espada que pertenecio a un antiguo rey de Ciudad Charca.', -1, 'weapon' );");
             Query("INSERT OR IGNORE INTO weapon (id_item, damage) VALUES (2, 25 );");
             Query("INSERT OR IGNORE INTO item (id, name, description, price, type) VALUES (3,'Gabardina de vagabundo', 'Gabardina que suelen llevar los vagabundos provenientes de Ciudad Charca.', -1, 'armor' );");

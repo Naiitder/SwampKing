@@ -10,4 +10,6 @@ public class ItemData
     public int? damage;
     public int? armor;
     public Sprite icon;
+    
+    public bool isUsable = false;
 }

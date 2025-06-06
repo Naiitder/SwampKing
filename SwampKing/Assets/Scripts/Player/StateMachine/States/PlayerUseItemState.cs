@@ -5,7 +5,10 @@ public class PlayerUseItemState : PlayerBaseState
     public PlayerUseItemState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory): base(currentContext, playerStateFactory) { }
 
     public override void EnterState() {
-        _ctx.PlayerMovement.StopMovement();
+        //_ctx.PlayerMovement.StopMovement();
+        //Moviemento lento
+        Debug.Log("Player Use Item");
+        QuickSlotManager.instance.HandleUseInput();
         
     }
     public override void UpdateState(){
