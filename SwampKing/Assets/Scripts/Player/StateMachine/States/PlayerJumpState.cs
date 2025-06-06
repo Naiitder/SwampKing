@@ -27,6 +27,14 @@ public class PlayerJumpState : PlayerBaseState
         _ctx.PlayerManager.IsJumping = true;
         _hasLeftGround = false;
         InputController.instance.InputBuffer.Dequeue();
+        
+        _ctx.AudioSource.pitch = 1.1f;
+        _ctx.AudioSource.volume = .5f;
+        _ctx.AudioSource.PlayOneShot(_ctx.JumpSound);
+        
+        _ctx.JumpTrailLF.SetActive(true);
+        _ctx.JumpTrailRF.SetActive(true);
+
     }
 
     public override void UpdateState(){
@@ -56,6 +64,9 @@ public class PlayerJumpState : PlayerBaseState
     public override void ExitState() {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsJumpingHash, false);
         _ctx.PlayerManager.IsJumping = false;
+        
+        _ctx.JumpTrailLF.SetActive(false);
+        _ctx.JumpTrailRF.SetActive(false);
     }
     public override void InitializeSubState() {
 
@@ -101,10 +112,13 @@ public class PlayerJumpState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,true); 
         
         _ctx.AudioSource.PlayOneShot(_ctx.ShootSound);
+        _ctx.AudioSource.pitch = 1.5f;
+        _ctx.AudioSource.volume = 0.6f;
         
 
         Quaternion rotation = _ctx.transform.rotation;
         GameObject projectile = GameObject.Instantiate(_ctx.GunProjectilePrefab, _ctx.ShootPoint.position, rotation);
+        _ctx.GunShootParticles.Play();
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         if (projectileScript != null)
         {
@@ -155,7 +169,7 @@ public class PlayerJumpState : PlayerBaseState
     
     private Transform GetNearestVisibleEnemy(float maxDistance)
     {
-        int layerMask = LayerMask.GetMask("Enemy"); 
+        int layerMask = LayerMask.GetMask("Enemy");
         int count = Physics.OverlapSphereNonAlloc(_ctx.transform.position, maxDistance, enemyBuffer, layerMask);
 
         Transform nearestEnemy = null;
@@ -173,7 +187,7 @@ public class PlayerJumpState : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy")))
+                    ~LayerMask.GetMask("Player", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }
@@ -184,7 +198,7 @@ public class PlayerJumpState : PlayerBaseState
                 nearestEnemy = col.transform;
             }
         }
-        
+
         return nearestEnemy;
     }
 

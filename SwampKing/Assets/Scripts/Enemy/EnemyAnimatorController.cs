@@ -21,6 +21,14 @@ public class EnemyAnimatorController : MonoBehaviour
     private int reactionFinishedHash;
 
     [SerializeField] private Collider weaponCollider;
+    [SerializeField] private GameObject weaponTrail;
+    [SerializeField] private ParticleSystem weaponVFX;
+    [SerializeField] private ParticleSystem premonitionVFX;
+    
+    [SerializeField] private Transform projectileSpawnPoint;
+    [SerializeField] private GameObject projectilePrefab;
+    
+    private EnemyStateMachine enemyStateMachine;
     
     public Animator Animator { get { return animator; } }
     public int HorizontalHash {get { return horizontalHash; }}
@@ -50,6 +58,9 @@ public class EnemyAnimatorController : MonoBehaviour
         isDeadHash = Animator.StringToHash("isDead");
         reactionFinishedHash = Animator.StringToHash("reactionFinished");
         shootingHash = Animator.StringToHash("isShooting");
+
+        enemyStateMachine = GetComponent<EnemyStateMachine>();
+        CloseWeaponCollider();
     }
     
     public void OnAttackAnimationFinished()
@@ -61,17 +72,58 @@ public class EnemyAnimatorController : MonoBehaviour
     public void OnReactingAnimationFinished()
     {
         Animator.SetBool(reactionFinishedHash, true);
+        Animator.SetBool(isReactingHash, false);
+        enemyStateMachine.EnemyManager.IsReacting = false;
     }
 
     
     public void CloseWeaponCollider()
     {
         if(weaponCollider != null) weaponCollider.enabled = false;
+        if(weaponTrail != null) weaponTrail.SetActive(false);
+    }
+
+    public void SpawnPremonition()
+    {
+        if(premonitionVFX != null) premonitionVFX.Play();
     }
 
     public void OpenWeaponCollider()
     {
         if(weaponCollider != null) weaponCollider.enabled = true;
+        if(weaponTrail != null) weaponTrail.SetActive(true);
+        if(weaponVFX != null) weaponVFX.Play();
+        enemyStateMachine.AudioSource.PlayOneShot(enemyStateMachine.slashSound);
+
     }
+
+    public void ThrowProjectile()
+    {
+        Quaternion rotation = enemyStateMachine.transform.rotation;
+            
+        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, rotation);
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        if (projectileScript != null)
+        {
+            projectileScript.Damage = enemyStateMachine.EnemyManager.CharacterStats.Damage;
+        }
+            
+        enemyStateMachine.AudioSource.PlayOneShot(enemyStateMachine.shootSound);
+    }
+    
+    public void ThrowBomb()
+    {
+        Quaternion rotation = enemyStateMachine.transform.rotation;
+            
+        GameObject bomb = Instantiate(projectilePrefab, projectileSpawnPoint.position, rotation);
+        Bomb bombScript = bomb.GetComponent<Bomb>();
+        if (bombScript != null)
+        {
+            bombScript.Initialize(enemyStateMachine.PlayerTarget, enemyStateMachine.EnemyManager.CharacterStats.Damage);
+        }
+            
+        enemyStateMachine.AudioSource.PlayOneShot(enemyStateMachine.shootSound);
+    }
+
 
 }

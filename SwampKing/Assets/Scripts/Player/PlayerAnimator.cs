@@ -28,8 +28,22 @@ public class PlayerAnimator : MonoBehaviour
     private int isReactingHash;
     
     private int reactionFinishedHash;
+    private int drawedSwordHash;
+    
+    private int isDrownHash;
 
+    [Header ("Sword")]
     [SerializeField] private Collider weaponCollider;
+    [SerializeField] private GameObject weaponTrail;
+    [SerializeField] private GameObject sword;
+    [SerializeField] private Transform swordHolderSlot;
+    [SerializeField] private Transform swordHandSlot;
+    
+
+    [Header("Gun")]
+    [SerializeField] private GameObject pistol;
+    [SerializeField] private Transform pistolHolderSlot;
+    [SerializeField] private Transform pistolHandSlot;
 
     public Animator Animator { get { return animator; } }
 
@@ -45,10 +59,12 @@ public class PlayerAnimator : MonoBehaviour
     
     public int JumpAttackHash { get { return jumpAttackHash; } }
     public int IsDeadHash { get { return isDeadHash; } }
+    public int IsDrownHash { get { return isDrownHash; } }
     public int IsReactingHash { get { return isReactingHash; } }
     public int ReactionFinishedHash { get { return reactionFinishedHash; } }
     public int IsFallingHash { get { return isFallingHash; } }
     public int AimingHash { get { return aimingHash; } }
+    public int DrawedSwordHash { get { return drawedSwordHash; } }
 
     private void Awake()
     {
@@ -70,6 +86,11 @@ public class PlayerAnimator : MonoBehaviour
         isFallingHash = Animator.StringToHash("isFalling");
         aimingHash = Animator.StringToHash("isAiming");
         shotHash = Animator.StringToHash("Shot");
+        drawedSwordHash = Animator.StringToHash("drawedSword");
+        isDrownHash = Animator.StringToHash("isDrown");
+        
+        weaponCollider.enabled = false;
+        weaponTrail.SetActive(false);
     }
 
     public void UpdateMovementAnimationValues(float verticalMovement, float horizontalMovement)
@@ -108,15 +129,50 @@ public class PlayerAnimator : MonoBehaviour
     public void CloseWeaponCollider()
     {
         weaponCollider.enabled = false;
+        weaponTrail.SetActive(false);
+
     }
 
     public void OpenWeaponCollider()
     {
         weaponCollider.enabled = true;
+        weaponTrail.SetActive(true);
     }
-    
-    
 
+    public void DrawGun()
+    {
+        pistol.transform.SetParent(pistolHandSlot);
+        pistol.transform.localPosition = Vector3.zero;
+        pistol.transform.localScale = new Vector3(4,4,4);
+        pistol.transform.localRotation = Quaternion.identity;
+    }
+
+    public void HideGun()
+    {
+        pistol.transform.SetParent(pistolHolderSlot);
+        pistol.transform.localPosition = Vector3.zero;
+        pistol.transform.localScale = new Vector3(3,3,3);
+        pistol.transform.localRotation = Quaternion.identity;
+    }
+
+    
+    public void DrawSword()
+    {
+        sword.transform.SetParent(swordHandSlot);
+        sword.transform.localPosition = Vector3.zero;
+        sword.transform.localScale = new Vector3(30,30,30);
+        sword.transform.localRotation = Quaternion.identity;
+        animator.SetBool(drawedSwordHash,true);
+    }
+
+    public void HideSword()
+    {
+        sword.transform.SetParent(swordHolderSlot);
+        sword.transform.localPosition = Vector3.zero;
+        sword.transform.localScale = new Vector3(25,25,25);
+        sword.transform.localRotation = Quaternion.identity;
+        animator.SetBool(drawedSwordHash,false);
+    }
 
 
 }

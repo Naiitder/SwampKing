@@ -8,7 +8,6 @@ public class PlayerDamageCollider : MonoBehaviour
         if(stats != null)
         {
             stats.TakeDamage(25, true);
-            Debug.Log(stats);
         }
     }
 }

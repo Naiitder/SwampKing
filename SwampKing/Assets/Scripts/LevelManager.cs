@@ -62,6 +62,13 @@ public class LevelManager : MonoBehaviour
         scene.allowSceneActivation = true;
     }
 
+    public async void ToMainMenu()
+    {
+        LoadScene("MainMenu");
+        GameController.instance.ShowCursor();
+        GameController.instance.SaveID = -1;
+    }
+
     public void UpdateProgressBar()
     {
         progressBar.fillAmount = Mathf.MoveTowards(progressBar.fillAmount, targetProgress, 3*Time.deltaTime);

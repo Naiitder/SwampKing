@@ -20,6 +20,7 @@ public class EnemyStateMachine : MonoBehaviour
     
     public AudioSource AudioSource {get; private set;}
     public AudioClip shootSound;
+    public AudioClip slashSound;
     
     
     [Header("Dettection/Chase Stats")]
@@ -34,8 +35,14 @@ public class EnemyStateMachine : MonoBehaviour
     public float runningSpeed = 5f;
     public float rotationSpeed = 15f;
     
-    public Transform projectileSpawnPoint;
-    public GameObject projectilePrefab;
+    public Vector3 SpawnPoint { get; set; }
+    public float PatrolRadius = 10f;
+    public float PatrolPointTolerance = 1f; 
+    public float PatrolWaitTime = 2f;
+
+    [HideInInspector] public Vector3 currentPatrolTarget;
+    [HideInInspector] public bool hasPatrolTarget = false;
+
     
     public EnemyBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public EnemyStateFactory States { get { return _states; } set { _states = value; } }
@@ -52,6 +59,7 @@ public class EnemyStateMachine : MonoBehaviour
         AudioSource = GetComponent<AudioSource>();
         
         ApplyProfile();
+        SpawnPoint = transform.position; 
         
         _states = new EnemyStateFactory(this);
         _currentState = _states.Grounded();
@@ -63,6 +71,9 @@ public class EnemyStateMachine : MonoBehaviour
     {
         _currentState.UpdateStates();
         HandleAttackCounter();
+        
+        if ((EnemyManager.healthSlider != null && EnemyManager.easeHealthSlider != null) && EnemyManager.easeHealthSlider.value != EnemyManager.healthSlider.value)
+            EnemyManager.easeHealthSlider.value = Mathf.Lerp(EnemyManager.easeHealthSlider.value, EnemyManager.healthSlider.value, 0.05f);
     }
     
     private void ApplyProfile()
@@ -72,9 +83,6 @@ public class EnemyStateMachine : MonoBehaviour
             chaseRange = profile.chaseRange;
             strafeRange = profile.strafeRange;
             attackRange = profile.attackRange;
-            movementSpeed = profile.movementSpeed;
-            runningSpeed = profile.runningSpeed;
-            rotationSpeed = profile.rotationSpeed;
             shottingRange = profile.shootingRange;
         }
     }

@@ -12,8 +12,8 @@ public class EnemyReactionState : EnemyBaseState
         
         _ctx.Agent.stoppingDistance = 0f;
         _ctx.Agent.SetDestination(_ctx.transform.position);
-        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsReactingHash, true);
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ReactionFinishedHash, false);
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsReactingHash, true);
     } 
     public override void UpdateState(){
         
@@ -29,8 +29,6 @@ public class EnemyReactionState : EnemyBaseState
     {
         _ctx.EnemyManager.IsReacting = false;
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsReactingHash, false);
-
-
     }
     
     public override void InitializeSubState(){
@@ -48,6 +46,7 @@ public class EnemyReactionState : EnemyBaseState
             else if (_ctx.profile.canRetreat && (_ctx.IsInStrafeRange() && _ctx.PlayerManager.IsAttacking)) SwitchState(_factory.Backing());
             else if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SwitchState(_factory.Strafe());
             else if (_ctx.IsInChaseRange()) SwitchState(_factory.Chase());
+            else if (_ctx.profile.canPatrol) SwitchState(_factory.Patrol());
             else SwitchState(_factory.Idle());
         }
         else SwitchState(_factory.Idle());

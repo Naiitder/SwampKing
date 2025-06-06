@@ -40,6 +40,8 @@ public class EnemyIdleState : EnemyBaseState
                 SwitchState(_factory.Attack());
             else if (_ctx.IsInStrafeRange() && _ctx.profile.canStrafe) SwitchState(_factory.Strafe());
             else if (_ctx.IsInChaseRange()) SwitchState(_factory.Chase());
+            else if ((_ctx.PlayerTarget == null || !_ctx.IsInChaseRange()) && _ctx.profile.canPatrol) 
+                SwitchState(_factory.Patrol());
         }
     }
 }

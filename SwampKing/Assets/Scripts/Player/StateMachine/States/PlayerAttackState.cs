@@ -14,6 +14,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
         else if(_ctx.PlayerManager.IsReacting) SwitchState(_factory.Reaction());
+        else if(_ctx.PlayerManager.IsDrowned) SwitchState(_factory.Drown());
         
         if (attackFinished) 
         {
@@ -63,8 +64,11 @@ public class PlayerAttackState : PlayerBaseState
             _ctx.AudioSource.pitch = .8f;
             _ctx.AudioSource.PlayOneShot(_ctx.SimpleAttackSound);
         }
+        _ctx.AudioSource.volume = .9f;
 
         InputController.instance.InputBuffer.Dequeue();
+        
+        _ctx.PlayerAnimator.DrawSword();
     }
 
 
@@ -75,6 +79,8 @@ public class PlayerAttackState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash2, false);
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.SimpleAttackHash3, false);
         _ctx.PlayerAnimator.Animator.applyRootMotion = false;
+        
+        _ctx.PlayerAnimator.OnAttackAnimationFinished();
 
     }
 

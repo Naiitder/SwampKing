@@ -7,12 +7,16 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
+    public Transform currentPlatform;
+    public Vector3 lastPlatformPosition;
+    
     [Header("PlayerFlags")]
     [SerializeField] bool isJumping;
     [SerializeField] bool isChargingJumping;
     [SerializeField] bool isGrounded;
     [SerializeField] bool isAttacking; 
     [SerializeField] bool isDead;
+    [SerializeField] bool isDrowned;
     [SerializeField] bool isReacting; 
     [SerializeField] bool isAiming;
     [SerializeField] private bool canDoubleJump;
@@ -33,6 +37,10 @@ public class PlayerManager : MonoBehaviour
     public CharacterStats CharacterStats { get; private set; }
     [SerializeField] public Slider healthSlider;
     [SerializeField] public Slider easeHealthSlider;
+    SkinnedMeshRenderer meshRenderer;
+    private Coroutine damageFlashCoroutine;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip damageSound;
     
     public float JumpChargeTime { get { return jumpChargeTime; } set { jumpChargeTime = value; } }
     public float TapTreshold { get { return tapThreshold; } set { tapThreshold = value; } }
@@ -48,13 +56,16 @@ public class PlayerManager : MonoBehaviour
     public bool CanDoubleJump { get { return canDoubleJump; } set { canDoubleJump = value; } }
     public bool IsChargingJumping { get { return isChargingJumping; } set { isChargingJumping = value; } }
     public int AttackCount { get { return attackCount; } set { attackCount = value; } }
+    
+    public bool IsDrowned { get { return isDrowned; } set { isDrowned = value; } }
 
     private void Awake()
     {
         CharacterStats = GetComponent<CharacterStats>();
+        meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
-    private void Start()
+    public void Initilize()
     {
         healthSlider.maxValue = CharacterStats.MaximumHealth;
         healthSlider.value = CharacterStats.CurrentHealth;
@@ -65,6 +76,8 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int amount, bool reacting = false)
     {
+        if (isJumping || isDead) return;
+        
         bool canReact = !isDead && !isJumping && isGrounded;
         
         CharacterStats.CurrentHealth -= amount;
@@ -79,10 +92,28 @@ public class PlayerManager : MonoBehaviour
             Die();
         }
         else if (reacting && canReact) isReacting = true;
+        
+        audioSource.PlayOneShot(damageSound);
+        
+        if (damageFlashCoroutine != null)
+            StopCoroutine(nameof(DamageFlashRoutine));
+
+        damageFlashCoroutine = StartCoroutine(nameof(DamageFlashRoutine));
     }
 
     public void Die()
     {
         isDead = true;
+    }
+    
+    private IEnumerator DamageFlashRoutine()
+    {
+        meshRenderer.material.color = Color.red;
+
+        yield return new WaitForSeconds(.1f);
+
+        meshRenderer.material.color = Color.white;
+
+        damageFlashCoroutine = null;
     }
 }

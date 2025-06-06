@@ -48,13 +48,17 @@ public class EnemyRangedAttackState : EnemyBaseState
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
         else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
-        if(_ctx.PlayerTarget == null || (!_ctx.IsInShootingRange() && !_ctx.IsInChaseRange())) SwitchState(_factory.Idle());
-        else if (!_ctx.IsInShootingRange())
+        if (!_ctx.IsInShootingRange())
         {
             if (_ctx.IsInChaseRange()) 
                 SwitchState(_factory.Chase()); 
         }
         else if (_ctx.IsInAttackRange() && _ctx.profile.canMeleeAttack) SwitchState(_factory.Attack());
+        
+        else if ((_ctx.PlayerTarget == null || (!_ctx.IsInShootingRange() && !_ctx.IsInChaseRange())) && _ctx.profile.canPatrol) 
+            SwitchState(_factory.Patrol());
+        else if (_ctx.PlayerTarget == null || (!_ctx.IsInShootingRange() && !_ctx.IsInChaseRange()) && !_ctx.profile.canPatrol)
+            SwitchState(_factory.Idle());
         
         //TODO condicion para usar strafe y back state
     }
@@ -82,17 +86,6 @@ public class EnemyRangedAttackState : EnemyBaseState
             yield return new WaitUntil(() => AnimationFinished(_ctx.EnemyAnimatorController.ShootingHash));
 
             _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ShootingHash, false);
-          
-            Quaternion rotation = _ctx.transform.rotation;
-            GameObject projectile = Object.Instantiate(_ctx.projectilePrefab, _ctx.projectileSpawnPoint.position, rotation);
-
-            Projectile projectileScript = projectile.GetComponent<Projectile>();
-            if (projectileScript != null)
-            {
-                projectileScript.Damage = _ctx.EnemyManager.CharacterStats.Damage;
-            }
-            
-            _ctx.AudioSource.PlayOneShot(_ctx.shootSound);
             yield return new WaitForSeconds(attackInterval);
         }
            

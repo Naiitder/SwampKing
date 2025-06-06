@@ -35,6 +35,14 @@ public class PlayerDoubleJumpState : PlayerBaseState
         _ctx.PlayerManager.IsJumping = true;
         _ctx.PlayerManager.CanDoubleJump = false;
         InputController.instance.InputBuffer.Dequeue();
+        
+        _ctx.AudioSource.pitch = .9f;
+        _ctx.AudioSource.volume = .5f;
+        _ctx.AudioSource.PlayOneShot(_ctx.JumpSound);
+        
+        _ctx.JumpTrailLF.SetActive(true);
+        _ctx.JumpTrailRF.SetActive(true);
+
     }
     
     public override void FixedUpdateState()
@@ -47,6 +55,10 @@ public class PlayerDoubleJumpState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsDoubleJumpingHash, false);
         _ctx.PlayerManager.IsJumping = false;
         ResetAiming();
+        _ctx.JumpTrailLF.SetActive(false);
+        _ctx.JumpTrailRF.SetActive(false);
+
+        
     }
 
     public override void InitializeSubState()
@@ -101,10 +113,13 @@ public class PlayerDoubleJumpState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,true); 
         
         _ctx.AudioSource.PlayOneShot(_ctx.ShootSound);
+        _ctx.AudioSource.pitch = 1.5f;
+        _ctx.AudioSource.volume = 0.6f;
         
 
         Quaternion rotation = _ctx.transform.rotation;
         GameObject projectile = GameObject.Instantiate(_ctx.GunProjectilePrefab, _ctx.ShootPoint.position, rotation);
+        _ctx.GunShootParticles.Play();
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         if (projectileScript != null)
         {
@@ -173,7 +188,7 @@ public class PlayerDoubleJumpState : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy")))
+                    ~LayerMask.GetMask("Player", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }

@@ -14,7 +14,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject pauseCanvas;
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject saveGameCanvas;
-    [SerializeField] private CameraController CameraController;
+    [SerializeField] private GameObject userCanvas;
+    [SerializeField] private GameObject bossUIcanvas;
     
     [SerializeField] private TextMeshProUGUI coinsText;
 
@@ -22,6 +23,9 @@ public class GameController : MonoBehaviour
     [SerializeField] public int SaveID = -1;
 
     public bool isGamePaused;
+    
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip songSound;
 
     void Awake()
     {
@@ -40,7 +44,9 @@ public class GameController : MonoBehaviour
         if(pauseCanvas) pauseCanvas.SetActive(false);
         if(gameOverCanvas) gameOverCanvas.SetActive(false);
         if(saveGameCanvas) saveGameCanvas.SetActive(false);
-
+        if(bossUIcanvas) bossUIcanvas.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
+        
     }
 
     private void Start()
@@ -54,25 +60,71 @@ public class GameController : MonoBehaviour
         {
             stats.LoadStats();
         }
-
+        
+        PlayerManager pm = FindObjectOfType<PlayerManager>();
+        pm.Initilize();
+        
         UpdateCoins();
+        if(SaveID > 0) HideCursor();
     }
 
     private void Update()
     {
         if (InputController.instance != null && InputController.instance.IsPausePressed)
         {
-            PauseGame();
+            HandlePauseMenu();
             InputController.instance.IsPausePressed = false;
         }
 
+        if (InputController.instance != null && InputController.instance.IsMenuPressed)
+        {
+            Inventory.instance.HandleGameMenu();
+            InputController.instance.IsMenuPressed = false;
+        }
+
         LevelManager.instance?.UpdateProgressBar();
+        
+        //Todo hide UserCanvas when not in fight
+        
+        if(Inventory.instance != null && Inventory.instance.isGameMenuOpen)
+        {
+            QuickSlotManager.instance.HandleSwapSlot();
+            QuickSlotManager.instance.HandleRemoveSlot();
+        }
+
+        if (Inventory.instance != null && !Inventory.instance.isGameMenuOpen)
+        {
+            QuickSlotManager.instance.HandleCycleInput();
+        }
+    }
+
+    public void ShowUserCanvas()
+    {
+        userCanvas.SetActive(true);
+        HideCursor();
+    }
+    public void HideUserCanvas()
+    {
+        userCanvas.SetActive(false);
+        ShowCursor();
     }
 
     public void UpdateCoins(int coins = 0)
     {
         Coins += coins;
         if(coinsText != null) coinsText.text = "x" + Coins.ToString();
+    }
+
+    public void HideCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void ShowCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
     
     
@@ -85,7 +137,7 @@ public class GameController : MonoBehaviour
     }
     
 
-    public void PauseGame()
+    public void HandlePauseMenu()
     {
         if (isGamePaused)
         {
@@ -94,8 +146,10 @@ public class GameController : MonoBehaviour
         else
         {
             SetPause();
+            ShowCursor();
         }
     }
+    
 
     public void SetPause()
     {
@@ -110,6 +164,8 @@ public class GameController : MonoBehaviour
         DeActiveSaveGameCanvas();
         isGamePaused = false;
         Time.timeScale = 1;
+        
+        HideCursor();
     }
 
 
@@ -120,7 +176,10 @@ public class GameController : MonoBehaviour
         if (newSaveId != -1)
         {
             SQLiteDB.instance.InsertInitialGameData(newSaveId);
-            Debug.Log($"Nueva partida creada con ID: {newSaveId}");
+            
+            PlayerPrefs.SetInt("CurrentSaveId", newSaveId);
+            PlayerPrefs.Save();
+            
             LevelManager.instance.LoadScene("SampleScene");
         }
         else
@@ -173,27 +232,10 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        
+        Inventory.instance.LoadInventoryFromDatabase(saveId);
 
-        /*// --- INVENTORY ---
-        using (var cmd = connection.CreateCommand())
-        {
-            cmd.CommandText = "SELECT id_item, quantity FROM inventory WHERE save_id = @saveId;";
-            cmd.Parameters.AddWithValue("@saveId", saveId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    int itemId = Convert.ToInt32(reader["id_item"]);
-                    int quantity = Convert.ToInt32(reader["quantity"]);
-
-                    // Añadir item al inventario del jugador, ejemplo:
-                    InventoryManager.instance.AddItem(itemId, quantity);
-
-                    Debug.Log($"Item {itemId} x{quantity}");
-                }
-            }
-        }
-
+        /*
         // --- QUESTS ---
         using (var cmd = connection.CreateCommand())
         {
@@ -303,6 +345,29 @@ public class GameController : MonoBehaviour
                     }
                 }
                 
+                using (var deleteCmd = connection.CreateCommand())
+                {
+                    deleteCmd.CommandText = "DELETE FROM inventory WHERE save_id = @saveId;";
+                    deleteCmd.Parameters.AddWithValue("@saveId", saveId);
+                    deleteCmd.ExecuteNonQuery();
+                }
+
+                foreach (var slot in Inventory.instance.items)
+                {
+                    using (var insertCmd = connection.CreateCommand())
+                    {
+                        insertCmd.CommandText = @"
+        INSERT INTO inventory (save_id, id_item, quantity)
+        VALUES (@saveId, @itemId, @quantity);";
+
+                        insertCmd.Parameters.AddWithValue("@saveId", saveId);
+                        insertCmd.Parameters.AddWithValue("@itemId", slot.itemData.id);
+                        insertCmd.Parameters.AddWithValue("@quantity", slot.quantity);
+
+                        insertCmd.ExecuteNonQuery();
+                    }
+                }
+                
                 connection.Close();
             }
 
@@ -323,6 +388,26 @@ public class GameController : MonoBehaviour
     public void DeActiveSaveGameCanvas()
     {
         saveGameCanvas.SetActive(false);
+    }
+
+    public void ActiveDeadScreen()
+    {
+        if(gameOverCanvas) gameOverCanvas.SetActive(true);
+    }
+    public void ChangeSong(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
+
+    public void DeActivateBossCanvas()
+    {
+        bossUIcanvas.SetActive(false);
+    }
+
+    public void ActivateBossCanvas()
+    {
+        bossUIcanvas.SetActive(true);
     }
     
 

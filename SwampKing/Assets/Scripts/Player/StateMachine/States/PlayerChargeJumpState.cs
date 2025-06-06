@@ -9,6 +9,7 @@ public class PlayerChargeJumpState : PlayerBaseState
     {
         if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
         else if(_ctx.PlayerManager.IsReacting) SwitchState(_factory.Reaction());
+        else if(_ctx.PlayerManager.IsDrowned) SwitchState(_factory.Drown());
         
         if (InputController.instance.CheckActions(InputController.InputActionType.Jump)) SwitchState(_factory.Airbone());
     }

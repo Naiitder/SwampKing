@@ -23,6 +23,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void CheckSwitchStates() {
         if(_ctx.PlayerManager.IsDead) SwitchState(_factory.Dead());
         else if(_ctx.PlayerManager.IsReacting) SwitchState(_factory.Reaction());
+        else if(_ctx.PlayerManager.IsDrowned) SwitchState(_factory.Drown());
         
         if (_ctx.PlayerManager.IsChargingJumping) SwitchState(_factory.ChargeJump());
         else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SwitchState(_factory.Attack());

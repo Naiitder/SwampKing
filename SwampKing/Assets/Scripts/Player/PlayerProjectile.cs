@@ -7,7 +7,8 @@ public class PlayerProjectile : Projectile
         EnemyManager stats = other.GetComponent<EnemyManager>();
         if(stats != null)
         {
-            stats.TakeDamage(damage);
+            if(stats.tank)stats.TakeDamage(damage/4);
+            else stats.TakeDamage(damage);
             Destroy(gameObject);
         }
     }

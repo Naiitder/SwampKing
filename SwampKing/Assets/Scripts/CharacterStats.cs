@@ -7,12 +7,12 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private int id;
     [SerializeField] private int maximumHealth, currentHealth;
     [SerializeField] private int damage;
-    
-    
+    [SerializeField] private String title;
     
     public int MaximumHealth {get{return maximumHealth;} set{maximumHealth = value;}}
     public int CurrentHealth {get{return currentHealth;} set{currentHealth = value;}}
     public int Damage {get{return damage;} set{damage = value;}}
+    public String Title {get{return title;} set{title = value;}}
     public int ID {get{return id;} set{id = value;}}
     
    public void LoadStats()
@@ -66,8 +66,7 @@ public class CharacterStats : MonoBehaviour
                     maximumHealth = Convert.ToInt32(reader["max_health"]);
                     damage = Convert.ToInt32(reader["damage"]);
                     currentHealth = maximumHealth;
-
-                    Debug.Log($"[CharacterStats] Stats por defecto para {id} - Vida: {currentHealth}/{maximumHealth}, Daño: {damage}");
+                    
                 }
                 else
                 {

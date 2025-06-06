@@ -261,25 +261,8 @@
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = q;
-
-                    // Detectar si es un SELECT
-                    if (q.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
-                    {
-                        using (IDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.FieldCount > 0)
-                                {
-                                    Debug.Log("ID: " + reader["id"] + " Vida: " + reader["max_health"] + " Ataque: " + reader["damage"]);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        command.ExecuteNonQuery();
-                    }
+                    
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -368,14 +351,13 @@
         {
              // Inserciones estadisticas
             Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (1, 200, 25, 15, 15, 6);");
-            Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (2, 100, 25, 15, 15, 4);");
+            Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (2, 25, 10, 15, 15, 2);");
             Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (3, 150, 20, 15, 15, 5);");
             Query("INSERT OR IGNORE INTO statistics (id, max_health, damage, endurance, armor, speed) VALUES (4, 450, 50, 15, 15, 6);");
-            Query("SELECT * FROM statistics;");
             
             // Inserciones personajes
-            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (1,'Rata-Topo', 2, 1, 'enemy', 10);");
-            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (2,'Rana', 3, 0, 'npc');");
+            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (1,'Gusta', 1, 0, 'player');");
+            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (2,'Fungi-Man', 2, 1, 'enemy',5);");
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (3,'Sapo', 3, 0, 'npc');");
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (4,'Asesino Rana', 4, 1, 'boss', 100);");
 
@@ -423,8 +405,7 @@
             using (var connection = new SqliteConnection(dbName))
             {
                 connection.Open();
-
-                // Primero comprobamos cuántos saves hay
+                
                 using (var checkCmd = connection.CreateCommand())
                 {
                     checkCmd.CommandText = "SELECT COUNT(*) FROM save_slot;";
@@ -436,8 +417,7 @@
                         return -1; 
                     }
                 }
-
-                // Insertar nuevo save
+                
                 using (var insertCmd = connection.CreateCommand())
                 {
                     insertCmd.CommandText = @"
@@ -446,8 +426,7 @@
                     insertCmd.Parameters.AddWithValue("@location", location);
                     insertCmd.ExecuteNonQuery();
                 }
-
-                // Obtener el ID recién insertado
+                
                 using (var getIdCmd = connection.CreateCommand())
                 {
                     getIdCmd.CommandText = "SELECT last_insert_rowid();";
@@ -458,7 +437,7 @@
         public void InsertInitialGameData(int saveId)
         {
             // Player inicial
-            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, coins) VALUES ({saveId}, 'Gusta', 1, '0,0,0','0,0,0,0', 0);");
+            Query($"INSERT INTO player (save_id, name, statistics, position, rotation, coins) VALUES ({saveId}, 'Gusta', 1, '561.74,3.98,458.13','0,-153.423,0,0', 0);");
 
             // Inventario inicial
             Query($"INSERT INTO inventory (save_id, id_item, quantity) VALUES ({saveId}, 1, 5);");

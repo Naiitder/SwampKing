@@ -12,15 +12,12 @@ public class EnemyProfile : ScriptableObject
     public bool canStrafe;
     public bool canRetreat;
     public bool canReact;
+    public bool canPatrol;
     
     public float chaseRange = 10f;
     public float attackRange = 2f;
     public float strafeRange = 4f;
     public float shootingRange = 8f;
-
-    public float movementSpeed = 2f;
-    public float runningSpeed = 4f;
-    public float rotationSpeed = 15f;
     
     public float chanceToChainAttack = 0.4f;
 }

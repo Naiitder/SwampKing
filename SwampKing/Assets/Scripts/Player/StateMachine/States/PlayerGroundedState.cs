@@ -18,6 +18,8 @@ public class PlayerGroundedState : PlayerBaseState
     } 
     public override void UpdateState(){
         HandleJumpCharge();
+
+        _ctx.HandleFootSteepsSound();
         
         if(!_ctx.PlayerManager.IsAiming) _ctx.PlayerAnimator.UpdateMovementAnimationValues(InputController.instance.MoveAmount, 0);
         CheckSwitchStates();
@@ -31,12 +33,23 @@ public class PlayerGroundedState : PlayerBaseState
     public override void ExitState()
     { }
     public override void InitializeSubState(){
+        if(_ctx.PlayerManager.IsDead) SetSubState(_factory.Dead());
+        else if(_ctx.PlayerManager.IsReacting) SetSubState(_factory.Reaction());
+        else if(_ctx.PlayerManager.IsDrowned) SetSubState(_factory.Drown());
+        
+        if (_ctx.PlayerManager.IsChargingJumping) SetSubState(_factory.ChargeJump());
+        else if (InputController.instance.CheckActions(InputController.InputActionType.Attack)) SetSubState(_factory.Attack());
+        else if (InputController.instance.CheckActions(InputController.InputActionType.Interact)) SetSubState(_factory.Interact());
         if (InputController.instance.IsAimingPressed) SetSubState(_factory.Aimning());
         else if (InputController.instance.MoveAmount != 0) SetSubState(_factory.Walk());
         else SetSubState(_factory.Idle());
     }
     public override void CheckSwitchStates(){
-        if ((InputController.instance.CheckActions(InputController.InputActionType.Jump) && !_ctx.PlayerManager.IsDead)
+        if ((InputController.instance.CheckActions(InputController.InputActionType.Jump) && 
+             !_ctx.PlayerManager.IsDead 
+                &&  !_ctx.PlayerManager.IsDrowned 
+                && !_ctx.PlayerManager.IsAttacking 
+             && !_ctx.PlayerManager.IsReacting)
             || !_ctx.PlayerMovement.isGrounded()) 
                 SwitchState(_factory.Airbone());
     }
@@ -49,12 +62,13 @@ public class PlayerGroundedState : PlayerBaseState
             && !_ctx.PlayerManager.IsDead
             && !_ctx.PlayerManager.IsReacting
             && !_ctx.PlayerManager.IsAiming
-            && !_ctx.PlayerManager.IsAttacking)
+            && !_ctx.PlayerManager.IsAttacking
+            && !_ctx.PlayerManager.IsDrowned)
         {
             if (_ctx.PlayerManager.JumpChargeTime >= _ctx.PlayerManager.TapTreshold) _ctx.PlayerManager.IsChargingJumping = true;
             _ctx.PlayerManager.JumpChargeTime += Time.deltaTime;
         }
         else _ctx.PlayerManager.IsChargingJumping = false;
     }
-
+    
 }

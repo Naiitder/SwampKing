@@ -4,6 +4,8 @@ public class EnemyAttackState : EnemyBaseState
 {
     private bool attackFinished;
     private int currentAttackHash;
+
+    private bool willAttack = false; 
     
     public EnemyAttackState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory)
@@ -12,9 +14,11 @@ public class EnemyAttackState : EnemyBaseState
     public override void EnterState()
     {
         _ctx.EnemyManager.IsAttacking = true;
+        _ctx.EnemyManager.HasHit = false;
         _ctx.EnemyAnimatorController.Animator.applyRootMotion = true;
         _ctx.Agent.SetDestination(_ctx.transform.position);
-        _ctx.transform.LookAt(_ctx.PlayerTarget);
+        //_ctx.transform.LookAt(_ctx.PlayerTarget);
+        willAttack = false;
         attackFinished = false;
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.AttackFinishedHash, false);
         
@@ -23,6 +27,7 @@ public class EnemyAttackState : EnemyBaseState
             currentAttackHash = _ctx.EnemyAnimatorController.SimpleAttack1Hash;
             _ctx.EnemyManager.AttackCount++;
             _ctx.EnemyAnimatorController.Animator.SetBool(currentAttackHash, true);
+            _ctx.transform.LookAt(_ctx.PlayerTarget);
         }
         else if (_ctx.EnemyManager.AttackCount == 1)
         {
@@ -33,6 +38,22 @@ public class EnemyAttackState : EnemyBaseState
         {
             _ctx.EnemyManager.AttackCount = 0;
             _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack3Hash, true);
+        }
+        
+        bool canChainAttack = _ctx.profile.canChainAttacks && 
+                              (
+                                  (_ctx.IsInAttackRange() && _ctx.EnemyManager.AttackCount != 0) 
+                                  || 
+                                  (_ctx.PlayerManager != null && !_ctx.PlayerManager.IsAttacking)
+                              );
+        
+        if (canChainAttack)
+        {
+            if (Random.value >= _ctx.profile.chanceToChainAttack)
+            {
+                _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,true);
+                willAttack = true;
+            }
         }
 
     } 
@@ -56,6 +77,8 @@ public class EnemyAttackState : EnemyBaseState
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack3Hash,false);
         _ctx.EnemyManager.IsAttacking = false;
         _ctx.EnemyAnimatorController.Animator.applyRootMotion = false;
+        
+        _ctx.EnemyAnimatorController.OnAttackAnimationFinished();
 
     }
     
@@ -64,34 +87,20 @@ public class EnemyAttackState : EnemyBaseState
     public override void CheckSwitchStates()
     {
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
-        else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
+        //else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
         if (!attackFinished) return;
-        
-        bool canChainAttack = _ctx.profile.canChainAttacks && 
-                              (
-                                  (_ctx.IsInAttackRange() && _ctx.EnemyManager.AttackCount != 2) 
-                                  || 
-                                  (_ctx.PlayerManager != null && !_ctx.PlayerManager.IsAttacking)
-                              );
-        
-        if (canChainAttack)
+
+        if (willAttack)
         {
-            if (Random.value >= _ctx.profile.chanceToChainAttack)
-            {
-                _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,true);
-                SwitchState(_factory.Attack()); 
-                Debug.Log(_ctx.profile.canChainAttacks);
-                return;
-            }
-        }
+            SwitchState(_factory.Attack());
+            return;
+        } 
         
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,false);
         _ctx.EnemyManager.AttackCount = 0;
         
-        if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange())
-            SwitchState(_factory.Idle());
-        else if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
+        if(_ctx.profile.attacksFromDistance && _ctx.IsInShootingRange())
             SwitchState(_factory.RangedAttack());
         else if (_ctx.profile.canRetreat && (_ctx.IsInAttackRange() || _ctx.IsInStrafeRange()))
             SwitchState(_factory.Backing());
@@ -99,6 +108,10 @@ public class EnemyAttackState : EnemyBaseState
         
         else if (!_ctx.IsInStrafeRange() && _ctx.IsInChaseRange())
             SwitchState(_factory.Chase());
+        else if ((_ctx.PlayerTarget == null || !_ctx.IsInChaseRange()) && _ctx.profile.canPatrol) 
+            SwitchState(_factory.Patrol());
+        else if (_ctx.PlayerTarget == null || !_ctx.IsInChaseRange() && !_ctx.profile.canPatrol)
+            SwitchState(_factory.Idle());
     }
     
 }

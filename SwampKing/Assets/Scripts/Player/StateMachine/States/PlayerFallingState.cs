@@ -16,6 +16,7 @@ public class PlayerFallingState : PlayerBaseState
     public override void EnterState()
     {
         attackFinished = true;
+        
     }
     public override void UpdateState()
     {
@@ -47,6 +48,7 @@ public class PlayerFallingState : PlayerBaseState
     public override void ExitState()
     {
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.IsFallingHash, false);
+        
     }
     public override void InitializeSubState()
     {
@@ -99,10 +101,13 @@ public class PlayerFallingState : PlayerBaseState
         _ctx.PlayerAnimator.Animator.SetBool(_ctx.PlayerAnimator.ShotHash,true); 
         
         _ctx.AudioSource.PlayOneShot(_ctx.ShootSound);
+        _ctx.AudioSource.pitch = 1.5f;
+        _ctx.AudioSource.volume = 0.6f;
         
 
         Quaternion rotation = _ctx.transform.rotation;
         GameObject projectile = GameObject.Instantiate(_ctx.GunProjectilePrefab, _ctx.ShootPoint.position, rotation);
+        _ctx.GunShootParticles.Play();
         Projectile projectileScript = projectile.GetComponent<Projectile>();
         if (projectileScript != null)
         {
@@ -171,7 +176,7 @@ public class PlayerFallingState : PlayerBaseState
             float distance = Vector3.Distance(_ctx.transform.position, col.transform.position);
             
             if (Physics.Raycast(_ctx.transform.position + Vector3.up * 1.5f, dirToEnemy, out RaycastHit hit, distance, 
-                    ~LayerMask.GetMask("Default", "Enemy")))
+                    ~LayerMask.GetMask("Player", "Enemy")))
             {
                 if (hit.transform != col.transform) continue;
             }
