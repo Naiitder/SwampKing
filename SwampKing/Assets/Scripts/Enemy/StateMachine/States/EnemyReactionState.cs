@@ -12,8 +12,8 @@ public class EnemyReactionState : EnemyBaseState
         
         _ctx.Agent.stoppingDistance = 0f;
         _ctx.Agent.SetDestination(_ctx.transform.position);
-        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsReactingHash, true);
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.ReactionFinishedHash, false);
+        _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsReactingHash, true);
     } 
     public override void UpdateState(){
         
@@ -29,8 +29,6 @@ public class EnemyReactionState : EnemyBaseState
     {
         _ctx.EnemyManager.IsReacting = false;
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsReactingHash, false);
-
-
     }
     
     public override void InitializeSubState(){

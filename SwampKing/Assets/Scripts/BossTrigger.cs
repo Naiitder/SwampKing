@@ -26,11 +26,12 @@ public class BossTrigger : MonoBehaviour
                 fogWall.SetActive(false);
             }
         }
+        
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        TriggerBoss();
+        if(other.CompareTag("Player")) TriggerBoss();
     }
 
     private void TriggerBoss()

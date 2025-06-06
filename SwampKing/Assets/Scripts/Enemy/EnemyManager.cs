@@ -23,7 +23,8 @@ public class EnemyManager : MonoBehaviour
     
     [Header("CharacterStats")]
     public CharacterStats CharacterStats { get; private set; }
-    [SerializeField] private Slider slider;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider easeHealthSlider;
 
     
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
@@ -45,17 +46,20 @@ public class EnemyManager : MonoBehaviour
         bool canReact = !isDead && !isJumping && isGrounded;
         
         CharacterStats.CurrentHealth -= amount;
-        if (slider != null)
+        if (healthSlider != null && easeHealthSlider != null)
         {
-            slider.maxValue = CharacterStats.MaximumHealth;
-            slider.value = CharacterStats.CurrentHealth;
+            healthSlider.maxValue = CharacterStats.MaximumHealth;
+            healthSlider.value = CharacterStats.CurrentHealth;
+        
+            easeHealthSlider.maxValue = CharacterStats.MaximumHealth;
+            easeHealthSlider.value = CharacterStats.CurrentHealth;
         }
         if (CharacterStats.CurrentHealth <= 0)
         {
             CharacterStats.CurrentHealth = 0;
             Die();
         }
-        else if (reacting && canReact) isReacting = true;
+        else if (reacting && canReact && !isAttacking && !isReacting) isReacting = true;
     }
 
     public void Die()

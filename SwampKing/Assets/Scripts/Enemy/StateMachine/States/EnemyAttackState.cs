@@ -15,7 +15,7 @@ public class EnemyAttackState : EnemyBaseState
         _ctx.EnemyManager.HasHit = false;
         _ctx.EnemyAnimatorController.Animator.applyRootMotion = true;
         _ctx.Agent.SetDestination(_ctx.transform.position);
-        _ctx.transform.LookAt(_ctx.PlayerTarget);
+        //_ctx.transform.LookAt(_ctx.PlayerTarget);
         attackFinished = false;
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.AttackFinishedHash, false);
         
@@ -57,6 +57,8 @@ public class EnemyAttackState : EnemyBaseState
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.SimpleAttack3Hash,false);
         _ctx.EnemyManager.IsAttacking = false;
         _ctx.EnemyAnimatorController.Animator.applyRootMotion = false;
+        
+        _ctx.EnemyAnimatorController.CloseWeaponCollider();
 
     }
     
@@ -65,7 +67,7 @@ public class EnemyAttackState : EnemyBaseState
     public override void CheckSwitchStates()
     {
         if (_ctx.EnemyManager.IsDead) SwitchState(_factory.Die());
-        else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
+        //else if (_ctx.EnemyManager.IsReacting && _ctx.profile.canReact) SwitchState(_factory.Reaction());
         
         if (!attackFinished) return;
         
@@ -82,7 +84,6 @@ public class EnemyAttackState : EnemyBaseState
             {
                 _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsPreparingAttackHash,true);
                 SwitchState(_factory.Attack()); 
-                Debug.Log(_ctx.profile.canChainAttacks);
                 return;
             }
         }

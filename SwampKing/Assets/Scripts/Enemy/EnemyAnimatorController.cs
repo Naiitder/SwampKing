@@ -71,6 +71,9 @@ public class EnemyAnimatorController : MonoBehaviour
     public void OnReactingAnimationFinished()
     {
         Animator.SetBool(reactionFinishedHash, true);
+        Animator.SetBool(isReactingHash, false);
+        enemyStateMachine.EnemyManager.IsReacting = false;
+        Debug.Log(enemyStateMachine.EnemyManager.IsReacting);
     }
 
     
