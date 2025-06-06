@@ -14,6 +14,7 @@ public class QuestManager : MonoBehaviour
     public TextMeshProUGUI questText;
     
     public List<Quest> activeQuests = new List<Quest>();
+    [SerializeField] private TMP_SpriteAsset gamepadSpriteAsset;
     
     private bool jumpedOnce = false;
     private bool attackedOnce = false;
@@ -26,23 +27,28 @@ public class QuestManager : MonoBehaviour
         {
             new SubQuest
             {
-                id = "WASD", description = "Presiona <sprite=0><sprite=1><sprite=2><sprite=3> para moverte",
+                id = "WASD", description = "Presiona <sprite name=\"KeyboardButtons_W\"><sprite name=\"KeyboardButtons_A\"><sprite name=\"KeyboardButtons_S\"><sprite name=\"KeyboardButtons_D\"> para moverte",
                 completed = false, isActive =  true
             },
-            new SubQuest { id = "JUMP", description = "Presiona <sprite=4> para saltar", completed = false },
+            new SubQuest { id = "JUMP", description = "Presiona <sprite name=\"KeyboardButtons_Space\"> para saltar", completed = false },
             new SubQuest
             {
-                id = "DOUBLE_JUMP", description = "Presiona <sprite=4> otra vez para hacer un doble salto",
+                id = "DOUBLE_JUMP", description = "Presiona <sprite name=\"KeyboardButtons_Space\"> otra vez para hacer un doble salto",
                 completed = false
             },
-            new SubQuest { id = "ATTACK_1", description = "Presiona <sprite=5> para atacar", completed = false },
+            new SubQuest { id = "ATTACK_1", description = "Presiona <sprite name=\"mouse-left\"> para atacar", completed = false },
             new SubQuest
             {
-                id = "ATTACK_COMBO", description = "Presiona <sprite=5> otra vez para hacer un combo", completed = false
+                id = "ATTACK_COMBO", description = "Presiona <sprite name=\"mouse-left\"> otra vez para hacer un combo", completed = false
             },
-            new SubQuest { id = "AIM", description = "Mantén <sprite=6> para apuntar", completed = false},
-            new SubQuest { id = "SHOOT", description = "Presiona <sprite=5> para disparar", completed = false },
+            new SubQuest
+            {
+                id = "CHARGE_JUMP", description = "Mantén <sprite name=\"KeyboardButtons_Space\"> para hacer un salto cargado", completed = false
+            },
+            new SubQuest { id = "AIM", description = "Mantén <sprite name=\"mouse-right\"> para apuntar", completed = false},
+            new SubQuest { id = "SHOOT", description = "Presiona <sprite name=\"mouse-left\"> para disparar", completed = false },
             new SubQuest { id = "KILL_BOSS", description = "Derrota al asesino de ranas", completed = false },
+            new SubQuest { id = "TALK", description = "Presiona <sprite name=\"KeyboardButtons_E\"> para hablar con el campesino", completed = false },
         }
 
     };
@@ -56,6 +62,9 @@ public class QuestManager : MonoBehaviour
         
         playerManager = FindFirstObjectByType<PlayerManager>();
         activeQuests.Add(tutorialQuest);
+        
+        questText.spriteAsset = gamepadSpriteAsset; 
+
     }
 
     public void CompleteSubQuest(string questId, string subQuestId, bool addNextQuest = false)
@@ -111,6 +120,10 @@ public class QuestManager : MonoBehaviour
             {
                 CompleteSubQuest("TUTORIAL_001", "ATTACK_COMBO");
             }
+        }
+        if (playerManager.IsChargingJumping)
+        {
+            CompleteSubQuest("TUTORIAL_001", "CHARGE_JUMP");
         }
 
         if (InputController.instance.IsAimingPressed)

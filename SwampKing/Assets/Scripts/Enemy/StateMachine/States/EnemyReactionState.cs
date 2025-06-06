@@ -27,6 +27,7 @@ public class EnemyReactionState : EnemyBaseState
 
     public override void ExitState()
     {
+        _ctx.EnemyManager.SetLastReactionTime(Time.time);
         _ctx.EnemyManager.IsReacting = false;
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsReactingHash, false);
     }
