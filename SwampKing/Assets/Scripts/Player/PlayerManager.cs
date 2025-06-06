@@ -37,6 +37,10 @@ public class PlayerManager : MonoBehaviour
     public CharacterStats CharacterStats { get; private set; }
     [SerializeField] public Slider healthSlider;
     [SerializeField] public Slider easeHealthSlider;
+    SkinnedMeshRenderer meshRenderer;
+    private Coroutine damageFlashCoroutine;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip damageSound;
     
     public float JumpChargeTime { get { return jumpChargeTime; } set { jumpChargeTime = value; } }
     public float TapTreshold { get { return tapThreshold; } set { tapThreshold = value; } }
@@ -58,6 +62,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         CharacterStats = GetComponent<CharacterStats>();
+        meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
     public void Initilize()
@@ -71,7 +76,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(int amount, bool reacting = false)
     {
-        if (isJumping) return;
+        if (isJumping || isDead) return;
         
         bool canReact = !isDead && !isJumping && isGrounded;
         
@@ -87,10 +92,28 @@ public class PlayerManager : MonoBehaviour
             Die();
         }
         else if (reacting && canReact) isReacting = true;
+        
+        audioSource.PlayOneShot(damageSound);
+        
+        if (damageFlashCoroutine != null)
+            StopCoroutine(nameof(DamageFlashRoutine));
+
+        damageFlashCoroutine = StartCoroutine(nameof(DamageFlashRoutine));
     }
 
     public void Die()
     {
         isDead = true;
+    }
+    
+    private IEnumerator DamageFlashRoutine()
+    {
+        meshRenderer.material.color = Color.red;
+
+        yield return new WaitForSeconds(.1f);
+
+        meshRenderer.material.color = Color.white;
+
+        damageFlashCoroutine = null;
     }
 }

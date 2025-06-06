@@ -15,7 +15,6 @@ public class EnemyDieState : EnemyBaseState
         _ctx.Agent.SetDestination(_ctx.transform.position);
         _ctx.EnemyAnimatorController.Animator.SetBool(_ctx.EnemyAnimatorController.IsDeadHash, true);
         
-        Object.Destroy(_ctx.EnemyManager);
         _ctx.StartCoroutine(DropCoinsAfterDelay(1f));
     }
 
@@ -51,6 +50,7 @@ public class EnemyDieState : EnemyBaseState
             }
         }
         
+        yield return new WaitForSeconds(1f);
         RemoveAllScriptsExceptStateMachineAndAnimator();
         
     }
@@ -97,6 +97,8 @@ public class EnemyDieState : EnemyBaseState
         {
             Object.Destroy(script);
         }
+        
+        Object.Destroy(_ctx.EnemyManager);
         
 
     }

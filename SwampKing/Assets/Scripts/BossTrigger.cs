@@ -54,6 +54,8 @@ public class BossTrigger : MonoBehaviour
         bossTitle.text = CharacterStats.Title;
         
         GameController.instance.ChangeSong(bossSong);
+        
+        gameObject.SetActive(false);
     }
     
     

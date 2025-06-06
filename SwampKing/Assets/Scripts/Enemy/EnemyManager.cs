@@ -26,7 +26,11 @@ public class EnemyManager : MonoBehaviour
     public CharacterStats CharacterStats { get; private set; }
     [SerializeField] public Slider healthSlider;
     [SerializeField] public Slider easeHealthSlider;
-
+    SkinnedMeshRenderer[] meshRenderer;
+    private Coroutine damageFlashCoroutine;
+    
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip damageSound;
     
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
     public bool IsIdle { get => isIdle; set => isIdle = value; }
@@ -40,10 +44,13 @@ public class EnemyManager : MonoBehaviour
     private void Awake()
     {
         CharacterStats = GetComponent<CharacterStats>();
+        meshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
     }
     
     public void TakeDamage(int amount, bool reacting = false)
     {
+        if(isDead) return;
+        
         bool canReact = !isDead && !isJumping && isGrounded;
         
         CharacterStats.CurrentHealth -= amount;
@@ -58,11 +65,34 @@ public class EnemyManager : MonoBehaviour
             Die();
         }
         else if (reacting && canReact && !isAttacking && !isReacting) isReacting = true;
+        
+        audioSource.PlayOneShot(damageSound);
+        
+        if (damageFlashCoroutine != null)
+            StopCoroutine(nameof(DamageFlashRoutine));
+
+        damageFlashCoroutine = StartCoroutine(nameof(DamageFlashRoutine));
     }
 
     public void Die()
     {
         isDead = true;
+    }
+    
+    private IEnumerator DamageFlashRoutine()
+    {
+        foreach (var meshRenderer in meshRenderer)
+        {
+            meshRenderer.material.color = Color.red;
+        }
+        yield return new WaitForSeconds(0.1f);
+        foreach (var meshRenderer in meshRenderer)
+        {
+            meshRenderer.material.color = Color.white;
+
+            damageFlashCoroutine = null;
+        }
+      
     }
     
 }
