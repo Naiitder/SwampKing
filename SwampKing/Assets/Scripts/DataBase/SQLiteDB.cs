@@ -359,7 +359,7 @@
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (1,'Gusta', 1, 0, 'player');");
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (2,'Fungi-Man', 2, 1, 'enemy',5);");
             Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type) VALUES (3,'Sapo', 3, 0, 'npc');");
-            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (4,'Asesino Rana', 4, 1, 'boss', 100);");
+            Query("INSERT OR IGNORE INTO character (id, name, statistics, friendly, type, coins) VALUES (4,'Robert, El asesino de ranas', 4, 1, 'boss', 100);");
 
             //Inserciones Misiones
             Query("INSERT OR IGNORE INTO quests (id_quest, name, description) VALUES (1,'Asesino de Rata-Topos', 'Asesina 10 Rata-Topos.');");
